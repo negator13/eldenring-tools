@@ -8,9 +8,9 @@
 
 <h1>Attack Rating</h1>
 
-<p>This component calculates Attack Rating for a given weapon and character stats.</p>
+<p>Calculates Attack Rating for a given weapon and character stats.</p>
 
-<EditForm Model="@input"  OnValidSubmit="@HandleValidSubmit">
+<EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
     <h3>Character</h3>
     <hr />
     <div class="form-group row">
@@ -18,7 +18,7 @@
             STR
         </label>
         <div class="col-sm-10">
-            <InputNumber id="str" class="form-control" placeholder="16" @bind-Value="input.Strength" />
+            <InputNumber id="str" Value="@input.Strength" ValueChanged="@((int? args) => { UpdateStrength(args); })" ValueExpression="() => input.Strength" class="form-control" />
         </div>
     </div>
     <div class="form-group row">
@@ -26,7 +26,7 @@
             DEX
         </label>
         <div class="col-sm-10">
-            <InputNumber id="dex" class="form-control" placeholder="11" @bind-Value="input.Dexterity" />
+            <InputNumber id="dex" Value="@input.Dexterity" ValueChanged="@((int? args) => { UpdateDexterity(args); })" ValueExpression="() => input.Dexterity" class="form-control" />
         </div>
     </div>
     <div class="form-group row">
@@ -34,7 +34,7 @@
             INT
         </label>
         <div class="col-sm-10">
-            <InputNumber id="int" class="form-control" placeholder="9" @bind-Value="input.Intelligence" />
+            <InputNumber id="int" Value="@input.Intelligence" ValueChanged="@((int? args) => { UpdateIntelligence(args); })" ValueExpression="() => input.Intelligence" class="form-control" />
         </div>
     </div>
     <div class="form-group row">
@@ -42,7 +42,7 @@
             FTH
         </label>
         <div class="col-sm-10">
-            <InputNumber id="fth" class="form-control" placeholder="9" @bind-Value="input.Faith" />
+            <InputNumber id="fth" Value="@input.Faith" ValueChanged="@((int? args) => { UpdateFaith(args); })" ValueExpression="() => input.Faith" class="form-control" />
         </div>
     </div>
     <div class="form-group row">
@@ -50,7 +50,7 @@
             ARC
         </label>
         <div class="col-sm-10">
-            <InputNumber id="arc" class="form-control" placeholder="7" @bind-Value="input.Arcane" />
+            <InputNumber id="arc" Value="@input.Arcane" ValueChanged="@((int? args) => { UpdateArcane(args); })" ValueExpression="() => input.Arcane" class="form-control" />
         </div>
     </div>
     <h3>Weapon</h3>
@@ -60,29 +60,90 @@
             Weapon
         </label>
         <div class="col-sm-10">
-            <InputSelect id="weapon" @bind-Value="input.WeaponId" class="form-control">
-                @foreach (var weapon in CalculationService.Weapons)
+            <InputSelect ValueExpression="@(() => input.WeaponId)"
+                         Value="@input.WeaponId"
+                         ValueChanged="@((int? args) => { input.WeaponId = args; UpdateWeaponById(args); })" class="form-control">
+                @foreach (var weapon in weaponList)
                 {
                     <option value="@weapon.Id">@weapon.Name</option>
                 }
             </InputSelect>
         </div>
     </div>
-    <div class="form-group row">
-        <label for="weapon" class="col-sm-2 col-form-label">
-            Upgrade Level
-        </label>
-        <div class="col-sm-10">
-            <InputSelect id="weapon" @bind-Value="input.WeaponId" class="form-control">
-                @foreach (var weapon in CalculationService.Weapons)
+    @if (affinityList != null && affinityList.Any())
+    {
+        <div class="form-group row">
+            <label for="weapon" class="col-sm-2 col-form-label">
+                Affinity
+            </label>
+            <div class="col-sm-10">
+                <InputSelect ValueExpression="@(() => input.WeaponAffinity)"
+                         Value="@input.WeaponAffinity"
+                         ValueChanged="@((int? args) => { input.WeaponAffinity = args; UpdateWeaponAffinity(args); })" class="form-control">
+                    @foreach (var affinity in affinityList)
                 {
-                    <option value="@weapon.Id">@weapon.Name</option>
+                    <option value="@affinity.Id">@affinity.Name</option>
                 }
             </InputSelect>
         </div>
     </div>
-    <button type="submit">Submit</button>
+    }
+    @if (upgradeList != null && upgradeList.Any())
+    {
+        <div class="form-group row">
+            <label for="weapon" class="col-sm-2 col-form-label">
+                Upgrade Level
+            </label>
+            <div class="col-sm-10">
+                <InputSelect ValueExpression="@(() => input.WeaponLevel)"
+                         Value="@input.WeaponLevel"
+                         ValueChanged="@((int? args) => { input.WeaponLevel = args; UpdateWeaponLevel(args); })" class="form-control">
+                    @foreach (var level in upgradeList)
+                {
+                    <option value="@level">+@level</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    }
+    @if (weapon != null && attackRatingCalculation != null)
+    {
+        <div class="form-group row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@attackRatingCalculation.Name</th>
+                        <th>STR</th>
+                        <th>DEX</th>
+                        <th>INT</th>
+                        <th>FTH</th>
+                        <th>ARC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Requirements</strong></td>
+                        <td style="@StyleStatRequirement(@input.Strength, @weapon.StrRequirement)">@weapon.StrRequirement</td>
+                        <td style="@StyleStatRequirement(@input.Dexterity, @weapon.DexRequirement)">@weapon.DexRequirement</td>
+                        <td style="@StyleStatRequirement(@input.Intelligence, @weapon.IntRequirement)">@weapon.IntRequirement</td>
+                        <td style="@StyleStatRequirement(@input.Faith, @weapon.FthRequirement)">@weapon.FthRequirement</td>
+                        <td style="@StyleStatRequirement(@input.Arcane, @weapon.ArcRequirement)">@weapon.ArcRequirement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scaling</strong></td>
+                        <td>@attackRatingCalculation.StrScaling / <strong>@attackRatingCalculation.StrScalingGrade</strong></td>
+                        <td>@attackRatingCalculation.DexScaling / <strong>@attackRatingCalculation.DexScalingGrade</strong></td>
+                        <td>@attackRatingCalculation.IntScaling / <strong>@attackRatingCalculation.IntScalingGrade</strong></td>
+                        <td>@attackRatingCalculation.FthScaling / <strong>@attackRatingCalculation.FthScalingGrade</strong></td>
+                        <td>@attackRatingCalculation.ArcScaling / <strong>@attackRatingCalculation.ArcScalingGrade</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
 </EditForm>
+
+<hr />
 
 @if (attackRatingCalculation == null)
 {
@@ -90,12 +151,14 @@
 }
 else
 {
-    <h2>@attackRatingCalculation.Name</h2>
+    <h3>@attackRatingCalculation.Name</h3>
+    <h4>Total AR: @attackRatingCalculation.TotalAttackRating</h4>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Total</th>
+                <th></th>
+                <th></th>
                 <th>Physical</th>
                 <th>Magic</th>
                 <th>Fire</th>
@@ -105,7 +168,26 @@ else
         </thead>
         <tbody>
             <tr>
-                <td>@attackRatingCalculation.TotalAttackRating</td>
+                <td><strong>Base</strong></td>
+                <td></td>
+                <td>@attackRatingCalculation.Physical.Base</td>
+                <td>@attackRatingCalculation.Magic.Base</td>
+                <td>@attackRatingCalculation.Fire.Base</td>
+                <td>@attackRatingCalculation.Lightning.Base</td>
+                <td>@attackRatingCalculation.Holy.Base</td>
+            </tr>
+            <tr>
+                <td><strong>Scaling Bonus</strong></td>
+                <td></td>
+                <td style="@StyleNumber(attackRatingCalculation.Physical.TotalScaling)">@attackRatingCalculation.Physical.TotalScaling</td>
+                <td style="@StyleNumber(attackRatingCalculation.Magic.TotalScaling)">@attackRatingCalculation.Magic.TotalScaling</td>
+                <td style="@StyleNumber(attackRatingCalculation.Fire.TotalScaling)">@attackRatingCalculation.Fire.TotalScaling</td>
+                <td style="@StyleNumber(attackRatingCalculation.Lightning.TotalScaling)">@attackRatingCalculation.Lightning.TotalScaling</td>
+                <td style="@StyleNumber(attackRatingCalculation.Holy.TotalScaling)">@attackRatingCalculation.Holy.TotalScaling</td>
+            </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>@attackRatingCalculation.TotalAttackRating</strong></td>
                 <td>@attackRatingCalculation.Physical.Total</td>
                 <td>@attackRatingCalculation.Magic.Total</td>
                 <td>@attackRatingCalculation.Fire.Total</td>
@@ -117,24 +199,126 @@ else
 }
 
 @code {
-    private AttackRatingCalculationInput input = new AttackRatingCalculationInput
-        {
-            Strength = 45,
-            Dexterity = 13,
-            Arcane = 7,
-            WeaponId = 10081100,
-            WeaponLevel = 8
-        };
+    private EditContext EditContext;
 
-    private void HandleValidSubmit()
+    private AttackRatingCalculation attackRatingCalculation = new AttackRatingCalculation();
+    private AttackRatingCalculationInput input = new AttackRatingCalculationInput();
+    private Weapon weapon = new Weapon();
+
+    private IEnumerable<Weapon> weaponList;
+
+    private IEnumerable<WeaponAffinity> affinityList;
+
+    private IQueryable<int> upgradeList;
+
+    private void UpdateWeaponById(int? id)
     {
-        attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+        if (id == null)
+        {
+            return;
+        }
+
+        weapon = CalculationService.GetWeapon(id.Value);
+
+        input.WeaponAffinity = null;
+
+        affinityList = weapon.NonInfusable ? new List<WeaponAffinity>() : Affinities.StandardAffinities;
+
+        upgradeList = Enumerable.Range(0, weapon.MaxUpgrade + 1).AsQueryable();
+
+        if (input.WeaponLevel > weapon.MaxUpgrade)
+        {
+            input.WeaponLevel = 0;
+        }
+
+        HandleValidSubmit();
     }
 
-    private AttackRatingCalculation attackRatingCalculation;
-
-    protected override async Task OnInitializedAsync()
+    private void UpdateStrength(int? str)
     {
+        input.Strength = str;
+        HandleValidSubmit();
+    }
+
+    private void UpdateDexterity(int? dex)
+    {
+        input.Dexterity = dex;
+        HandleValidSubmit();
+    }
+
+    private void UpdateIntelligence(int? inte)
+    {
+        input.Intelligence = inte;
+        HandleValidSubmit();
+    }
+
+    private void UpdateFaith(int? fth)
+    {
+        input.Faith = fth;
+        HandleValidSubmit();
+    }
+
+    private void UpdateArcane(int? arc)
+    {
+        input.Arcane = arc;
+        HandleValidSubmit();
+    }
+
+    private void UpdateWeaponAffinity(int? affinity)
+    {
+        HandleValidSubmit();
+    }
+
+    private void UpdateWeaponLevel(int? level)
+    {
+        HandleValidSubmit();
+    }
+
+    private void UpdateCharacterStat(int? stat)
+    {
+        HandleValidSubmit();
+    }
+
+    private void HandleValidSubmit() => attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+
+    private string StyleStatRequirement(int? stat, int? req)
+    {
+        if (stat.GetValueOrDefault() >= req.GetValueOrDefault())
+        {
+            return "";
+        }
+        else
+        {
+            return "font-weight: bold; color:red";
+        }
+    }
+
+    private string StyleNumber(int num)
+    {
+        return num >= 0 ? "" : "font-weight: bold; color:red";
+    }
+
+    protected override void OnInitialized()
+    {
+        input = new AttackRatingCalculationInput
+            {
+                Strength = 45,
+                Dexterity = 13,
+                Intelligence = 9,
+                Faith = 9,
+                Arcane = 7,
+                WeaponId = 10080000,
+                WeaponLevel = 8
+            };
+
+        EditContext = new EditContext(input);
+
+        weaponList = CalculationService.Weapons;
+
+        UpdateWeaponById(input.WeaponId);
+
         attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+
+        base.OnInitialized();
     }
 }

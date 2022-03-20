@@ -25,6 +25,12 @@
             FireCorrectId = weapon.FireCorrectId;
             LightningCorrectId = weapon.LightningCorrectId;
             HolyCorrectId = weapon.HolyCorrectId;
+
+            StrRequirement = weapon.StrRequirement;
+            DexRequirement = weapon.DexRequirement;
+            IntRequirement = weapon.IntRequirement;
+            FthRequirement = weapon.FthRequirement;
+            ArcRequirement = weapon.ArcRequirement;
         }
     }
 }

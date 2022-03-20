@@ -7,8 +7,8 @@ namespace EldenRingBlazor.Data.AttackRating
 {
     public class AttackRatingCalculationService
     {
-        // TODO: Split WeaponId and AffinityId
         public IEnumerable<Weapon> Weapons { get; }
+        private IEnumerable<Weapon> _allWeapons;
         private IEnumerable<WeaponUpgrade> _weaponUpgrades;
         private IEnumerable<AttackElement> _attackElements;
 
@@ -27,7 +27,10 @@ namespace EldenRingBlazor.Data.AttackRating
             using var weaponsReader = new StreamReader(weaponCsvPath);
             using var weaponsCsv = new CsvReader(weaponsReader, CultureInfo.InvariantCulture);
             weaponsCsv.Context.RegisterClassMap<WeaponMap>();
-            Weapons = weaponsCsv.GetRecords<Weapon>().ToList();
+
+            _allWeapons = weaponsCsv.GetRecords<Weapon>().ToList();
+
+            Weapons = _allWeapons.Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber);
 
             using var weaponUpgradesReader = new StreamReader(weaponUpgradeCsvPath);
             using var weaponUpgradesCsv = new CsvReader(weaponUpgradesReader, CultureInfo.InvariantCulture);
@@ -42,9 +45,16 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public AttackRatingCalculation CalculateAttackRating(AttackRatingCalculationInput input)
         {
-            var baseWeapon = GetWeapon(input.WeaponId);
+            var weaponId = input.WeaponId.GetValueOrDefault();
+            var affinityId = input.WeaponAffinity.GetValueOrDefault();
 
-            var weaponUpgrade = GetWeaponUpgrade(baseWeapon, input.WeaponLevel);
+            var affinitizedId = weaponId + affinityId;
+
+            var baseWeapon = GetWeapon(affinitizedId);
+
+            _calcCorrectService.GetCalcCorrectGraphIds(baseWeapon);
+
+            var weaponUpgrade = GetWeaponUpgrade(baseWeapon, input.WeaponLevel.GetValueOrDefault());
 
             var modifiedWeapon = ApplyWeaponUpgradeModifiers(baseWeapon, weaponUpgrade);
 
@@ -56,11 +66,9 @@ namespace EldenRingBlazor.Data.AttackRating
         }
 
         // Raw_Data lookup
-        private Weapon GetWeapon(int id)
+        public Weapon GetWeapon(int id)
         {
-            var weapon = Weapons.SingleOrDefault(w => w.Id == id);
-
-            _calcCorrectService.GetCalcCorrectGraphIds(weapon);
+            var weapon = _allWeapons.SingleOrDefault(w => w.Id == id);
 
             return weapon;
         }
@@ -96,7 +104,7 @@ namespace EldenRingBlazor.Data.AttackRating
             var lightning = GetCorrection(DamageType.Lightning, input, weapon, attackElementCorrect);
             var holy = GetCorrection(DamageType.Holy, input, weapon, attackElementCorrect);
 
-            var calculation = new AttackRatingCalculation(weapon.Name, physical, magic, fire, lightning, holy);
+            var calculation = new AttackRatingCalculation(weapon, physical, magic, fire, lightning, holy);
 
             return calculation;
         }
@@ -165,11 +173,11 @@ namespace EldenRingBlazor.Data.AttackRating
 
             var calcCorrectGraph = GetCalcCorrectGraph(calcCorrectId);
 
-            var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Strength);
-            var dexCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Dexterity);
-            var intCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Intelligence);
-            var fthCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Faith);
-            var arcCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Arcane);
+            var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Strength ?? 1);
+            var dexCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Dexterity ?? 1);
+            var intCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Intelligence ?? 1);
+            var fthCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Faith ?? 1);
+            var arcCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Arcane ?? 1);
 
             var strScaling = hasStrScaling ? baseDamage * weapon.StrScaling * .01 * strCorrection.Output : 0;
             var dexScaling = hasDexScaling ? baseDamage * weapon.DexScaling * .01 * dexCorrection.Output : 0;
@@ -177,7 +185,33 @@ namespace EldenRingBlazor.Data.AttackRating
             var fthScaling = hasFthScaling ? baseDamage * weapon.FthScaling * .01 * fthCorrection.Output : 0;
             var arcScaling = hasArcScaling ? baseDamage * weapon.ArcScaling * .01 * arcCorrection.Output : 0;
 
-            var totalScaling = strScaling + dexScaling + intScaling + fthScaling + arcScaling;
+            var meetsAllStatReqs = true;
+            if (input.Strength < weapon.StrRequirement && hasStrScaling)
+            {
+                meetsAllStatReqs = false;
+            }
+
+            if (input.Dexterity < weapon.DexRequirement && hasDexScaling)
+            {
+                meetsAllStatReqs = false;
+            }
+
+            if (input.Intelligence < weapon.IntRequirement && hasIntScaling)
+            {
+                meetsAllStatReqs = false;
+            }
+
+            if (input.Faith < weapon.FthRequirement && hasFthScaling)
+            {
+                meetsAllStatReqs = false;
+            }
+
+            if (input.Arcane < weapon.ArcRequirement && hasArcScaling)
+            {
+                meetsAllStatReqs = false;
+            }
+
+            var totalScaling = meetsAllStatReqs ? strScaling + dexScaling + intScaling + fthScaling + arcScaling : (-baseDamage * 0.4);
 
             var totalDamage = baseDamage + totalScaling;
 
