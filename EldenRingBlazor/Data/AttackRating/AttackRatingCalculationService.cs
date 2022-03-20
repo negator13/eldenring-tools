@@ -173,11 +173,11 @@ namespace EldenRingBlazor.Data.AttackRating
 
             var calcCorrectGraph = GetCalcCorrectGraph(calcCorrectId);
 
-            var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Strength);
-            var dexCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Dexterity);
-            var intCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Intelligence);
-            var fthCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Faith);
-            var arcCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Arcane);
+            var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Strength ?? 1);
+            var dexCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Dexterity ?? 1);
+            var intCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Intelligence ?? 1);
+            var fthCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Faith ?? 1);
+            var arcCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Arcane ?? 1);
 
             var strScaling = hasStrScaling ? baseDamage * weapon.StrScaling * .01 * strCorrection.Output : 0;
             var dexScaling = hasDexScaling ? baseDamage * weapon.DexScaling * .01 * dexCorrection.Output : 0;
