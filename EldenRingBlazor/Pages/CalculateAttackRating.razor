@@ -1,0 +1,140 @@
+﻿@page "/calculatear"
+
+<PageTitle>Attack Rating Calculator</PageTitle>
+
+@using EldenRingBlazor.Data
+@using EldenRingBlazor.Data.AttackRating
+@inject AttackRatingCalculationService CalculationService
+
+<h1>Attack Rating</h1>
+
+<p>This component calculates Attack Rating for a given weapon and character stats.</p>
+
+<EditForm Model="@input"  OnValidSubmit="@HandleValidSubmit">
+    <h3>Character</h3>
+    <hr />
+    <div class="form-group row">
+        <label for="str" class="col-sm-2 col-form-label">
+            STR
+        </label>
+        <div class="col-sm-10">
+            <InputNumber id="str" class="form-control" placeholder="16" @bind-Value="input.Strength" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="dex" class="col-sm-2 col-form-label">
+            DEX
+        </label>
+        <div class="col-sm-10">
+            <InputNumber id="dex" class="form-control" placeholder="11" @bind-Value="input.Dexterity" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="int" class="col-sm-2 col-form-label">
+            INT
+        </label>
+        <div class="col-sm-10">
+            <InputNumber id="int" class="form-control" placeholder="9" @bind-Value="input.Intelligence" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="fth" class="col-sm-2 col-form-label">
+            FTH
+        </label>
+        <div class="col-sm-10">
+            <InputNumber id="fth" class="form-control" placeholder="9" @bind-Value="input.Faith" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="arc" class="col-sm-2 col-form-label">
+            ARC
+        </label>
+        <div class="col-sm-10">
+            <InputNumber id="arc" class="form-control" placeholder="7" @bind-Value="input.Arcane" />
+        </div>
+    </div>
+    <h3>Weapon</h3>
+    <hr />
+    <div class="form-group row">
+        <label for="weapon" class="col-sm-2 col-form-label">
+            Weapon
+        </label>
+        <div class="col-sm-10">
+            <InputSelect id="weapon" @bind-Value="input.WeaponId" class="form-control">
+                @foreach (var weapon in CalculationService.Weapons)
+                {
+                    <option value="@weapon.Id">@weapon.Name</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="weapon" class="col-sm-2 col-form-label">
+            Upgrade Level
+        </label>
+        <div class="col-sm-10">
+            <InputSelect id="weapon" @bind-Value="input.WeaponId" class="form-control">
+                @foreach (var weapon in CalculationService.Weapons)
+                {
+                    <option value="@weapon.Id">@weapon.Name</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <button type="submit">Submit</button>
+</EditForm>
+
+@if (attackRatingCalculation == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h2>@attackRatingCalculation.Name</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Total</th>
+                <th>Physical</th>
+                <th>Magic</th>
+                <th>Fire</th>
+                <th>Lightning</th>
+                <th>Holy</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@attackRatingCalculation.TotalAttackRating</td>
+                <td>@attackRatingCalculation.Physical.Total</td>
+                <td>@attackRatingCalculation.Magic.Total</td>
+                <td>@attackRatingCalculation.Fire.Total</td>
+                <td>@attackRatingCalculation.Lightning.Total</td>
+                <td>@attackRatingCalculation.Holy.Total</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    private AttackRatingCalculationInput input = new AttackRatingCalculationInput
+        {
+            Strength = 45,
+            Dexterity = 13,
+            Arcane = 7,
+            WeaponId = 10081100,
+            WeaponLevel = 8
+        };
+
+    private void HandleValidSubmit()
+    {
+        attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+    }
+
+    private AttackRatingCalculation attackRatingCalculation;
+
+    protected override async Task OnInitializedAsync()
+    {
+        attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+    }
+}
