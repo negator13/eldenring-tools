@@ -8,7 +8,7 @@
 
 <h1>Attack Rating</h1>
 
-<p>This component calculates Attack Rating for a given weapon and character stats.</p>
+<p>Calculates Attack Rating for a given weapon and character stats.</p>
 
 <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
     <h3>Character</h3>
@@ -106,7 +106,44 @@
         </div>
     </div>
     }
+    @if (weapon != null && attackRatingCalculation != null)
+    {
+        <div class="form-group row">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>@attackRatingCalculation.Name</th>
+                        <th>STR</th>
+                        <th>DEX</th>
+                        <th>INT</th>
+                        <th>FTH</th>
+                        <th>ARC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Requirements</strong></td>
+                        <td>@weapon.StrRequirement</td>
+                        <td>@weapon.DexRequirement</td>
+                        <td>@weapon.IntRequirement</td>
+                        <td>@weapon.FthRequirement</td>
+                        <td>@weapon.ArcRequirement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scaling</strong></td>
+                        <td>@attackRatingCalculation.StrScaling / <strong>@attackRatingCalculation.StrScalingGrade</strong></td>
+                        <td>@attackRatingCalculation.DexScaling / <strong>@attackRatingCalculation.DexScalingGrade</strong></td>
+                        <td>@attackRatingCalculation.IntScaling / <strong>@attackRatingCalculation.IntScalingGrade</strong></td>
+                        <td>@attackRatingCalculation.FthScaling / <strong>@attackRatingCalculation.FthScalingGrade</strong></td>
+                        <td>@attackRatingCalculation.ArcScaling / <strong>@attackRatingCalculation.ArcScalingGrade</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
 </EditForm>
+
+<hr />
 
 @if (attackRatingCalculation == null)
 {
@@ -114,12 +151,14 @@
 }
 else
 {
-    <h2>@attackRatingCalculation.Name</h2>
+    <h3>@attackRatingCalculation.Name</h3>
+    <h4>Total AR: @attackRatingCalculation.TotalAttackRating</h4>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Total</th>
+                <th></th>
+                <th></th>
                 <th>Physical</th>
                 <th>Magic</th>
                 <th>Fire</th>
@@ -129,7 +168,26 @@ else
         </thead>
         <tbody>
             <tr>
-                <td>@attackRatingCalculation.TotalAttackRating</td>
+                <td><strong>Base</strong></td>
+                <td></td>
+                <td>@attackRatingCalculation.Physical.Base</td>
+                <td>@attackRatingCalculation.Magic.Base</td>
+                <td>@attackRatingCalculation.Fire.Base</td>
+                <td>@attackRatingCalculation.Lightning.Base</td>
+                <td>@attackRatingCalculation.Holy.Base</td>
+            </tr>
+            <tr>
+                <td><strong>Scaling Bonus</strong></td>
+                <td></td>
+                <td>@attackRatingCalculation.Physical.TotalScaling</td>
+                <td>@attackRatingCalculation.Magic.TotalScaling</td>
+                <td>@attackRatingCalculation.Fire.TotalScaling</td>
+                <td>@attackRatingCalculation.Lightning.TotalScaling</td>
+                <td>@attackRatingCalculation.Holy.TotalScaling</td>
+            </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>@attackRatingCalculation.TotalAttackRating</strong></td>
                 <td>@attackRatingCalculation.Physical.Total</td>
                 <td>@attackRatingCalculation.Magic.Total</td>
                 <td>@attackRatingCalculation.Fire.Total</td>

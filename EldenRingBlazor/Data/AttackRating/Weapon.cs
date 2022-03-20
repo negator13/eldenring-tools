@@ -41,5 +41,15 @@
         public double ArcScaling { get; set; }
 
         public int MaxUpgrade { get; set; }
+
+        public int StrRequirement { get; set; }
+
+        public int DexRequirement { get; set; }
+
+        public int IntRequirement { get; set; }
+
+        public int FthRequirement { get; set; }
+
+        public int ArcRequirement { get; set; }
     }
 }

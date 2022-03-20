@@ -104,7 +104,7 @@ namespace EldenRingBlazor.Data.AttackRating
             var lightning = GetCorrection(DamageType.Lightning, input, weapon, attackElementCorrect);
             var holy = GetCorrection(DamageType.Holy, input, weapon, attackElementCorrect);
 
-            var calculation = new AttackRatingCalculation(weapon.Name, physical, magic, fire, lightning, holy);
+            var calculation = new AttackRatingCalculation(weapon, physical, magic, fire, lightning, holy);
 
             return calculation;
         }
