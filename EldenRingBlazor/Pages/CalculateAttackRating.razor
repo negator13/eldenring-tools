@@ -123,11 +123,11 @@
                 <tbody>
                     <tr>
                         <td><strong>Requirements</strong></td>
-                        <td>@weapon.StrRequirement</td>
-                        <td>@weapon.DexRequirement</td>
-                        <td>@weapon.IntRequirement</td>
-                        <td>@weapon.FthRequirement</td>
-                        <td>@weapon.ArcRequirement</td>
+                        <td style="@StyleStatRequirement(@input.Strength, @weapon.StrRequirement)">@weapon.StrRequirement</td>
+                        <td style="@StyleStatRequirement(@input.Dexterity, @weapon.DexRequirement)">@weapon.DexRequirement</td>
+                        <td style="@StyleStatRequirement(@input.Intelligence, @weapon.IntRequirement)">@weapon.IntRequirement</td>
+                        <td style="@StyleStatRequirement(@input.Faith, @weapon.FthRequirement)">@weapon.FthRequirement</td>
+                        <td style="@StyleStatRequirement(@input.Arcane, @weapon.ArcRequirement)">@weapon.ArcRequirement</td>
                     </tr>
                     <tr>
                         <td><strong>Scaling</strong></td>
@@ -179,11 +179,11 @@ else
             <tr>
                 <td><strong>Scaling Bonus</strong></td>
                 <td></td>
-                <td>@attackRatingCalculation.Physical.TotalScaling</td>
-                <td>@attackRatingCalculation.Magic.TotalScaling</td>
-                <td>@attackRatingCalculation.Fire.TotalScaling</td>
-                <td>@attackRatingCalculation.Lightning.TotalScaling</td>
-                <td>@attackRatingCalculation.Holy.TotalScaling</td>
+                <td style="@StyleNumber(attackRatingCalculation.Physical.TotalScaling)">@attackRatingCalculation.Physical.TotalScaling</td>
+                <td style="@StyleNumber(attackRatingCalculation.Magic.TotalScaling)">@attackRatingCalculation.Magic.TotalScaling</td>
+                <td style="@StyleNumber(attackRatingCalculation.Fire.TotalScaling)">@attackRatingCalculation.Fire.TotalScaling</td>
+                <td style="@StyleNumber(attackRatingCalculation.Lightning.TotalScaling)">@attackRatingCalculation.Lightning.TotalScaling</td>
+                <td style="@StyleNumber(attackRatingCalculation.Holy.TotalScaling)">@attackRatingCalculation.Holy.TotalScaling</td>
             </tr>
             <tr>
                 <td><strong>Total</strong></td>
@@ -222,7 +222,7 @@ else
 
         input.WeaponAffinity = null;
 
-        affinityList = weapon.ReinforceTypeId == Affinities.Somber ? new List<WeaponAffinity>() : Affinities.StandardAffinities;
+        affinityList = weapon.NonInfusable ? new List<WeaponAffinity>() : Affinities.StandardAffinities;
 
         upgradeList = Enumerable.Range(0, weapon.MaxUpgrade + 1).AsQueryable();
 
@@ -280,6 +280,23 @@ else
     }
 
     private void HandleValidSubmit() => attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+
+    private string StyleStatRequirement(int? stat, int? req)
+    {
+        if (stat.GetValueOrDefault() >= req.GetValueOrDefault())
+        {
+            return "";
+        }
+        else
+        {
+            return "font-weight: bold; color:red";
+        }
+    }
+
+    private string StyleNumber(int num)
+    {
+        return num >= 0 ? "" : "font-weight: bold; color:red";
+    }
 
     protected override void OnInitialized()
     {

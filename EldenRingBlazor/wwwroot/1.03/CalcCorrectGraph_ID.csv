@@ -757,18 +757,6 @@ ID,Name,CalcCorrectGraph ID (Physical),CalcCorrectGraph ID (Magic),CalcCorrectGr
 9060000,Moonveil,0,4,0,0,0
 9070000,Dragonscale Blade,0,0,0,4,0
 9080000,Serpentbone Blade,0,0,0,0,0
-9080100,Heavy Serpentbone Blade,1,0,0,0,0
-9080200,Keen Serpentbone Blade,2,0,0,0,0
-9080300,Quality Serpentbone Blade,8,0,0,0,0
-9080400,Fire Serpentbone Blade,0,0,4,0,0
-9080500,Flame Art Serpentbone Blade,0,0,4,0,0
-9080600,Lightning Serpentbone Blade,0,0,0,4,0
-9080700,Sacred Serpentbone Blade,0,0,0,0,4
-9080800,Magic Serpentbone Blade,0,4,0,0,0
-9080900,Cold Serpentbone Blade,0,0,0,0,0
-9081000,Poison Serpentbone Blade,0,0,0,0,0
-9081100,Blood Serpentbone Blade,0,0,0,0,0
-9081200,Occult Serpentbone Blade,7,0,0,0,0
 10000000,Twinblade,0,0,0,0,0
 10000100,Heavy Twinblade,1,0,0,0,0
 10000200,Keen Twinblade,2,0,0,0,0
@@ -1491,18 +1479,6 @@ ID,Name,CalcCorrectGraph ID (Physical),CalcCorrectGraph ID (Magic),CalcCorrectGr
 17061100,Bloody Lance,0,0,0,0,0
 17061200,Occult Lance,7,0,0,0,0
 17070000,Treespear,0,0,0,0,4
-17070100,Heavy Treespear,1,0,0,0,0
-17070200,Keen Treespear,2,0,0,0,0
-17070300,Quality Treespear,8,0,0,0,0
-17070400,Fire Treespear,0,0,4,0,0
-17070500,Flame Art Treespear,0,0,4,0,0
-17070600,Lightning Treespear,0,0,0,4,0
-17070700,Sacred Treespear,0,0,0,0,4
-17070800,Magic Treespear,0,4,0,0,0
-17070900,Cold Treespear,0,0,0,0,0
-17071000,Poison Treespear,0,0,0,0,0
-17071100,Blood Treespear,0,0,0,0,0
-17071200,Occult Treespear,7,0,0,0,0
 18000000,Halberd,0,0,0,0,0
 18000100,Heavy Halberd,1,0,0,0,0
 18000200,Keen Halberd,2,0,0,0,0
@@ -1915,18 +1891,6 @@ ID,Name,CalcCorrectGraph ID (Physical),CalcCorrectGraph ID (Magic),CalcCorrectGr
 23121100,Golem's Blood Halberd,0,0,0,0,0
 23121200,Golem's Occult Halberd,7,0,0,0,0
 23130000,Troll's Hammer,0,0,4,0,0
-23130100,Troll's Heavy Hammer,1,0,0,0,0
-23130200,Troll's Keen Hammer,2,0,0,0,0
-23130300,Troll's Quality Hammer,8,0,0,0,0
-23130400,Troll's Fire Hammer,0,0,4,0,0
-23130500,Troll's Flame Art Hammer,0,0,4,0,0
-23130600,Troll's Lightning Hammer,0,0,0,4,0
-23130700,Troll's Sacred Hammer,0,0,0,0,4
-23130800,Troll's Magic Hammer,0,4,0,0,0
-23130900,Troll's Cold Hammer,0,0,0,0,0
-23131000,Troll's Poison Hammer,0,0,0,0,0
-23131100,Troll's Blood Hammer,0,0,0,0,0
-23131200,Troll's Occult Hammer,7,0,0,0,0
 23140000,Rotten Staff,0,0,0,0,0
 23150000,Rotten Greataxe,0,0,0,0,0
 23150100,Heavy Rotten Greataxe,1,0,0,0,0

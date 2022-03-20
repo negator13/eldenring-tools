@@ -51,5 +51,7 @@
         public int FthRequirement { get; set; }
 
         public int ArcRequirement { get; set; }
+
+        public bool NonInfusable { get; set; }
     }
 }

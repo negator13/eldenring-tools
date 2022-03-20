@@ -185,7 +185,33 @@ namespace EldenRingBlazor.Data.AttackRating
             var fthScaling = hasFthScaling ? baseDamage * weapon.FthScaling * .01 * fthCorrection.Output : 0;
             var arcScaling = hasArcScaling ? baseDamage * weapon.ArcScaling * .01 * arcCorrection.Output : 0;
 
-            var totalScaling = strScaling + dexScaling + intScaling + fthScaling + arcScaling;
+            var meetsAllStatReqs = true;
+            if (input.Strength < weapon.StrRequirement && hasStrScaling)
+            {
+                meetsAllStatReqs = false;
+            }
+
+            if (input.Dexterity < weapon.DexRequirement && hasDexScaling)
+            {
+                meetsAllStatReqs = false;
+            }
+
+            if (input.Intelligence < weapon.IntRequirement && hasIntScaling)
+            {
+                meetsAllStatReqs = false;
+            }
+
+            if (input.Faith < weapon.FthRequirement && hasFthScaling)
+            {
+                meetsAllStatReqs = false;
+            }
+
+            if (input.Arcane < weapon.ArcRequirement && hasArcScaling)
+            {
+                meetsAllStatReqs = false;
+            }
+
+            var totalScaling = meetsAllStatReqs ? strScaling + dexScaling + intScaling + fthScaling + arcScaling : (-baseDamage * 0.4);
 
             var totalDamage = baseDamage + totalScaling;
 
