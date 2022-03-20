@@ -2,6 +2,11 @@
 {
     public class AttackRatingCalculation
     {
+        public AttackRatingCalculation()
+        {
+
+        }
+
         public AttackRatingCalculation(
             string name,
             AttackRatingComponent physical,

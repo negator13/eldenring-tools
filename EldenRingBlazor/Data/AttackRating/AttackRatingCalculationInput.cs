@@ -12,8 +12,10 @@
 
         public int Arcane { get; set; }
 
-        public int WeaponId { get; set; }
+        public int? WeaponId { get; set; }
 
-        public int WeaponLevel { get; set; }
+        public int? WeaponAffinity { get; set; }
+
+        public int? WeaponLevel { get; set; }
     }
 }

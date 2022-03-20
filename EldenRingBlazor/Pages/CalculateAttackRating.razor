@@ -10,7 +10,7 @@
 
 <p>This component calculates Attack Rating for a given weapon and character stats.</p>
 
-<EditForm Model="@input"  OnValidSubmit="@HandleValidSubmit">
+<EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
     <h3>Character</h3>
     <hr />
     <div class="form-group row">
@@ -60,28 +60,53 @@
             Weapon
         </label>
         <div class="col-sm-10">
-            <InputSelect id="weapon" @bind-Value="input.WeaponId" class="form-control">
-                @foreach (var weapon in CalculationService.Weapons)
+            <InputSelect ValueExpression="@(() => input.WeaponId)"
+                         Value="@input.WeaponId"
+                         ValueChanged="@((int? args) => { input.WeaponId = args; UpdateWeaponById(args); })" class="form-control">
+                @foreach (var weapon in weaponList)
                 {
                     <option value="@weapon.Id">@weapon.Name</option>
                 }
             </InputSelect>
         </div>
     </div>
-    <div class="form-group row">
-        <label for="weapon" class="col-sm-2 col-form-label">
-            Upgrade Level
-        </label>
-        <div class="col-sm-10">
-            <InputSelect id="weapon" @bind-Value="input.WeaponId" class="form-control">
-                @foreach (var weapon in CalculationService.Weapons)
+    @if (affinityList != null && affinityList.Any())
+    {
+        <div class="form-group row">
+            <label for="weapon" class="col-sm-2 col-form-label">
+                Affinity
+            </label>
+            <div class="col-sm-10">
+                <InputSelect ValueExpression="@(() => input.WeaponAffinity)"
+                         Value="@input.WeaponAffinity"
+                         ValueChanged="@((int? args) => { input.WeaponAffinity = args; UpdateWeaponAffinity(args); })" class="form-control">
+                    @foreach (var affinity in affinityList)
+                    {
+                    <option value="@affinity.Id">@affinity.Name</option>
+                    }
+            </InputSelect>
+        </div>
+    </div>
+    }
+    @if (upgradeList != null && upgradeList.Any())
+    {
+        <div class="form-group row">
+            <label for="weapon" class="col-sm-2 col-form-label">
+                Upgrade Level
+            </label>
+            <div class="col-sm-10">
+                <InputSelect ValueExpression="@(() => input.WeaponLevel)"
+                         Value="@input.WeaponLevel"
+                         ValueChanged="@((int? args) => { input.WeaponLevel = args; UpdateWeaponLevel(args); })" class="form-control">
+                    @foreach (var level in upgradeList)
                 {
-                    <option value="@weapon.Id">@weapon.Name</option>
+                    <option value="@level">+@level</option>
                 }
             </InputSelect>
         </div>
     </div>
-    <button type="submit">Submit</button>
+    }
+    <button type="submit" class="form-control">Submit</button>
 </EditForm>
 
 @if (attackRatingCalculation == null)
@@ -117,24 +142,137 @@ else
 }
 
 @code {
-    private AttackRatingCalculationInput input = new AttackRatingCalculationInput
-        {
-            Strength = 45,
-            Dexterity = 13,
-            Arcane = 7,
-            WeaponId = 10081100,
-            WeaponLevel = 8
-        };
+    private EditContext EditContext;
 
-    private void HandleValidSubmit()
+    private AttackRatingCalculation attackRatingCalculation = new AttackRatingCalculation();
+    private AttackRatingCalculationInput input = new AttackRatingCalculationInput();
+    private Weapon weapon = new Weapon();
+
+    private IEnumerable<Weapon> weaponList;
+
+    // TODO: Move to Affinities.cs
+    private List<WeaponAffinity> standardAffinityList = new List<WeaponAffinity>
     {
-        attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+        new WeaponAffinity
+        {
+            Id = Affinities.Standard, Name = "Standard"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Heavy, Name = "Heavy"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Keen, Name = "Keen"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Quality, Name = "Quality"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Fire, Name = "Fire"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.FlameArt, Name = "Flame Art"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Lightning, Name = "Lightning"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Sacred, Name = "Sacred"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Magic, Name = "Magic"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Cold, Name = "Cold"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Poison, Name = "Poison"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Blood, Name = "Blood"
+        },
+        new WeaponAffinity
+        {
+            Id = Affinities.Occult, Name = "Occult"
+        },
+    };
+
+    private List<WeaponAffinity> somberAffinityList = new List<WeaponAffinity>
+    {
+         new WeaponAffinity
+        {
+            Id = Affinities.Somber, Name = "--"
+        },
+    };
+
+    private IEnumerable<WeaponAffinity> affinityList;
+
+    private IQueryable<int> upgradeList;
+
+    private void UpdateWeaponById(int? id)
+    {
+        if (id == null)
+        {
+            return;
+        }
+
+        weapon = CalculationService.GetWeapon(id.Value);
+
+        input.WeaponAffinity = null;
+
+        affinityList = weapon.ReinforceTypeId == Affinities.Somber ? somberAffinityList : standardAffinityList;
+
+        upgradeList = Enumerable.Range(0, weapon.MaxUpgrade).AsQueryable();
+
+        if (input.WeaponLevel > weapon.MaxUpgrade)
+        {
+            input.WeaponLevel = 0;
+        }
+
+        HandleValidSubmit();
     }
 
-    private AttackRatingCalculation attackRatingCalculation;
-
-    protected override async Task OnInitializedAsync()
+    private void UpdateWeaponAffinity(int? affinity)
     {
+        HandleValidSubmit();
+    }
+
+    private void UpdateWeaponLevel(int? level)
+    {
+        HandleValidSubmit();
+    }
+
+    private void HandleValidSubmit() => attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+
+    protected override void OnInitialized()
+    {
+        input = new AttackRatingCalculationInput
+            {
+                Strength = 45,
+                Dexterity = 13,
+                Arcane = 7,
+                WeaponId = 10080000,
+                WeaponLevel = 8
+            };
+
+        EditContext = new EditContext(input);
+
+        weaponList = CalculationService.Weapons;
+
+        UpdateWeaponById(input.WeaponId);
+
         attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+
+        base.OnInitialized();
     }
 }

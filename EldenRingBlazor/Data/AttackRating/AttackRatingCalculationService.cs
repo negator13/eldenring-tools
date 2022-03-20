@@ -7,8 +7,8 @@ namespace EldenRingBlazor.Data.AttackRating
 {
     public class AttackRatingCalculationService
     {
-        // TODO: Split WeaponId and AffinityId
         public IEnumerable<Weapon> Weapons { get; }
+        private IEnumerable<Weapon> _allWeapons;
         private IEnumerable<WeaponUpgrade> _weaponUpgrades;
         private IEnumerable<AttackElement> _attackElements;
 
@@ -27,7 +27,10 @@ namespace EldenRingBlazor.Data.AttackRating
             using var weaponsReader = new StreamReader(weaponCsvPath);
             using var weaponsCsv = new CsvReader(weaponsReader, CultureInfo.InvariantCulture);
             weaponsCsv.Context.RegisterClassMap<WeaponMap>();
-            Weapons = weaponsCsv.GetRecords<Weapon>().ToList();
+
+            _allWeapons = weaponsCsv.GetRecords<Weapon>().ToList();
+
+            Weapons = _allWeapons.Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber);
 
             using var weaponUpgradesReader = new StreamReader(weaponUpgradeCsvPath);
             using var weaponUpgradesCsv = new CsvReader(weaponUpgradesReader, CultureInfo.InvariantCulture);
@@ -42,9 +45,16 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public AttackRatingCalculation CalculateAttackRating(AttackRatingCalculationInput input)
         {
-            var baseWeapon = GetWeapon(input.WeaponId);
+            var weaponId = input.WeaponId.GetValueOrDefault();
+            var affinityId = input.WeaponAffinity.GetValueOrDefault();
 
-            var weaponUpgrade = GetWeaponUpgrade(baseWeapon, input.WeaponLevel);
+            var affinitizedId = weaponId + affinityId;
+
+            var baseWeapon = GetWeapon(affinitizedId);
+
+            _calcCorrectService.GetCalcCorrectGraphIds(baseWeapon);
+
+            var weaponUpgrade = GetWeaponUpgrade(baseWeapon, input.WeaponLevel.GetValueOrDefault());
 
             var modifiedWeapon = ApplyWeaponUpgradeModifiers(baseWeapon, weaponUpgrade);
 
@@ -56,11 +66,9 @@ namespace EldenRingBlazor.Data.AttackRating
         }
 
         // Raw_Data lookup
-        private Weapon GetWeapon(int id)
+        public Weapon GetWeapon(int id)
         {
-            var weapon = Weapons.SingleOrDefault(w => w.Id == id);
-
-            _calcCorrectService.GetCalcCorrectGraphIds(weapon);
+            var weapon = _allWeapons.SingleOrDefault(w => w.Id == id);
 
             return weapon;
         }
