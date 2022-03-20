@@ -30,7 +30,9 @@ namespace EldenRingBlazor.Data.AttackRating
 
             _allWeapons = weaponsCsv.GetRecords<Weapon>().ToList();
 
-            Weapons = _allWeapons.Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber);
+            Weapons = _allWeapons
+                .Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber)
+                .OrderBy(w => w.Name);
 
             using var weaponUpgradesReader = new StreamReader(weaponUpgradeCsvPath);
             using var weaponUpgradesCsv = new CsvReader(weaponUpgradesReader, CultureInfo.InvariantCulture);
@@ -173,7 +175,9 @@ namespace EldenRingBlazor.Data.AttackRating
 
             var calcCorrectGraph = GetCalcCorrectGraph(calcCorrectId);
 
-            var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Strength ?? 1);
+            var effectiveStrength = input.TwoHand ? (int)Math.Floor((input.Strength ?? 1) * 1.5) : input.Strength ?? 1;
+
+            var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, effectiveStrength);
             var dexCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Dexterity ?? 1);
             var intCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Intelligence ?? 1);
             var fthCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Faith ?? 1);
@@ -186,7 +190,7 @@ namespace EldenRingBlazor.Data.AttackRating
             var arcScaling = hasArcScaling ? baseDamage * weapon.ArcScaling * .01 * arcCorrection.Output : 0;
 
             var meetsAllStatReqs = true;
-            if (input.Strength < weapon.StrRequirement && hasStrScaling)
+            if (effectiveStrength < weapon.StrRequirement && hasStrScaling)
             {
                 meetsAllStatReqs = false;
             }

@@ -2,6 +2,8 @@
 {
     public class AttackRatingCalculationInput
     {
+        public bool TwoHand { get; set; }
+
         public int? Strength { get; set; }
 
         public int? Dexterity { get; set; }
