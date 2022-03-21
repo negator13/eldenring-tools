@@ -1,4 +1,4 @@
-﻿@page "/calculatear"
+﻿@page "/calculator"
 
 <PageTitle>Attack Rating Calculator</PageTitle>
 
@@ -65,9 +65,10 @@
         <div class="col-sm-4">
             <BlazoredTypeahead SearchMethod="SearchWeapons"
                                ConvertMethod="ConvertWeapon"
+                               Debounce="1"
                                EnableDropDown="true"
                                MinimumLength="3"
-                               MaximumSuggestions="1000"
+                               MaximumSuggestions="weaponList.Count()"
                                ValueExpression="@(() => input.WeaponId)"
                                Value="@input.WeaponId"
                                ValueChanged="@((int? args) => { input.WeaponId = args; UpdateWeaponById(args); })"
