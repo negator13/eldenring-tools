@@ -62,7 +62,34 @@
         <label for="weapon" class="col-sm-2 col-form-label">
             Weapon
         </label>
-        <div class="col-sm-10">
+        <div class="col-sm-4">
+            <BlazoredTypeahead SearchMethod="SearchWeapons"
+                               ConvertMethod="ConvertWeapon"
+                               EnableDropDown="true"
+                               MinimumLength="3"
+                               MaximumSuggestions="1000"
+                               ValueExpression="@(() => input.WeaponId)"
+                               Value="@input.WeaponId"
+                               ValueChanged="@((int? args) => { input.WeaponId = args; UpdateWeaponById(args); })"
+                               class="form-control"
+                               placeholder="Search by weapon name...">
+                <SelectedTemplate Context="weaponId">
+                    @{
+                        var selectedWeapon = LoadSelectedWeapon(weaponId);
+                        <text>@selectedWeapon?.Name</text>
+                    }
+                </SelectedTemplate>
+                <ResultTemplate Context="weapon">
+                    @weapon.Name
+                </ResultTemplate>
+            </BlazoredTypeahead>
+        </div>
+    </div>
+    @*<div class="form-group row">
+        <label for="weapon" class="col-sm-2 col-form-label">
+            Weapon
+        </label>
+        <div class="col-sm-4">
             <InputSelect ValueExpression="@(() => input.WeaponId)"
                          Value="@input.WeaponId"
                          ValueChanged="@((int? args) => { input.WeaponId = args; UpdateWeaponById(args); })" class="form-control">
@@ -72,14 +99,14 @@
                 }
             </InputSelect>
         </div>
-    </div>
+    </div>*@
     @if (affinityList != null && affinityList.Any())
     {
         <div class="form-group row">
             <label for="weapon" class="col-sm-2 col-form-label">
                 Affinity
             </label>
-            <div class="col-sm-10">
+            <div class="col-sm-4">
                 <InputSelect ValueExpression="@(() => input.WeaponAffinity)"
                          Value="@input.WeaponAffinity"
                          ValueChanged="@((int? args) => { input.WeaponAffinity = args; UpdateWeaponAffinity(args); })" class="form-control">
@@ -97,7 +124,7 @@
             <label for="weapon" class="col-sm-2 col-form-label">
                 Upgrade Level
             </label>
-            <div class="col-sm-10">
+            <div class="col-sm-4">
                 <InputSelect ValueExpression="@(() => input.WeaponLevel)"
                          Value="@input.WeaponLevel"
                          ValueChanged="@((int? args) => { input.WeaponLevel = args; UpdateWeaponLevel(args); })" class="form-control">
@@ -213,6 +240,21 @@ else
     private IEnumerable<WeaponAffinity> affinityList;
 
     private IQueryable<int> upgradeList;
+
+    private async Task<IEnumerable<Weapon>> SearchWeapons(string searchText)
+    {
+        return await Task.FromResult(weaponList.Where(x => x.Name.ToLower().Contains(searchText.ToLower())).ToList());
+    }
+
+    private int? ConvertWeapon(Weapon weapon) 
+    {
+        return weapon?.Id;
+    }
+
+    private Weapon LoadSelectedWeapon(int? id)
+    { 
+        return weaponList.FirstOrDefault(w => w.Id == id); 
+    }
 
     private void UpdateWeaponById(int? id)
     {
