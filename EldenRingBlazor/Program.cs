@@ -1,14 +1,15 @@
-using EldenRingBlazor.Data;
 using EldenRingBlazor.Data.AttackRating;
 using EldenRingBlazor.Data.CalcCorrect;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddMudServices();
+
 builder.Services.AddSingleton<AttackRatingCalculationService>();
 builder.Services.AddSingleton<CalcCorrectService>();
 

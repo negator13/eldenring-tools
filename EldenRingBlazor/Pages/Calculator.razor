@@ -1,0 +1,97 @@
+﻿@page "/calculator2"
+
+<MudContainer Class="mt-16" MaxWidth="MaxWidth.Medium">
+    <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">AR Calculator</MudText>
+    <MudGrid Spacing="6" Class="mt-16">
+        <MudItem xs="7">
+            <MudText Typo="Typo.h5" GutterBottom="true">Character</MudText>
+            <MudGrid>
+                <MudItem xs="4">
+                    <MudNumericField T="int" Label="STR" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudNumericField T="int" Label="DEX" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudNumericField T="int" Label="INT" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudNumericField T="int" Label="FTH" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudNumericField T="int" Label="ARC" />
+                </MudItem>
+            @*    <MudItem xs="12">
+                    <MudTextField T="string" Label="Address" />
+                </MudItem>*@
+                @*<MudItem xs="12" Class="d-flex justify-center">
+                    <MudButton Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary" Size="Size.Large" Class="mt-8">Continue to Payment</MudButton>
+                </MudItem>*@
+            </MudGrid>
+        </MudItem>
+
+        <MudItem xs="7">
+            <MudText Typo="Typo.h5" GutterBottom="true">Weapon</MudText>
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField T="string" Label="Weapon" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="string" Label="Upgrade" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="string" Label="Affinity" />
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+
+        <MudItem xs="5">
+            <MudText Typo="Typo.h5" GutterBottom="true">Bloodhound's Fang +10</MudText>
+            <MudPaper Class="d-flex flex-column" Style="height:100%;" Outlined="true">
+                <MudList Clickable="true">
+                    <MudListItem Icon="@Icons.Material.Filled.ContentCut">
+                        <div class="d-flex">
+                            <MudText>Physical</MudText>
+                            <MudText Inline="true" Class="ml-auto">400</MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem Icon="@Icons.Material.Filled.AirplanemodeActive">
+                        <div class="d-flex">
+                            <MudText>Magic</MudText>
+                            <MudText Class="ml-auto">$20</MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem Icon="@Icons.Material.Filled.Create">
+                        <div class="d-flex">
+                            <MudText>Fire</MudText>
+                            <MudText Class="ml-auto">$12</MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem Icon="@Icons.Material.Filled.ColorLens">
+                        <div class="d-flex">
+                            <MudText>Lightning</MudText>
+                            <MudText Class="ml-auto">$16</MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem Icon="@Icons.Material.Filled.ColorLens">
+                        <div class="d-flex">
+                            <MudText>Holy</MudText>
+                            <MudText Class="ml-auto">$16</MudText>
+                        </div>
+                    </MudListItem>
+                </MudList>
+                <div class="mt-auto">
+                    <MudDivider />
+                    <div class="d-flex pa-4">
+                        <MudText>Total AR</MudText>
+                        <MudText Class="ml-auto"><b>400</b></MudText>
+                    </div>
+                </div>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+}

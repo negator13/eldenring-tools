@@ -1,29 +1,39 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>EldenRingBlazor</PageTitle>
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-<div class="page">
-    <div class="sidebar">
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudText Typo="Typo.h5" Class="ml-3">Elden Ring Web Tools</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu />
-    </div>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
 
-    <main>
-        <div class="top-row px-4">
-            <a href="/roadmap" target="_blank">Roadmap</a>
-        </div>
+            <footer>
+                <p>
+                    &copy; Copyright @DateTime.Now.Year negator13, All Rights Reserved. App Version: <strong>0.1.1.</strong> Patch Version: <strong>1.0.3</strong>
+                    <br />
+                    Please contact <a href="https://www.reddit.com/user/negator13"><strong>u/negator13</strong></a> with questions, suggestions, or bug reports.
+                    <br />
+                    Thanks to Phil on reddit for providing data and assistance. Check out his <a href=https://www.reddit.com/r/Eldenring/comments/tbco46/elden_ring_weapon_calculator>Elden Ring Weapon Calculator</a>!
+                </p>
+            </footer>
+    </MudMainContent>
+</MudLayout>
 
-        <article class="content px-4">
-            @Body
-        </article>
+@code {
+    bool _drawerOpen = true;
 
-        <footer>
-            <p>
-                &copy; Copyright @DateTime.Now.Year negator13, All Rights Reserved. App Version: <strong>0.1.1.</strong> Patch Version: <strong>1.0.3</strong>
-                <br />
-                Please contact <a href="https://www.reddit.com/user/negator13"><strong>u/negator13</strong></a> with questions, suggestions, or bug reports.
-                 <br />
-                Thanks to Phil on reddit for providing data and assistance. Check out his <a href=https://www.reddit.com/r/Eldenring/comments/tbco46/elden_ring_weapon_calculator>Elden Ring Weapon Calculator</a>!
-            </p>
-        </footer>
-    </main>
-</div>
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
