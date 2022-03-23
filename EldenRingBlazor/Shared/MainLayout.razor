@@ -13,7 +13,7 @@
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
         <MudDrawerHeader>
-            <img src="/eldenring-logo.png" height="63" width="190">
+            <MudImage Src="/eldenring-logo.png" Height="63" Width="190" />
         </MudDrawerHeader>
         <NavMenu />
     </MudDrawer>
@@ -23,11 +23,11 @@
 
             <footer>
                 <p>
-                    &copy; Copyright @DateTime.Now.Year negator13, All Rights Reserved. App Version: <strong>0.3.0.</strong> Patch Version: <strong>1.0.3</strong>
+                    &copy; Copyright @DateTime.Now.Year negator13, All Rights Reserved. App Version: <strong>0.3.1.</strong> Patch Version: <strong>1.0.3</strong>
                     <br />
-                    Please contact <a href="https://www.reddit.com/user/negator13"><strong>u/negator13</strong></a> with questions, suggestions, or bug reports.
+                    Please contact <MudLink Href="https://www.reddit.com/user/negator13">u/negator13</MudLink> with questions, suggestions, or bug reports.
                     <br />
-                    Thanks to Phil on reddit for providing data and assistance. Check out his <a href=https://www.reddit.com/r/Eldenring/comments/tbco46/elden_ring_weapon_calculator>Elden Ring Weapon Calculator</a>!
+                    Thanks to Phil on reddit for providing data and assistance. Check out his <MudLink Href=https://www.reddit.com/r/Eldenring/comments/tbco46/elden_ring_weapon_calculator>Elden Ring Weapon Calculator</MudLink>!
                 </p>
             </footer>
         </MudContainer>
@@ -35,7 +35,7 @@
 </MudLayout>
 
 @code {
-    private bool _isDarkMode;
+    private bool _isDarkMode = true;
     private MudThemeProvider _mudThemeProvider;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
