@@ -39,6 +39,7 @@
 
                     <MudItem xs="12">
                         <MudSelect Label="Weapon Category" T="string" Variant="Variant.Text"
+                                   Disabled="true"
                                    Value="weaponCategory"
                                    ValueChanged="@UpdateWeaponCategory">
                             @foreach (var category in weaponCategoryList)
@@ -153,7 +154,7 @@
                         <div class="d-flex">
                             <MudText>Sorcery/Incantation Scaling</MudText>
                             <MudText Class="ml-auto">
-                                @attackRatingCalculation.SorceryIncantation.Total
+                                @(attackRatingCalculation.SorceryIncantation.Total > 100 ? attackRatingCalculation.SorceryIncantation.Total : "")
                             </MudText>
                         </div>
                     </MudListItem>
@@ -219,6 +220,7 @@
     private void UpdateWeaponCategory(string category)
     {
         filteredWeaponList = category == "All" ? weaponList : weaponList
+            // TODO
             //.Where()
             ;
     }
@@ -356,7 +358,8 @@
         filteredWeaponList = weaponList;
 
         // TODO: Get distinct categories from weaponList
-        weaponCategoryList = new List<string>() { "All", "Straight Sword", "Axe", "Greatsword", "Staff" };
+        weaponCategoryList = new List<string>() { "All" };
+        //weaponCategoryList = new List<string>() { "All", "Straight Sword", "Axe", "Greatsword", "Staff" };
 
         var weapon = weaponList.Single(w => w.Id == 10080000);
 
