@@ -47,8 +47,8 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public AttackRatingCalculation CalculateAttackRating(AttackRatingCalculationInput input)
         {
-            var weaponId = input.WeaponId.GetValueOrDefault();
-            var affinityId = input.WeaponAffinity.GetValueOrDefault();
+            var weaponId = input.WeaponId;
+            var affinityId = input.WeaponAffinity;
 
             var affinitizedId = weaponId + affinityId;
 
@@ -56,7 +56,7 @@ namespace EldenRingBlazor.Data.AttackRating
 
             _calcCorrectService.GetCalcCorrectGraphIds(baseWeapon);
 
-            var weaponUpgrade = GetWeaponUpgrade(baseWeapon, input.WeaponLevel.GetValueOrDefault());
+            var weaponUpgrade = GetWeaponUpgrade(baseWeapon, input.WeaponLevel);
 
             var modifiedWeapon = ApplyWeaponUpgradeModifiers(baseWeapon, weaponUpgrade);
 
@@ -175,13 +175,13 @@ namespace EldenRingBlazor.Data.AttackRating
 
             var calcCorrectGraph = GetCalcCorrectGraph(calcCorrectId);
 
-            var effectiveStrength = input.TwoHand ? (int)Math.Floor((input.Strength ?? 1) * 1.5) : input.Strength ?? 1;
+            var effectiveStrength = input.TwoHand ? (int)Math.Floor((input.Strength) * 1.5) : input.Strength;
 
             var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, effectiveStrength);
-            var dexCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Dexterity ?? 1);
-            var intCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Intelligence ?? 1);
-            var fthCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Faith ?? 1);
-            var arcCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Arcane ?? 1);
+            var dexCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Dexterity);
+            var intCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Intelligence);
+            var fthCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Faith);
+            var arcCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Arcane);
 
             var strScaling = hasStrScaling ? baseDamage * weapon.StrScaling * .01 * strCorrection.Output : 0;
             var dexScaling = hasDexScaling ? baseDamage * weapon.DexScaling * .01 * dexCorrection.Output : 0;
