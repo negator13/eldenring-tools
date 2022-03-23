@@ -13,7 +13,8 @@
             AttackRatingComponent magic,
             AttackRatingComponent fire,
             AttackRatingComponent lightning,
-            AttackRatingComponent holy)
+            AttackRatingComponent holy,
+            AttackRatingComponent sorceryIncantation)
         {
             Name = weapon.Name;
 
@@ -28,6 +29,7 @@
             Fire = fire ?? new AttackRatingComponent(DamageType.Fire);
             Lightning = lightning ?? new AttackRatingComponent(DamageType.Lightning);
             Holy = holy ?? new AttackRatingComponent(DamageType.Holy);
+            SorceryIncantation = sorceryIncantation ?? new AttackRatingComponent(DamageType.SorceryIncantation);
         }
 
         public string Name { get; set; }
@@ -37,7 +39,7 @@
         public double StrScaling { get; set; }
 
         public double DexScaling { get; set; }
-        
+
         public double IntScaling { get; set; }
 
         public double FthScaling { get; set; }
@@ -95,6 +97,8 @@
         public AttackRatingComponent Lightning { get; set; }
 
         public AttackRatingComponent Holy { get; set; }
+
+        public AttackRatingComponent SorceryIncantation { get; set; }
     }
 
     public class AttackRatingComponent

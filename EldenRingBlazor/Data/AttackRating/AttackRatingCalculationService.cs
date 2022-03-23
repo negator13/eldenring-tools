@@ -31,7 +31,7 @@ namespace EldenRingBlazor.Data.AttackRating
             _allWeapons = weaponsCsv.GetRecords<Weapon>().ToList();
 
             BaseWeapons = _allWeapons
-                .Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber)
+                .Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber || w.ReinforceTypeId == Affinities.StaffOrSeal1 || w.ReinforceTypeId == Affinities.StaffOrSeal2)
                 .OrderBy(w => w.Name);
 
             using var weaponUpgradesReader = new StreamReader(weaponUpgradeCsvPath);
@@ -106,7 +106,9 @@ namespace EldenRingBlazor.Data.AttackRating
             var lightning = GetCorrection(DamageType.Lightning, input, weapon, attackElementCorrect);
             var holy = GetCorrection(DamageType.Holy, input, weapon, attackElementCorrect);
 
-            var calculation = new AttackRatingCalculation(weapon, physical, magic, fire, lightning, holy);
+            var sorceryIncantation = GetCorrection(DamageType.SorceryIncantation, input, weapon, attackElementCorrect);
+
+            var calculation = new AttackRatingCalculation(weapon, physical, magic, fire, lightning, holy, sorceryIncantation);
 
             return calculation;
         }
@@ -169,6 +171,15 @@ namespace EldenRingBlazor.Data.AttackRating
                     hasFthScaling= attackElementCorrect.HolyFth;
                     hasArcScaling= attackElementCorrect.HolyArc;
                     break;
+                case DamageType.SorceryIncantation:
+                    calcCorrectId = weapon.MagicCorrectId;
+                    baseDamage = 100;
+                    hasStrScaling = attackElementCorrect.MagicStr;
+                    hasDexScaling = attackElementCorrect.MagicDex;
+                    hasIntScaling = attackElementCorrect.MagicInt;
+                    hasFthScaling = attackElementCorrect.MagicFth;
+                    hasArcScaling = attackElementCorrect.MagicArc;
+                    break;
                 default:
                     throw new ArgumentException($"Unknown DamageType {damageType}");
             }
@@ -228,7 +239,7 @@ namespace EldenRingBlazor.Data.AttackRating
                 DexScaling = dexScaling,
                 IntScaling = intScaling,
                 FthScaling = fthScaling,
-                ArcScaling = arcScaling,
+                ArcScaling = arcScaling
             };
 
             return finalComponent;

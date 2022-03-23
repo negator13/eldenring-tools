@@ -38,7 +38,7 @@
                 <MudGrid>
 
                     <MudItem xs="12">
-                        <MudSelect Label="Upgrade Level" T="string" Variant="Variant.Text"
+                        <MudSelect Label="Weapon Category" T="string" Variant="Variant.Text"
                                    Value="weaponCategory"
                                    ValueChanged="@UpdateWeaponCategory">
                             @foreach (var category in weaponCategoryList)
@@ -49,13 +49,13 @@
                     </MudItem>
 
                     <MudItem xs="12">
-                        <MudAutocomplete @ref="ac"
+                        <MudAutocomplete @ref="autocomplete"
                                          T="string"
                                          Label="Weapon"
                                          ResetValueOnEmptyText="true"
                                          Value="@input.WeaponName"
                                          ValueChanged="UpdateWeapon"
-                                         SearchFunc="@Search"
+                                         SearchFunc="SearchWeapons"
                                          MaxItems="@weaponList.Count()" />
                     </MudItem>
 
@@ -149,6 +149,14 @@
                             </MudText>
                         </div>
                     </MudListItem>
+                    <MudListItem>
+                        <div class="d-flex">
+                            <MudText>Sorcery/Incantation Scaling</MudText>
+                            <MudText Class="ml-auto">
+                                @attackRatingCalculation.SorceryIncantation.Total
+                            </MudText>
+                        </div>
+                    </MudListItem>
                 </MudList>
 
                 <MudTable Items=@scalingRequirements>
@@ -184,8 +192,8 @@
 
     private IEnumerable<Weapon> weaponList = new List<Weapon>();
 
-    private IEnumerable<string> weaponCategoryList = new List<string>();
     private string weaponCategory = "All";
+    private IEnumerable<string> weaponCategoryList = new List<string>();
     private IEnumerable<Weapon> filteredWeaponList = new List<Weapon>();
 
     private IEnumerable<WeaponAffinity> affinityList = new List<WeaponAffinity>();
@@ -193,9 +201,9 @@
 
     private IEnumerable<ScalingRequirementsInfo> scalingRequirements = new List<ScalingRequirementsInfo>();
 
-    private MudAutocomplete<string> ac;
+    private MudAutocomplete<string> autocomplete;
 
-    private async Task<IEnumerable<string>> Search(string value)
+    private async Task<IEnumerable<string>> SearchWeapons(string value)
     {
         if (value == input.WeaponName)
         {
@@ -304,11 +312,11 @@
         info.Add(new ScalingRequirementsInfo
             {
                 Label = "Requirements",
-                Strength = input.Weapon.StrRequirement.ToString(),
-                Dexterity = input.Weapon.DexRequirement.ToString(),
-                Intelligence = input.Weapon.IntRequirement.ToString(),
-                Faith = input.Weapon.FthRequirement.ToString(),
-                Arcane = input.Weapon.ArcRequirement.ToString(),
+                Strength = $"{input.Weapon.StrRequirement}",
+                Dexterity = $"{input.Weapon.DexRequirement}",
+                Intelligence = $"{input.Weapon.IntRequirement}",
+                Faith = $"{input.Weapon.FthRequirement}",
+                Arcane = $"{input.Weapon.ArcRequirement}",
             });
         info.Add(new ScalingRequirementsInfo
             {
@@ -322,9 +330,9 @@
         scalingRequirements = info;
     }
 
-    private string StyleStatRequirement(int? stat, int? req)
+    private string StyleStatRequirement(int stat, int req)
     {
-        if (stat.GetValueOrDefault() >= req.GetValueOrDefault())
+        if (stat >= req)
         {
             return "";
         }
