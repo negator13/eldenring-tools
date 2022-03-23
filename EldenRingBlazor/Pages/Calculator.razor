@@ -57,7 +57,10 @@
                                          Value="@input.WeaponName"
                                          ValueChanged="UpdateWeapon"
                                          SearchFunc="SearchWeapons"
-                                         MaxItems="@weaponList.Count()" />
+                                         SelectValueOnTab="true"
+                                         SelectOnClick="true"
+                                         DebounceInterval="100"
+                                         MaxItems="1000" />
                     </MudItem>
 
                     <MudItem xs="12">
@@ -195,7 +198,8 @@
 
     private string weaponCategory = "All";
     private IEnumerable<string> weaponCategoryList = new List<string>();
-    private IEnumerable<Weapon> filteredWeaponList = new List<Weapon>();
+
+    private IEnumerable<string> filteredWeaponNames = new List<string>();
 
     private IEnumerable<WeaponAffinity> affinityList = new List<WeaponAffinity>();
     private IEnumerable<int> upgradeList = new List<int>();
@@ -206,20 +210,18 @@
 
     private async Task<IEnumerable<string>> SearchWeapons(string value)
     {
-        if (value == input.WeaponName)
+        if (string.IsNullOrWhiteSpace(value) || value == input.WeaponName)
         {
-            // The current weapon is already selected, show all
-            return filteredWeaponList.Select(w => w.Name);
+            return filteredWeaponNames;
         }
 
-        return filteredWeaponList
-            .Where(w => w.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase))
-            .Select(w => w.Name);
+        return filteredWeaponNames
+            .Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase));
     }
 
     private void UpdateWeaponCategory(string category)
     {
-        filteredWeaponList = category == "All" ? weaponList : weaponList
+        filteredWeaponNames = category == "All" ? weaponList.Select(w => w.Name) : weaponList.Select(w => w.Name)
             // TODO
             //.Where()
             ;
@@ -355,7 +357,7 @@
 
         weaponList = CalculationService.BaseWeapons;
 
-        filteredWeaponList = weaponList;
+        filteredWeaponNames = weaponList.Select(w => w.Name);
 
         // TODO: Get distinct categories from weaponList
         weaponCategoryList = new List<string>() { "All" };
