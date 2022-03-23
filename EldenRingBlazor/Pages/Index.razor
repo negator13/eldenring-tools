@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using EldenRingBlazor.Data
 
 <PageTitle>Elden Ring Web Tools - Home</PageTitle>
 
@@ -8,7 +9,7 @@
     <MudText Typo="Typo.h3">Welcome to Elden Ring Web Tools!</MudText>
 
     <MudText Typo="Typo.body1">
-        This is the "alpha" release of the site App Version <strong>0.3.1</strong>, featuring a working <MudLink Href="/calculator">AR Calculator</MudLink> as of Patch <strong>1.0.3</strong>.
+        This is the "alpha" release of the site App Version <strong>@VersionInfo.AppVersion.Latest</strong>, featuring a working <MudLink Href="/calculator">AR Calculator</MudLink> as of Patch <strong>@VersionInfo.PatchVersion.Latest</strong>.
         More features coming soon.
     </MudText>
 </MudPaper>

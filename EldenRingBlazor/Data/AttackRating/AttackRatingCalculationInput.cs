@@ -18,9 +18,7 @@
 
         public string WeaponName { get; set; }
 
-        public int WeaponId { get; set; }
-
-        public int WeaponAffinity { get; set; }
+        public int AffinityId { get; set; }
 
         public int WeaponLevel { get; set; }
     }

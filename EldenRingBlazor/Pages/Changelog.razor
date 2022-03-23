@@ -1,4 +1,5 @@
 ﻿@page "/Changelog"
+@using EldenRingBlazor.Data
 
 <PageTitle>Changelog</PageTitle>
 
@@ -16,8 +17,8 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>1.03</strong></td>
-                    <td><strong>0.3.0</strong></td>
+                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                    <td><strong>@VersionInfo.AppVersion.v0_3_0</strong></td>
                     <td>
                         <ul>
                             <li>Big styling overhaul, implemented Dark mode</li>
@@ -26,8 +27,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><strong>1.03</strong></td>
-                    <td><strong>0.2.0</strong></td>
+                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                    <td><strong>@VersionInfo.AppVersion.v0_2_0</strong></td>
                     <td>
                         <ul>
                             <li>Condensed input forms on AR Calculator for ease of use</li>
@@ -35,8 +36,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><strong>1.03</strong></td>
-                    <td><strong>0.1.1</strong></td>
+                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                    <td><strong>@VersionInfo.AppVersion.v0_1_1</strong></td>
                     <td>
                         <ul>
                             <li>Implemented typeahead text search for Weapon on Calculator page</li>
@@ -46,8 +47,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><strong>1.03</strong></td>
-                    <td><strong>0.1.0</strong></td>
+                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                    <td><strong>@VersionInfo.AppVersion.Initial</strong></td>
                     <td>Initial Release</td>
                 </tr>
             </tbody>
