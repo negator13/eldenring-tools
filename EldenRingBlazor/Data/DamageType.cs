@@ -6,6 +6,7 @@
         Magic,
         Fire,
         Lightning,
-        Holy
+        Holy,
+        SorceryIncantation
     }
 }

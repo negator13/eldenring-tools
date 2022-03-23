@@ -30,6 +30,10 @@
 
         public static readonly int Somber = 2200;
 
+        public static readonly int StaffOrSeal1 = 1900;
+
+        public static readonly int StaffOrSeal2 = 2400;
+
         public static List<WeaponAffinity> StandardAffinities = new List<WeaponAffinity>
     {
         new WeaponAffinity
@@ -91,6 +95,18 @@
          new WeaponAffinity
         {
             Id = Somber, Name = "--"
+        },
+    };
+
+        public static List<WeaponAffinity> StaffOrSealAffinities = new List<WeaponAffinity>
+    {
+         new WeaponAffinity
+        {
+            Id = StaffOrSeal1, Name = "--"
+        },
+          new WeaponAffinity
+        {
+            Id = StaffOrSeal2, Name = "--"
         },
     };
     }
