@@ -208,19 +208,6 @@
             .Select(w => w.Name);
     }
 
-    private bool TwoHand
-    {
-        get
-        {
-            return input.TwoHand;
-        }
-        set
-        {
-            input.TwoHand = value;
-            HandleValidSubmit();
-        }
-    }
-
     private void UpdateWeaponCategory(string category)
     {
         filteredWeaponList = category == "All" ? weaponList : weaponList
@@ -255,10 +242,17 @@
         HandleValidSubmit();
     }
 
-    private void UpdateTwoHand(bool twoHand)
+    private bool TwoHand
     {
-        input.TwoHand = twoHand;
-        HandleValidSubmit();
+        get
+        {
+            return input.TwoHand;
+        }
+        set
+        {
+            input.TwoHand = value;
+            HandleValidSubmit();
+        }
     }
 
     private void UpdateStrength(int str)
