@@ -1,29 +1,56 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>EldenRingBlazor</PageTitle>
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool" Label="Dark Mode" />
 
-<div class="page">
-    <div class="sidebar">
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
+        <MudDrawerHeader>
+            <img src="/eldenring-logo.png" height="63" width="190">
+        </MudDrawerHeader>
         <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="/roadmap" target="_blank">Roadmap</a>
-        </div>
-
-        <article class="content px-4">
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
             @Body
-        </article>
 
-        <footer>
-            <p>
-                &copy; Copyright @DateTime.Now.Year negator13, All Rights Reserved. App Version: <strong>0.1.1.</strong> Patch Version: <strong>1.0.3</strong>
-                <br />
-                Please contact <a href="https://www.reddit.com/user/negator13"><strong>u/negator13</strong></a> with questions, suggestions, or bug reports.
-                 <br />
-                Thanks to Phil on reddit for providing data and assistance. Check out his <a href=https://www.reddit.com/r/Eldenring/comments/tbco46/elden_ring_weapon_calculator>Elden Ring Weapon Calculator</a>!
-            </p>
-        </footer>
-    </main>
-</div>
+            <footer>
+                <p>
+                    &copy; Copyright @DateTime.Now.Year negator13, All Rights Reserved. App Version: <strong>0.3.0.</strong> Patch Version: <strong>1.0.3</strong>
+                    <br />
+                    Please contact <a href="https://www.reddit.com/user/negator13"><strong>u/negator13</strong></a> with questions, suggestions, or bug reports.
+                    <br />
+                    Thanks to Phil on reddit for providing data and assistance. Check out his <a href=https://www.reddit.com/r/Eldenring/comments/tbco46/elden_ring_weapon_calculator>Elden Ring Weapon Calculator</a>!
+                </p>
+            </footer>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _isDarkMode;
+    private MudThemeProvider _mudThemeProvider;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            StateHasChanged();
+        }
+    }
+
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+    }
