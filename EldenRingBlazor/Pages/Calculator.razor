@@ -43,13 +43,13 @@
                                          Value="@input.WeaponName"
                                          ValueChanged="UpdateWeapon"
                                          SearchFunc="@Search"
-                                         MaxItems="1000" />
+                                         MaxItems="@weaponList.Count()" />
                     </MudItem>
 
                     <MudItem xs="12">
                         <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
                                    Value="@input.WeaponLevel"
-                                   ValueChanged="@((int args) => { input.WeaponLevel = args; UpdateWeaponLevel(args); })">
+                                   ValueChanged="@UpdateWeaponLevel">
                             @foreach (var level in upgradeList)
                             {
                                 <MudSelectItem Value="@level">+ @level</MudSelectItem>
@@ -61,8 +61,8 @@
                     {
                         <MudItem xs="12">
                             <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
-                                   Value="@input.WeaponAffinity"
-                                   ValueChanged="@((int args) => { input.WeaponAffinity = args; UpdateWeaponAffinity(args); })">
+                                   Value="@input.AffinityId"
+                                   ValueChanged="@UpdateWeaponAffinity">
                                 @foreach (var affinity in affinityList)
                                 {
                                     <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
@@ -88,11 +88,11 @@
                             <tbody>
                                 <tr>
                                     <td><strong>Requirements</strong></td>
-                                    <td style="@StyleStatRequirement(@input.Strength, @weapon.StrRequirement)">@weapon.StrRequirement</td>
-                                    <td style="@StyleStatRequirement(@input.Dexterity, @weapon.DexRequirement)">@weapon.DexRequirement</td>
-                                    <td style="@StyleStatRequirement(@input.Intelligence, @weapon.IntRequirement)">@weapon.IntRequirement</td>
-                                    <td style="@StyleStatRequirement(@input.Faith, @weapon.FthRequirement)">@weapon.FthRequirement</td>
-                                    <td style="@StyleStatRequirement(@input.Arcane, @weapon.ArcRequirement)">@weapon.ArcRequirement</td>
+                                    <td style="@StyleStatRequirement(@input.Strength, @input.Weapon.StrRequirement)">@input.Weapon.StrRequirement</td>
+                                    <td style="@StyleStatRequirement(@input.Dexterity, @input.Weapon.DexRequirement)">@input.Weapon.DexRequirement</td>
+                                    <td style="@StyleStatRequirement(@input.Intelligence, @input.Weapon.IntRequirement)">@input.Weapon.IntRequirement</td>
+                                    <td style="@StyleStatRequirement(@input.Faith, @input.Weapon.FthRequirement)">@input.Weapon.FthRequirement</td>
+                                    <td style="@StyleStatRequirement(@input.Arcane, @input.Weapon.ArcRequirement)">@input.Weapon.ArcRequirement</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Scaling</strong></td>
@@ -183,18 +183,18 @@
 
     private AttackRatingCalculation attackRatingCalculation = new AttackRatingCalculation();
     private AttackRatingCalculationInput input = new AttackRatingCalculationInput();
-    private Weapon weapon = new Weapon();
 
     private IEnumerable<Weapon> weaponList;
-    private IEnumerable<WeaponAffinity> affinityList;
-    private IQueryable<int> upgradeList;
+    private IEnumerable<WeaponAffinity> affinityList = new List<WeaponAffinity>();
+    private IEnumerable<int> upgradeList = new List<int>();
 
-    MudAutocomplete<string> ac;
+    private MudAutocomplete<string> ac;
 
     private async Task<IEnumerable<string>> Search(string value)
     {
         if (value == input.WeaponName)
         {
+            // The current weapon is already selected, show all
             return weaponList.Select(w => w.Name);
         }
 
@@ -218,31 +218,20 @@
 
     private void UpdateWeapon(string name)
     {
-        var id = weaponList.FirstOrDefault(w => w.Name == name)?.Id ?? 0;
+        var selectedWeapon = weaponList.FirstOrDefault(w => w.Name == name);
 
-        if (id > 0)
-        {
-            UpdateWeaponById(id);
-        }
-    }
-
-    private void UpdateWeaponById(int id)
-    {
-        if (id == 0)
+        if (selectedWeapon == null)
         {
             return;
         }
 
-        weapon = CalculationService.GetWeapon(id);
+        var weapon = CalculationService.GetWeapon(selectedWeapon.Id);
 
-        input.WeaponId = id;
-
+        input.Weapon = weapon;
         input.WeaponName = weapon.Name;
+        input.AffinityId = 0;
 
-        input.WeaponAffinity = 0;
-
-        affinityList = weapon.NonInfusable ? new List<WeaponAffinity>
-    () : Affinities.StandardAffinities;
+        affinityList = weapon.NonInfusable ? new List<WeaponAffinity>() : Affinities.StandardAffinities;
 
         upgradeList = Enumerable.Range(0, weapon.MaxUpgrade + 1).AsQueryable();
 
@@ -290,13 +279,15 @@
         HandleValidSubmit();
     }
 
-    private void UpdateWeaponAffinity(int? affinity)
+    private void UpdateWeaponAffinity(int id)
     {
+        input.AffinityId = id;
         HandleValidSubmit();
     }
 
-    private void UpdateWeaponLevel(int? level)
+    private void UpdateWeaponLevel(int level)
     {
+        input.WeaponLevel = level;
         HandleValidSubmit();
     }
 
@@ -323,7 +314,9 @@
     {
         EditContext = new EditContext(input);
 
-        weaponList = CalculationService.Weapons;
+        weaponList = CalculationService.BaseWeapons;
+
+        var weapon = weaponList.Single(w => w.Id == 10080000);
 
         input = new AttackRatingCalculationInput
             {
@@ -332,16 +325,11 @@
                 Intelligence = 9,
                 Faith = 9,
                 Arcane = 7,
-                WeaponId = 10080000,
+                Weapon = weapon,
                 WeaponLevel = 25,
-                Weapon = weaponList.Single(w => w.Id == 10080000)
             };
 
-        input.WeaponName = input.Weapon.Name;
-
-        UpdateWeaponById(input.WeaponId);
-
-        attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+        UpdateWeapon(weapon.Name);
 
         base.OnInitialized();
     }

@@ -53,18 +53,5 @@
         public int ArcRequirement { get; set; }
 
         public bool NonInfusable { get; set; }
-
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        public override bool Equals(object o)
-        {
-            var other = o as Weapon;
-            return other?.Name==Name;
-        }
-
-        public override int GetHashCode() => Name?.GetHashCode() ?? 0;
     }
 }

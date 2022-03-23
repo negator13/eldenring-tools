@@ -7,12 +7,13 @@ namespace EldenRingBlazor.Data.AttackRating
 {
     public class AttackRatingCalculationService
     {
-        public IEnumerable<Weapon> Weapons { get; }
         private IEnumerable<Weapon> _allWeapons;
         private IEnumerable<WeaponUpgrade> _weaponUpgrades;
         private IEnumerable<AttackElement> _attackElements;
 
         private CalcCorrectService _calcCorrectService;
+
+        public IEnumerable<Weapon> BaseWeapons { get; }
 
         public AttackRatingCalculationService(IWebHostEnvironment hostingEnvironment, CalcCorrectService calcCorrectService)
         {
@@ -20,17 +21,16 @@ namespace EldenRingBlazor.Data.AttackRating
 
             string contentPath = hostingEnvironment.WebRootPath;
 
-            string weaponCsvPath = Path.Combine(contentPath, "1.03", "Raw_Data.csv");
-            string weaponUpgradeCsvPath = Path.Combine(contentPath, "1.03", "ReinforceParamWeapon.csv");
-            string attackElementCorrectCsvPath = Path.Combine(contentPath, "1.03", "AttackElementCorrectParam.csv");
+            string weaponCsvPath = Path.Combine(contentPath, VersionInfo.PatchVersion.Latest, "Raw_Data.csv");
+            string weaponUpgradeCsvPath = Path.Combine(contentPath, VersionInfo.PatchVersion.Latest, "ReinforceParamWeapon.csv");
+            string attackElementCorrectCsvPath = Path.Combine(contentPath, VersionInfo.PatchVersion.Latest, "AttackElementCorrectParam.csv");
 
             using var weaponsReader = new StreamReader(weaponCsvPath);
             using var weaponsCsv = new CsvReader(weaponsReader, CultureInfo.InvariantCulture);
             weaponsCsv.Context.RegisterClassMap<WeaponMap>();
-
             _allWeapons = weaponsCsv.GetRecords<Weapon>().ToList();
 
-            Weapons = _allWeapons
+            BaseWeapons = _allWeapons
                 .Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber)
                 .OrderBy(w => w.Name);
 
@@ -47,8 +47,8 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public AttackRatingCalculation CalculateAttackRating(AttackRatingCalculationInput input)
         {
-            var weaponId = input.WeaponId;
-            var affinityId = input.WeaponAffinity;
+            var weaponId = input.Weapon.Id;
+            var affinityId = input.AffinityId;
 
             var affinitizedId = weaponId + affinityId;
 
