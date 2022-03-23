@@ -5,10 +5,9 @@
 @using EldenRingBlazor.Data.AttackRating
 @inject AttackRatingCalculationService CalculationService
 
-<MudContainer Class="mt-16" MaxWidth="MaxWidth.Medium">
-    <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true">AR Calculator</MudText>
-    <MudGrid Spacing="6" Class="mt-16">
-
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudText Typo="Typo.h4" GutterBottom="true">AR Calculator</MudText>
+    <MudGrid Spacing="6">
         <MudItem xs="6">
             <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
@@ -34,7 +33,6 @@
                     </MudItem>
                 </MudGrid>
 
-                <MudText Typo="Typo.h5" GutterBottom="true">Weapon</MudText>
                 <MudGrid>
 
                     <MudItem xs="12">
@@ -83,7 +81,7 @@
                                     <th>STR</th>
                                     <th>DEX</th>
                                     <th>INT</th>
-                                    <th>FTH</th>
+                                    <th>FAI</th>
                                     <th>ARC</th>
                                 </tr>
                             </thead>
@@ -98,11 +96,11 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Scaling</strong></td>
-                                    <td>@attackRatingCalculation.StrScaling / <strong>@attackRatingCalculation.StrScalingGrade</strong></td>
-                                    <td>@attackRatingCalculation.DexScaling / <strong>@attackRatingCalculation.DexScalingGrade</strong></td>
-                                    <td>@attackRatingCalculation.IntScaling / <strong>@attackRatingCalculation.IntScalingGrade</strong></td>
-                                    <td>@attackRatingCalculation.FthScaling / <strong>@attackRatingCalculation.FthScalingGrade</strong></td>
-                                    <td>@attackRatingCalculation.ArcScaling / <strong>@attackRatingCalculation.ArcScalingGrade</strong></td>
+                                    <td>@attackRatingCalculation.StrScaling <strong>@attackRatingCalculation.StrScalingGrade</strong></td>
+                                    <td>@attackRatingCalculation.DexScaling <strong>@attackRatingCalculation.DexScalingGrade</strong></td>
+                                    <td>@attackRatingCalculation.IntScaling <strong>@attackRatingCalculation.IntScalingGrade</strong></td>
+                                    <td>@attackRatingCalculation.FthScaling <strong>@attackRatingCalculation.FthScalingGrade</strong></td>
+                                    <td>@attackRatingCalculation.ArcScaling <strong>@attackRatingCalculation.ArcScalingGrade</strong></td>
                                 </tr>
                             </tbody>
                         </MudSimpleTable>
@@ -114,7 +112,7 @@
 
         <MudItem xs="6">
             <MudText Typo="Typo.h5" GutterBottom="true">@attackRatingCalculation.Name</MudText>
-            <MudPaper Class="d-flex flex-column" Style="height:100%;" Outlined="true">
+            <MudPaper Class="d-flex flex-column" Outlined="true">
                 <MudList Clickable="true">
                     <MudListItem>
                         <div class="d-flex">
