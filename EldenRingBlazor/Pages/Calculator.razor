@@ -53,13 +53,11 @@
                         <MudAutocomplete @ref="autocomplete"
                                          T="string"
                                          Label="Weapon"
-                                         ResetValueOnEmptyText="true"
                                          Value="@input.WeaponName"
                                          ValueChanged="UpdateWeapon"
                                          SearchFunc="SearchWeapons"
                                          SelectValueOnTab="true"
                                          SelectOnClick="true"
-                                         DebounceInterval="100"
                                          MaxItems="1000" />
                     </MudItem>
 
@@ -215,8 +213,7 @@
             return filteredWeaponNames;
         }
 
-        return filteredWeaponNames
-            .Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+        return filteredWeaponNames.Where(w => w.StartsWith(value, StringComparison.InvariantCultureIgnoreCase));
     }
 
     private void UpdateWeaponCategory(string category)
