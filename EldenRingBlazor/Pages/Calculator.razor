@@ -50,8 +50,7 @@
                     </MudItem>
 
                     <MudItem xs="12">
-                        <MudAutocomplete @ref="autocomplete"
-                                         T="string"
+                        <MudAutocomplete T="string"
                                          Label="Weapon"
                                          Value="@input.WeaponName"
                                          ValueChanged="UpdateWeapon"
@@ -205,16 +204,14 @@
 
     private IEnumerable<ScalingRequirementsInfo> scalingRequirements = new List<ScalingRequirementsInfo>();
 
-    private MudAutocomplete<string> autocomplete;
-
-    private async Task<IEnumerable<string>> SearchWeapons(string value)
+    private Task<IEnumerable<string>> SearchWeapons(string value)
     {
         if (string.IsNullOrWhiteSpace(value) || value == input.WeaponName)
         {
-            return filteredWeaponNames;
+            return Task.FromResult(filteredWeaponNames);
         }
 
-        return filteredWeaponNames.Where(w => w.StartsWith(value, StringComparison.InvariantCultureIgnoreCase));
+        return Task.FromResult(filteredWeaponNames.Where(w => w.StartsWith(value, StringComparison.InvariantCultureIgnoreCase)));
     }
 
     private void UpdateWeaponCategory(string category)
