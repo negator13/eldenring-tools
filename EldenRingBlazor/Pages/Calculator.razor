@@ -3,7 +3,9 @@
 
 @using EldenRingBlazor.Data
 @using EldenRingBlazor.Data.AttackRating
+@using EldenRingBlazor.Data.Equipment
 @inject AttackRatingCalculationService CalculationService
+@inject EquipmentService EquipmentService
 
 <PageTitle>AR Calculator</PageTitle>
 
@@ -39,10 +41,9 @@
 
                     <MudItem xs="12">
                         <MudSelect Label="Weapon Category" T="string" Variant="Variant.Text"
-                                   Disabled="true"
                                    Value="weaponCategory"
                                    ValueChanged="@UpdateWeaponCategory">
-                            @foreach (var category in weaponCategoryList)
+                            @foreach (var category in weaponCategoryNames)
                             {
                                 <MudSelectItem Value="@category" />
                             }
@@ -52,6 +53,7 @@
                     <MudItem xs="12">
                         <MudAutocomplete T="string"
                                          Label="Weapon"
+                                         @ref="autocomplete"
                                          Value="@input.WeaponName"
                                          ValueChanged="UpdateWeapon"
                                          SearchFunc="SearchWeapons"
@@ -151,12 +153,39 @@
                             </MudText>
                         </div>
                     </MudListItem>
+                    @if (attackRatingCalculation.SorceryIncantation.Total > 100)
+                    {
+                        <MudListItem>
+                            <div class="d-flex">
+                                <MudText>Sorc/Incant Scaling</MudText>
+                                <MudText Class="ml-auto">
+                                    @(attackRatingCalculation.SorceryIncantation.Total)
+                                </MudText>
+                            </div>
+                        </MudListItem>
+                    }
+                    @if (attackRatingCalculation.Effect1.Value > 0)
+                    {
+                        <MudListItem>
+                            <div class="d-flex">
+                                <MudText>@attackRatingCalculation.Effect1.Type</MudText>
+                                <MudText  Inline="true" Class="ml-auto">@attackRatingCalculation.Effect1.Value</MudText>
+                            </div>
+                        </MudListItem>
+                    }
+                    @if (attackRatingCalculation.Effect2.Value > 0)
+                    {
+                        <MudListItem>
+                            <div class="d-flex">
+                                <MudText>@attackRatingCalculation.Effect2.Type</MudText>
+                                <MudText  Inline="true" Class="ml-auto">@attackRatingCalculation.Effect2.Value</MudText>
+                            </div>
+                        </MudListItem>
+                    }
                     <MudListItem>
                         <div class="d-flex">
-                            <MudText>Sorcery/Incantation Scaling</MudText>
-                            <MudText Class="ml-auto">
-                                @(attackRatingCalculation.SorceryIncantation.Total > 100 ? attackRatingCalculation.SorceryIncantation.Total : "")
-                            </MudText>
+                            <MudText>Stamina Damage</MudText>
+                            <MudText Inline="true" Class="ml-auto">@input.Weapon.StaminaDamage</MudText>
                         </div>
                     </MudListItem>
                 </MudList>
@@ -189,13 +218,16 @@
 @code {
     private EditContext EditContext;
 
+    private MudAutocomplete<string> autocomplete;
+
     private AttackRatingCalculation attackRatingCalculation = new AttackRatingCalculation();
     private AttackRatingCalculationInput input = new AttackRatingCalculationInput();
 
     private IEnumerable<Weapon> weaponList = new List<Weapon>();
 
     private string weaponCategory = "All";
-    private IEnumerable<string> weaponCategoryList = new List<string>();
+    private IEnumerable<WeaponCategory> weaponCategoryList = new List<WeaponCategory>();
+    private List<string> weaponCategoryNames = new List<string>();
 
     private IEnumerable<string> filteredWeaponNames = new List<string>();
 
@@ -216,10 +248,11 @@
 
     private void UpdateWeaponCategory(string category)
     {
-        filteredWeaponNames = category == "All" ? weaponList.Select(w => w.Name) : weaponList.Select(w => w.Name)
-            // TODO
-            //.Where()
-            ;
+        weaponCategory = category;
+
+        var matchingWeapons = category == "All" ? weaponCategoryList : weaponCategoryList.Where(c => c.WeaponType == category);
+
+        filteredWeaponNames = matchingWeapons.Select(c => c.Name).OrderBy(c => c);
     }
 
     private void UpdateWeapon(string name)
@@ -231,7 +264,7 @@
             return;
         }
 
-        var weapon = CalculationService.GetWeapon(selectedWeapon.Id);
+        var weapon = EquipmentService.GetWeapon(selectedWeapon.Id);
 
         input.Weapon = weapon;
         input.WeaponName = weapon.Name;
@@ -350,13 +383,14 @@
     {
         EditContext = new EditContext(input);
 
-        weaponList = CalculationService.BaseWeapons;
+        weaponList = EquipmentService.BaseWeapons;
 
         filteredWeaponNames = weaponList.Select(w => w.Name);
 
-        // TODO: Get distinct categories from weaponList
-        weaponCategoryList = new List<string>() { "All" };
-        //weaponCategoryList = new List<string>() { "All", "Straight Sword", "Axe", "Greatsword", "Staff" };
+        weaponCategoryList = EquipmentService.WeaponCategories;
+
+        weaponCategoryNames = new List<string>() { "All" };
+        weaponCategoryNames.AddRange(EquipmentService.WeaponCategories.Select(c => c.WeaponType).Distinct().OrderBy(c => c));
 
         var weapon = weaponList.Single(w => w.Id == 10080000);
 

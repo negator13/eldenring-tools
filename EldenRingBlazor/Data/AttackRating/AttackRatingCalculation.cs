@@ -1,4 +1,6 @@
-﻿namespace EldenRingBlazor.Data.AttackRating
+﻿using EldenRingBlazor.Data.Equipment;
+
+namespace EldenRingBlazor.Data.AttackRating
 {
     public class AttackRatingCalculation
     {
@@ -99,6 +101,10 @@
         public AttackRatingComponent Holy { get; set; }
 
         public AttackRatingComponent SorceryIncantation { get; set; }
+
+        public PassiveEffect Effect1 { get; set; }
+
+        public PassiveEffect Effect2 { get; set; }
     }
 
     public class AttackRatingComponent

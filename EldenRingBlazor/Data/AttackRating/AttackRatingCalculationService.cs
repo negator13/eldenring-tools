@@ -8,8 +8,6 @@ namespace EldenRingBlazor.Data.AttackRating
         private CalcCorrectService _calcCorrectService;
         private EquipmentService _equipmentService;
 
-        public IEnumerable<Weapon> BaseWeapons { get; }
-
         public AttackRatingCalculationService(CalcCorrectService calcCorrectService,
             EquipmentService equipmentService)
         {
@@ -39,7 +37,6 @@ namespace EldenRingBlazor.Data.AttackRating
             return attackRating;
         }
 
-        
 
         private ModifiedWeapon ApplyWeaponUpgradeModifiers(Weapon weapon, WeaponUpgrade weaponUpgrade)
         {
@@ -57,6 +54,9 @@ namespace EldenRingBlazor.Data.AttackRating
             var sorceryIncantation = GetCorrection(DamageType.SorceryIncantation, input, weapon, attackElementCorrect);
 
             var calculation = new AttackRatingCalculation(weapon, physical, magic, fire, lightning, holy, sorceryIncantation);
+
+            calculation.Effect1 = GetPassiveEffect(input, weapon, weapon.Effect1);
+            calculation.Effect2 = GetPassiveEffect(input, weapon, weapon.Effect2);
 
             return calculation;
         }
@@ -191,6 +191,48 @@ namespace EldenRingBlazor.Data.AttackRating
             };
 
             return finalComponent;
+        }
+
+        private PassiveEffect GetPassiveEffect(AttackRatingCalculationInput input, ModifiedWeapon weapon, int effectId)
+        {
+            var passiveEffect = new PassiveEffect { Type = "None", Value = 0 };
+
+            if (effectId == -1)
+            {
+                return passiveEffect;
+            }
+
+            var effect = _equipmentService.GetPassiveEffect(effectId);
+            double scaling = 1;
+
+            if (effect.Type == "None")
+            {
+                return passiveEffect;
+            }
+
+            if (effect.Type == "Blood" || effect.Type == "Poison")
+            {
+                scaling  = GetPassiveEffectCorrection(input, weapon, effect);
+            }
+
+            var value = effect.Value * scaling;
+
+            return new PassiveEffect { Type = effect.Type, Value = Math.Floor(value) };
+        }
+
+        private double GetPassiveEffectCorrection(AttackRatingCalculationInput input, ModifiedWeapon weapon, PassiveEffect effect)
+        {
+            int calcCorrectId = 6; // Passive Effects (Arcane)
+            var calcCorrectGraph = _calcCorrectService.GetCalcCorrectGraph(calcCorrectId);
+            var arcCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Arcane);
+
+            var baseAmount = effect.Value;
+
+            var effectScaling = baseAmount * arcCorrection.Output;
+
+            var meetsAllStatReqs = input.Arcane >= weapon.ArcRequirement;
+
+            return meetsAllStatReqs ? effectScaling : 0;
         }
     }
 }
