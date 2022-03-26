@@ -202,6 +202,8 @@ namespace EldenRingBlazor.Data.AttackRating
                 return passiveEffect;
             }
 
+            effectId += weapon.WeaponLevel;
+
             var effect = _equipmentService.GetPassiveEffect(effectId);
             double scaling = 1;
 
@@ -215,7 +217,7 @@ namespace EldenRingBlazor.Data.AttackRating
                 scaling  = GetPassiveEffectCorrection(input, weapon, effect);
             }
 
-            var value = effect.Value * scaling;
+            var value = effect.Value + (effect.Value * scaling * .01);
 
             return new PassiveEffect { Type = effect.Type, Value = Math.Floor(value) };
         }

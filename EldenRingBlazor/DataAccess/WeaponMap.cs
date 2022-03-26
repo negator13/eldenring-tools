@@ -39,6 +39,7 @@ namespace EldenRingBlazor.DataAccess
             Map(m => m.Effect2).Name("Effect 2");
             Map(m => m.Effect2Type).Name("Effect 2 Type");
 
+            Map(m => m.StaminaDamage).Name("Stamina Attack");
             Map(m => m.Critical).Name("Attack Power (Critical)");
             Map(m => m.Weight).Name("Weight");
         }
