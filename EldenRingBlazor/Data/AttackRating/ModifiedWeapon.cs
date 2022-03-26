@@ -1,4 +1,6 @@
-﻿namespace EldenRingBlazor.Data.AttackRating
+﻿using EldenRingBlazor.Data.Equipment;
+
+namespace EldenRingBlazor.Data.AttackRating
 {
     public class ModifiedWeapon : WeaponUpgrade
     {

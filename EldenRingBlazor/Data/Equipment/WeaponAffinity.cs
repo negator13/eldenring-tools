@@ -1,4 +1,4 @@
-﻿namespace EldenRingBlazor.Data.AttackRating
+﻿namespace EldenRingBlazor.Data.Equipment
 {
     public class WeaponAffinity
     {

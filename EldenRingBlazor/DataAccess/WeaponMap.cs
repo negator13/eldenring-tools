@@ -1,5 +1,5 @@
 ﻿using CsvHelper.Configuration;
-using EldenRingBlazor.Data.AttackRating;
+using EldenRingBlazor.Data.Equipment;
 
 namespace EldenRingBlazor.DataAccess
 {
@@ -33,6 +33,14 @@ namespace EldenRingBlazor.DataAccess
             Map(m => m.ArcRequirement).Name("Required (Arc)");
 
             Map(m => m.NonInfusable).Name("Non-Infusable");
+
+            Map(m => m.Effect1).Name("Effect 1");
+            Map(m => m.Effect1Type).Name("Effect 1 Type");
+            Map(m => m.Effect2).Name("Effect 2");
+            Map(m => m.Effect2Type).Name("Effect 2 Type");
+
+            Map(m => m.Critical).Name("Attack Power (Critical)");
+            Map(m => m.Weight).Name("Weight");
         }
     }
 }

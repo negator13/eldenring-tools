@@ -1,4 +1,4 @@
-﻿namespace EldenRingBlazor.Data.AttackRating
+﻿namespace EldenRingBlazor.Data.Equipment
 {
     public class Weapon
     {
@@ -53,5 +53,19 @@
         public int ArcRequirement { get; set; }
 
         public bool NonInfusable { get; set; }
+
+        public int StaminaDamage { get; set; }
+
+        public int Effect1 { get; set; }
+
+        public string Effect1Type { get; set; }
+
+        public int Effect2 { get; set; }
+
+        public string Effect2Type { get; set; }
+
+        public int Critical { get; set; }
+
+        public double Weight { get; set; }
     }
 }

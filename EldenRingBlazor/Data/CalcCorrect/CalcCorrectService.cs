@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using EldenRingBlazor.DataAccess;
 using System.Globalization;
+using EldenRingBlazor.Data.Equipment;
 
 namespace EldenRingBlazor.Data.CalcCorrect
 {
@@ -27,7 +28,7 @@ namespace EldenRingBlazor.Data.CalcCorrect
             _calcCorrectGraphIds = calcCorrectIdsCsv.GetRecords<CalcCorrectGraphId>().ToList();
         }
 
-        public void GetCalcCorrectGraphIds(AttackRating.Weapon weapon)
+        public void GetCalcCorrectGraphIds(Weapon weapon)
         {
             var calcCorrectGraphId = _calcCorrectGraphIds.SingleOrDefault(c => c.Id == weapon.Id);
 
