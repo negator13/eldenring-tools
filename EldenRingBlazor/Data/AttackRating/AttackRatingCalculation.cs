@@ -4,11 +4,6 @@ namespace EldenRingBlazor.Data.AttackRating
 {
     public class AttackRatingCalculation
     {
-        public AttackRatingCalculation()
-        {
-
-        }
-
         public AttackRatingCalculation(
             ModifiedWeapon weapon,
             AttackRatingComponent physical,

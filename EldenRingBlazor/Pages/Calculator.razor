@@ -153,7 +153,7 @@
                             </MudText>
                         </div>
                     </MudListItem>
-                    @if (attackRatingCalculation.SorceryIncantation.Total > 100)
+                    @if (attackRatingCalculation.SorceryIncantation?.Total > 100)
                     {
                         <MudListItem>
                             <div class="d-flex">
@@ -164,21 +164,21 @@
                             </div>
                         </MudListItem>
                     }
-                    @if (attackRatingCalculation.Effect1.Value > 0)
+                    @if (attackRatingCalculation.Effect1?.Value > 0)
                     {
                         <MudListItem>
                             <div class="d-flex">
                                 <MudText>@attackRatingCalculation.Effect1.Type</MudText>
-                                <MudText  Inline="true" Class="ml-auto">@attackRatingCalculation.Effect1.Value</MudText>
+                                <MudText Inline="true" Class="ml-auto">@attackRatingCalculation.Effect1.Value</MudText>
                             </div>
                         </MudListItem>
                     }
-                    @if (attackRatingCalculation.Effect2.Value > 0)
+                    @if (attackRatingCalculation.Effect2?.Value > 0)
                     {
                         <MudListItem>
                             <div class="d-flex">
                                 <MudText>@attackRatingCalculation.Effect2.Type</MudText>
-                                <MudText  Inline="true" Class="ml-auto">@attackRatingCalculation.Effect2.Value</MudText>
+                                <MudText Inline="true" Class="ml-auto">@attackRatingCalculation.Effect2.Value</MudText>
                             </div>
                         </MudListItem>
                     }
@@ -220,7 +220,7 @@
 
     private MudAutocomplete<string> autocomplete;
 
-    private AttackRatingCalculation attackRatingCalculation = new AttackRatingCalculation();
+    private AttackRatingCalculation attackRatingCalculation;
     private AttackRatingCalculationInput input = new AttackRatingCalculationInput();
 
     private IEnumerable<Weapon> weaponList = new List<Weapon>();
@@ -257,29 +257,41 @@
 
     private void UpdateWeapon(string name)
     {
-        var selectedWeapon = weaponList.FirstOrDefault(w => w.Name == name);
-
-        if (selectedWeapon == null)
+        try
         {
-            return;
+            var selectedWeapon = weaponList.FirstOrDefault(w => w.Name == name);
+
+            if (selectedWeapon == null)
+            {
+                return;
+            }
+
+            if (selectedWeapon.Name == "Longsword")
+            {
+                throw new Exception();
+            }
+
+            var weapon = EquipmentService.GetWeapon(selectedWeapon.Id);
+
+            input.Weapon = weapon;
+            input.WeaponName = weapon.Name;
+            input.AffinityId = 0;
+
+            affinityList = weapon.IsInfusable ? Affinities.StandardAffinities : new List<WeaponAffinity>();
+
+            upgradeList = Enumerable.Range(0, weapon.MaxUpgrade + 1).AsQueryable();
+
+            if (input.WeaponLevel > weapon.MaxUpgrade)
+            {
+                input.WeaponLevel = weapon.MaxUpgrade;
+            }
+
+            HandleValidSubmit();
         }
-
-        var weapon = EquipmentService.GetWeapon(selectedWeapon.Id);
-
-        input.Weapon = weapon;
-        input.WeaponName = weapon.Name;
-        input.AffinityId = 0;
-
-        affinityList = weapon.IsInfusable ? Affinities.StandardAffinities : new List<WeaponAffinity>();
-
-        upgradeList = Enumerable.Range(0, weapon.MaxUpgrade + 1).AsQueryable();
-
-        if (input.WeaponLevel > weapon.MaxUpgrade)
+        catch
         {
-            input.WeaponLevel = weapon.MaxUpgrade;
-        }
 
-        HandleValidSubmit();
+        }
     }
 
     private bool TwoHand
