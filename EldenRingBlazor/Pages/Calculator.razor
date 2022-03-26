@@ -266,11 +266,6 @@
                 return;
             }
 
-            if (selectedWeapon.Name == "Longsword")
-            {
-                throw new Exception();
-            }
-
             var weapon = EquipmentService.GetWeapon(selectedWeapon.Id);
 
             input.Weapon = weapon;
