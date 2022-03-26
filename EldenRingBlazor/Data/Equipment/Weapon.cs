@@ -52,7 +52,7 @@
 
         public int ArcRequirement { get; set; }
 
-        public bool NonInfusable { get; set; }
+        public string Infusable { get; set; }
 
         public int StaminaDamage { get; set; }
 
@@ -67,5 +67,7 @@
         public int Critical { get; set; }
 
         public double Weight { get; set; }
+
+        public bool IsInfusable => Infusable == "Yes";
     }
 }

@@ -270,7 +270,7 @@
         input.WeaponName = weapon.Name;
         input.AffinityId = 0;
 
-        affinityList = weapon.NonInfusable ? new List<WeaponAffinity>() : Affinities.StandardAffinities;
+        affinityList = weapon.IsInfusable ? Affinities.StandardAffinities : new List<WeaponAffinity>();
 
         upgradeList = Enumerable.Range(0, weapon.MaxUpgrade + 1).AsQueryable();
 

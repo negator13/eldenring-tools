@@ -32,7 +32,7 @@ namespace EldenRingBlazor.DataAccess
             Map(m => m.FthRequirement).Name("Required (Fai)");
             Map(m => m.ArcRequirement).Name("Required (Arc)");
 
-            Map(m => m.NonInfusable).Name("Non-Infusable");
+            Map(m => m.Infusable).Name("Infusable");
 
             Map(m => m.Effect1).Name("Effect 1");
             Map(m => m.Effect1Type).Name("Effect 1 Type");
