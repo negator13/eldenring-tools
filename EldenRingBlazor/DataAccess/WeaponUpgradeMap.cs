@@ -1,5 +1,5 @@
 ﻿using CsvHelper.Configuration;
-using EldenRingBlazor.Data.AttackRating;
+using EldenRingBlazor.Data.Equipment;
 
 namespace EldenRingBlazor.DataAccess
 {

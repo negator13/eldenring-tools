@@ -7,6 +7,7 @@
         Fire,
         Lightning,
         Holy,
-        SorceryIncantation
+        SorceryIncantation,
+        PassiveEffect
     }
 }

@@ -1,5 +1,6 @@
 using EldenRingBlazor.Data.AttackRating;
 using EldenRingBlazor.Data.CalcCorrect;
+using EldenRingBlazor.Data.Equipment;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddMudServices();
 
+builder.Services.AddSingleton<EquipmentService>();
 builder.Services.AddSingleton<AttackRatingCalculationService>();
 builder.Services.AddSingleton<CalcCorrectService>();
 

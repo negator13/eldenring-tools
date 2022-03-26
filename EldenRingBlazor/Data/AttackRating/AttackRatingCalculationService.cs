@@ -1,48 +1,18 @@
-﻿using CsvHelper;
-using EldenRingBlazor.Data.CalcCorrect;
-using EldenRingBlazor.DataAccess;
-using System.Globalization;
+﻿using EldenRingBlazor.Data.CalcCorrect;
+using EldenRingBlazor.Data.Equipment;
 
 namespace EldenRingBlazor.Data.AttackRating
 {
     public class AttackRatingCalculationService
     {
-        private IEnumerable<Weapon> _allWeapons;
-        private IEnumerable<WeaponUpgrade> _weaponUpgrades;
-        private IEnumerable<AttackElement> _attackElements;
-
         private CalcCorrectService _calcCorrectService;
+        private EquipmentService _equipmentService;
 
-        public IEnumerable<Weapon> BaseWeapons { get; }
-
-        public AttackRatingCalculationService(IWebHostEnvironment hostingEnvironment, CalcCorrectService calcCorrectService)
+        public AttackRatingCalculationService(CalcCorrectService calcCorrectService,
+            EquipmentService equipmentService)
         {
             _calcCorrectService = calcCorrectService;
-
-            string contentPath = hostingEnvironment.WebRootPath;
-
-            string weaponCsvPath = Path.Combine(contentPath, VersionInfo.PatchVersion.Latest, "Raw_Data.csv");
-            string weaponUpgradeCsvPath = Path.Combine(contentPath, VersionInfo.PatchVersion.Latest, "ReinforceParamWeapon.csv");
-            string attackElementCorrectCsvPath = Path.Combine(contentPath, VersionInfo.PatchVersion.Latest, "AttackElementCorrectParam.csv");
-
-            using var weaponsReader = new StreamReader(weaponCsvPath);
-            using var weaponsCsv = new CsvReader(weaponsReader, CultureInfo.InvariantCulture);
-            weaponsCsv.Context.RegisterClassMap<WeaponMap>();
-            _allWeapons = weaponsCsv.GetRecords<Weapon>().ToList();
-
-            BaseWeapons = _allWeapons
-                .Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber || w.ReinforceTypeId == Affinities.StaffOrSeal1 || w.ReinforceTypeId == Affinities.StaffOrSeal2)
-                .OrderBy(w => w.Name);
-
-            using var weaponUpgradesReader = new StreamReader(weaponUpgradeCsvPath);
-            using var weaponUpgradesCsv = new CsvReader(weaponUpgradesReader, CultureInfo.InvariantCulture);
-            weaponUpgradesCsv.Context.RegisterClassMap<WeaponUpgradeMap>();
-            _weaponUpgrades = weaponUpgradesCsv.GetRecords<WeaponUpgrade>().ToList();
-
-            using var elementCorrectsReader = new StreamReader(attackElementCorrectCsvPath);
-            using var elementCorrectsCsv = new CsvReader(elementCorrectsReader, CultureInfo.InvariantCulture);
-            elementCorrectsCsv.Context.RegisterClassMap<AttackElementMap>();
-            _attackElements = elementCorrectsCsv.GetRecords<AttackElement>().ToList();
+            _equipmentService = equipmentService;
         }
 
         public AttackRatingCalculation CalculateAttackRating(AttackRatingCalculationInput input)
@@ -52,46 +22,21 @@ namespace EldenRingBlazor.Data.AttackRating
 
             var affinitizedId = weaponId + affinityId;
 
-            var baseWeapon = GetWeapon(affinitizedId);
+            var baseWeapon = _equipmentService.GetWeapon(affinitizedId);
 
             _calcCorrectService.GetCalcCorrectGraphIds(baseWeapon);
 
-            var weaponUpgrade = GetWeaponUpgrade(baseWeapon, input.WeaponLevel);
+            var weaponUpgrade = _equipmentService.GetWeaponUpgrade(baseWeapon, input.WeaponLevel);
 
             var modifiedWeapon = ApplyWeaponUpgradeModifiers(baseWeapon, weaponUpgrade);
 
-            var attackElement = GetAttackElementCorrect(baseWeapon.AttackElementCorrectId);
+            var attackElement = _equipmentService.GetAttackElementCorrect(baseWeapon.AttackElementCorrectId);
 
             var attackRating = GetCorrections(input, modifiedWeapon, attackElement);
 
             return attackRating;
         }
 
-        // Raw_Data lookup
-        public Weapon GetWeapon(int id)
-        {
-            var weapon = _allWeapons.SingleOrDefault(w => w.Id == id);
-
-            return weapon;
-        }
-
-        // ReinforceWeaponParam lookup
-        private WeaponUpgrade GetWeaponUpgrade(Weapon weapon, int upgradeLevel)
-        {
-            int id = weapon.ReinforceTypeId + upgradeLevel;
-
-            var weaponUpgrade = _weaponUpgrades.SingleOrDefault(wu => wu.Id == id);
-
-            weaponUpgrade.WeaponLevel = upgradeLevel;
-
-            return weaponUpgrade;
-        }
-
-        // AttackElementCorrect lookup
-        private AttackElement GetAttackElementCorrect(int id)
-        {
-            return _attackElements.SingleOrDefault(a => a.Id == id);
-        }
 
         private ModifiedWeapon ApplyWeaponUpgradeModifiers(Weapon weapon, WeaponUpgrade weaponUpgrade)
         {
@@ -109,6 +54,9 @@ namespace EldenRingBlazor.Data.AttackRating
             var sorceryIncantation = GetCorrection(DamageType.SorceryIncantation, input, weapon, attackElementCorrect);
 
             var calculation = new AttackRatingCalculation(weapon, physical, magic, fire, lightning, holy, sorceryIncantation);
+
+            calculation.Effect1 = GetPassiveEffect(input, weapon, weapon.Effect1);
+            calculation.Effect2 = GetPassiveEffect(input, weapon, weapon.Effect2);
 
             return calculation;
         }
@@ -184,7 +132,7 @@ namespace EldenRingBlazor.Data.AttackRating
                     throw new ArgumentException($"Unknown DamageType {damageType}");
             }
 
-            var calcCorrectGraph = GetCalcCorrectGraph(calcCorrectId);
+            var calcCorrectGraph = _calcCorrectService.GetCalcCorrectGraph(calcCorrectId);
 
             var effectiveStrength = input.TwoHand ? (int)Math.Floor((input.Strength) * 1.5) : input.Strength;
 
@@ -245,17 +193,46 @@ namespace EldenRingBlazor.Data.AttackRating
             return finalComponent;
         }
 
-        // CalcCorrectGraph lookup
-        private CalcCorrectGraph GetCalcCorrectGraph(int calcCorrectId)
+        private PassiveEffect GetPassiveEffect(AttackRatingCalculationInput input, ModifiedWeapon weapon, int effectId)
         {
-            var graph = _calcCorrectService.GetCalcCorrectGraph(calcCorrectId);
+            var passiveEffect = new PassiveEffect { Type = "None", Value = 0 };
 
-            if (graph == null)
+            if (effectId == -1)
             {
-                throw new ArgumentException($"CalcCorrectId {calcCorrectId} not found");
+                return passiveEffect;
             }
 
-            return graph;
+            var effect = _equipmentService.GetPassiveEffect(effectId);
+            double scaling = 1;
+
+            if (effect.Type == "None")
+            {
+                return passiveEffect;
+            }
+
+            if (effect.Type == "Blood" || effect.Type == "Poison")
+            {
+                scaling  = GetPassiveEffectCorrection(input, weapon, effect);
+            }
+
+            var value = effect.Value * scaling;
+
+            return new PassiveEffect { Type = effect.Type, Value = Math.Floor(value) };
+        }
+
+        private double GetPassiveEffectCorrection(AttackRatingCalculationInput input, ModifiedWeapon weapon, PassiveEffect effect)
+        {
+            int calcCorrectId = 6; // Passive Effects (Arcane)
+            var calcCorrectGraph = _calcCorrectService.GetCalcCorrectGraph(calcCorrectId);
+            var arcCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Arcane);
+
+            var baseAmount = effect.Value;
+
+            var effectScaling = baseAmount * arcCorrection.Output;
+
+            var meetsAllStatReqs = input.Arcane >= weapon.ArcRequirement;
+
+            return meetsAllStatReqs ? effectScaling : 0;
         }
     }
 }

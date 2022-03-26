@@ -1,4 +1,6 @@
-﻿namespace EldenRingBlazor.Data.AttackRating
+﻿using EldenRingBlazor.Data.Equipment;
+
+namespace EldenRingBlazor.Data.AttackRating
 {
     public class ModifiedWeapon : WeaponUpgrade
     {
@@ -31,6 +33,21 @@
             IntRequirement = weapon.IntRequirement;
             FthRequirement = weapon.FthRequirement;
             ArcRequirement = weapon.ArcRequirement;
+
+            Effect1 = weapon.Effect1;
+            Effect2 = weapon.Effect2;
+            Effect1Type = weapon.Effect1Type;
+            Effect2Type = weapon.Effect2Type;
+
+            StaminaDamage = weapon.StaminaDamage;
         }
+
+        public double Effect1Scaling { get; set; }
+
+        public double Effect2Scaling { get; set; }
+
+        public string PassiveEffect1 { get; set; }
+
+        public string PassiveEffect2 { get; set; }
     }
 }
