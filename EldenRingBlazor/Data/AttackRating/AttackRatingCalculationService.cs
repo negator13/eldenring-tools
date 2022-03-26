@@ -202,9 +202,21 @@ namespace EldenRingBlazor.Data.AttackRating
                 return passiveEffect;
             }
 
-            effectId += weapon.WeaponLevel;
+            var upgradedEffectId = effectId + weapon.WeaponLevel;
 
-            var effect = _equipmentService.GetPassiveEffect(effectId);
+            var effect = _equipmentService.GetPassiveEffect(upgradedEffectId);
+
+            if (effect == null)
+            {
+                // Workaround: SpEffectParam seems incomplete for certain (4-digit) IDs
+                effect = _equipmentService.GetPassiveEffect(effectId);
+            }
+
+            if (effect == null)
+            {
+                return passiveEffect;
+            }
+
             double scaling = 1;
 
             if (effect.Type == "None")
