@@ -2,7 +2,6 @@ using EldenRingBlazor.Data.AttackRating;
 using EldenRingBlazor.Data.CalcCorrect;
 using EldenRingBlazor.Data.Equipment;
 using MudBlazor.Services;
-using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
