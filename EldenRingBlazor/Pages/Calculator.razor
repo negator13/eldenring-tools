@@ -238,21 +238,35 @@
 
     private Task<IEnumerable<string>> SearchWeapons(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) || value == input.WeaponName)
+        try
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == input.WeaponName)
+            {
+                return Task.FromResult(filteredWeaponNames);
+            }
+
+            return Task.FromResult(filteredWeaponNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+        }
+        catch
         {
             return Task.FromResult(filteredWeaponNames);
         }
-
-        return Task.FromResult(filteredWeaponNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
     }
 
     private void UpdateWeaponCategory(string category)
     {
-        weaponCategory = category;
+        try
+        {
+            weaponCategory = category;
 
-        var matchingWeapons = category == "All" ? weaponCategoryList : weaponCategoryList.Where(c => c.WeaponType == category);
+            var matchingWeapons = category == "All" ? weaponCategoryList : weaponCategoryList.Where(c => c.WeaponType == category);
 
-        filteredWeaponNames = matchingWeapons.Select(c => c.Name).OrderBy(c => c);
+            filteredWeaponNames = matchingWeapons.Select(c => c.Name).OrderBy(c => c);
+        }
+        catch
+        {
+
+        }
     }
 
     private void UpdateWeapon(string name)
@@ -346,27 +360,34 @@
 
     private void HandleValidSubmit()
     {
-        attackRatingCalculation = CalculationService.CalculateAttackRating(input);
-        var info = new List<ScalingRequirementsInfo>();
-        info.Add(new ScalingRequirementsInfo
-            {
-                Label = "Requirements",
-                Strength = $"{input.Weapon.StrRequirement}",
-                Dexterity = $"{input.Weapon.DexRequirement}",
-                Intelligence = $"{input.Weapon.IntRequirement}",
-                Faith = $"{input.Weapon.FthRequirement}",
-                Arcane = $"{input.Weapon.ArcRequirement}",
-            });
-        info.Add(new ScalingRequirementsInfo
-            {
-                Label = "Scaling",
-                Strength = $"{attackRatingCalculation.StrScaling} ({attackRatingCalculation.StrScalingGrade})",
-                Dexterity = $"{attackRatingCalculation.DexScaling} ({attackRatingCalculation.DexScalingGrade})",
-                Intelligence = $"{attackRatingCalculation.IntScaling} ({attackRatingCalculation.IntScalingGrade})",
-                Faith = $"{attackRatingCalculation.FthScaling} ({attackRatingCalculation.FthScalingGrade})",
-                Arcane = $"{attackRatingCalculation.ArcScaling} ({attackRatingCalculation.ArcScalingGrade})",
-            });
-        scalingRequirements = info;
+        try
+        {
+            attackRatingCalculation = CalculationService.CalculateAttackRating(input);
+            var info = new List<ScalingRequirementsInfo>();
+            info.Add(new ScalingRequirementsInfo
+                {
+                    Label = "Requirements",
+                    Strength = $"{input.Weapon.StrRequirement}",
+                    Dexterity = $"{input.Weapon.DexRequirement}",
+                    Intelligence = $"{input.Weapon.IntRequirement}",
+                    Faith = $"{input.Weapon.FthRequirement}",
+                    Arcane = $"{input.Weapon.ArcRequirement}",
+                });
+            info.Add(new ScalingRequirementsInfo
+                {
+                    Label = "Scaling",
+                    Strength = $"{attackRatingCalculation.StrScaling} ({attackRatingCalculation.StrScalingGrade})",
+                    Dexterity = $"{attackRatingCalculation.DexScaling} ({attackRatingCalculation.DexScalingGrade})",
+                    Intelligence = $"{attackRatingCalculation.IntScaling} ({attackRatingCalculation.IntScalingGrade})",
+                    Faith = $"{attackRatingCalculation.FthScaling} ({attackRatingCalculation.FthScalingGrade})",
+                    Arcane = $"{attackRatingCalculation.ArcScaling} ({attackRatingCalculation.ArcScalingGrade})",
+                });
+            scalingRequirements = info;
+        }
+        catch
+        {
+
+        }
     }
 
     private string StyleStatRequirement(int stat, int req)
