@@ -36,6 +36,8 @@ namespace EldenRingBlazor.Data.AttackRating
 
                 var attackRating = GetCorrections(input, modifiedWeapon, attackElement);
 
+                attackRating.WeaponCategory = _equipmentService.GetWeaponCategory(baseWeapon.Name);
+ 
                 return attackRating;
             }
             catch (Exception ex)
@@ -209,7 +211,12 @@ namespace EldenRingBlazor.Data.AttackRating
                 return passiveEffect;
             }
 
-            var upgradedEffectId = effectId + weapon.WeaponLevel;
+            var upgradedEffectId = effectId;
+            if (effectId >= 10000)
+            { 
+                // 4-digit IDs don't scale with upgrades
+                upgradedEffectId = effectId + weapon.WeaponLevel;
+            }
 
             var effect = _equipmentService.GetPassiveEffect(upgradedEffectId);
 
@@ -236,7 +243,7 @@ namespace EldenRingBlazor.Data.AttackRating
                 scaling  = GetPassiveEffectCorrection(input, weapon, effect);
             }
 
-            var value = effect.Value + (effect.Value * scaling * .01);
+            var value = effect.Value + scaling;
 
             return new PassiveEffect { Type = effect.Type, Value = Math.Floor(value) };
         }
@@ -249,7 +256,7 @@ namespace EldenRingBlazor.Data.AttackRating
 
             var baseAmount = effect.Value;
 
-            var effectScaling = baseAmount * arcCorrection.Output;
+            var effectScaling = baseAmount * arcCorrection.Output * weapon.ArcScaling * .01;
 
             var meetsAllStatReqs = input.Arcane >= weapon.ArcRequirement;
 

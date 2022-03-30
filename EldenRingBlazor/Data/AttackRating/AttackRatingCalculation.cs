@@ -31,6 +31,8 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public string Name { get; set; }
 
+        public string? WeaponCategory { get; set; }
+
         public int TotalAttackRating => Physical.Total + Magic.Total + Fire.Total + Lightning.Total + Holy.Total;
 
         public double StrScaling { get; set; }

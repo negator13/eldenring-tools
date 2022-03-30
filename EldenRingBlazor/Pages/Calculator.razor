@@ -149,7 +149,7 @@
                             </MudText>
                         </div>
                     </MudListItem>
-                    @if (attackRatingCalculation.SorceryIncantation?.Total > 100)
+                    @if (attackRatingCalculation.WeaponCategory == "Sacred Seal" || attackRatingCalculation.WeaponCategory == "Glintstone Staff")
                     {
                         <MudListItem>
                             <div class="d-flex">
@@ -178,12 +178,12 @@
                             </div>
                         </MudListItem>
                     }
-                    <MudListItem>
+                    @*<MudListItem>
                         <div class="d-flex">
-                            <MudText>Stamina Damage</MudText>
-                            <MudText Inline="true" Class="ml-auto">@input.Weapon.StaminaDamage</MudText>
+                        <MudText>Stamina Damage</MudText>
+                        <MudText Inline="true" Class="ml-auto">@input.Weapon.StaminaDamage</MudText>
                         </div>
-                    </MudListItem>
+                        </MudListItem>*@
                 </MudList>
 
                 <MudTable Items=@scalingRequirements>
@@ -430,8 +430,7 @@
 
         filteredWeaponNames = weaponList.Select(w => w.Name);
 
-        weaponCategoryNames = new List<string>
-    () { "All" };
+        weaponCategoryNames = new List<string>() { "All" };
         weaponCategoryNames.AddRange(weaponCategoryList.Select(c => c.WeaponType).Distinct().OrderBy(c => c));
 
         var weapon = weaponList.Single(w => w.Id == 10080000);
@@ -453,4 +452,4 @@
 
         base.OnInitialized();
     }
-    }
+}

@@ -92,6 +92,12 @@ namespace EldenRingBlazor.Data.Equipment
             return weapon;
         }
 
+        public string? GetWeaponCategory(string weaponName)
+        {
+            var category = WeaponCategories.FirstOrDefault(c => c.WeaponName ==weaponName);
+            return category?.WeaponType;
+        }
+
         // ReinforceWeaponParam lookup
         public WeaponUpgrade GetWeaponUpgrade(Weapon weapon, int upgradeLevel)
         {
