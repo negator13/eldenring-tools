@@ -15,26 +15,33 @@ namespace EldenRingBlazor.Data.AttackRating
             _equipmentService = equipmentService;
         }
 
-        public AttackRatingCalculation CalculateAttackRating(AttackRatingCalculationInput input)
+        public AttackRatingCalculation? CalculateAttackRating(AttackRatingCalculationInput input)
         {
-            var weaponId = input.Weapon.Id;
-            var affinityId = input.AffinityId;
+            try
+            {
+                var weaponId = input.Weapon.Id;
+                var affinityId = input.AffinityId;
 
-            var affinitizedId = weaponId + affinityId;
+                var affinitizedId = weaponId + affinityId;
 
-            var baseWeapon = _equipmentService.GetWeapon(affinitizedId);
+                var baseWeapon = _equipmentService.GetWeapon(affinitizedId);
 
-            _calcCorrectService.GetCalcCorrectGraphIds(baseWeapon);
+                _calcCorrectService.GetCalcCorrectGraphIds(baseWeapon);
 
-            var weaponUpgrade = _equipmentService.GetWeaponUpgrade(baseWeapon, input.WeaponLevel);
+                var weaponUpgrade = _equipmentService.GetWeaponUpgrade(baseWeapon, input.WeaponLevel);
 
-            var modifiedWeapon = ApplyWeaponUpgradeModifiers(baseWeapon, weaponUpgrade);
+                var modifiedWeapon = ApplyWeaponUpgradeModifiers(baseWeapon, weaponUpgrade);
 
-            var attackElement = _equipmentService.GetAttackElementCorrect(baseWeapon.AttackElementCorrectId);
+                var attackElement = _equipmentService.GetAttackElementCorrect(baseWeapon.AttackElementCorrectId);
 
-            var attackRating = GetCorrections(input, modifiedWeapon, attackElement);
+                var attackRating = GetCorrections(input, modifiedWeapon, attackElement);
 
-            return attackRating;
+                return attackRating;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
 

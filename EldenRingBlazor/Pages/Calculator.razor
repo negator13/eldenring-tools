@@ -53,13 +53,9 @@
                     <MudItem xs="12">
                         <MudAutocomplete T="string"
                                          Label="Weapon"
-                                         @ref="autocomplete"
                                          Value="@input.WeaponName"
                                          ValueChanged="UpdateWeapon"
                                          SearchFunc="SearchWeapons"
-                                         SelectValueOnTab="true"
-                                         SelectOnClick="true"
-                                         CoerceText="true"
                                          MaxItems="1000" />
                     </MudItem>
 
@@ -282,6 +278,11 @@
 
             var weapon = EquipmentService.GetWeapon(selectedWeapon.Id);
 
+            if (weapon == null)
+            {
+                return;
+            }
+
             input.Weapon = weapon;
             input.WeaponName = weapon.Name;
             input.AffinityId = 0;
@@ -360,34 +361,49 @@
 
     private void HandleValidSubmit()
     {
+        AttackRatingCalculation? newCalc = null;
+
         try
         {
-            attackRatingCalculation = CalculationService.CalculateAttackRating(input);
-            var info = new List<ScalingRequirementsInfo>();
-            info.Add(new ScalingRequirementsInfo
-                {
-                    Label = "Requirements",
-                    Strength = $"{input.Weapon.StrRequirement}",
-                    Dexterity = $"{input.Weapon.DexRequirement}",
-                    Intelligence = $"{input.Weapon.IntRequirement}",
-                    Faith = $"{input.Weapon.FthRequirement}",
-                    Arcane = $"{input.Weapon.ArcRequirement}",
-                });
-            info.Add(new ScalingRequirementsInfo
-                {
-                    Label = "Scaling",
-                    Strength = $"{attackRatingCalculation.StrScaling} ({attackRatingCalculation.StrScalingGrade})",
-                    Dexterity = $"{attackRatingCalculation.DexScaling} ({attackRatingCalculation.DexScalingGrade})",
-                    Intelligence = $"{attackRatingCalculation.IntScaling} ({attackRatingCalculation.IntScalingGrade})",
-                    Faith = $"{attackRatingCalculation.FthScaling} ({attackRatingCalculation.FthScalingGrade})",
-                    Arcane = $"{attackRatingCalculation.ArcScaling} ({attackRatingCalculation.ArcScalingGrade})",
-                });
-            scalingRequirements = info;
+            newCalc = CalculationService.CalculateAttackRating(input);
         }
         catch
         {
 
         }
+
+        if (newCalc != null)
+        {
+            attackRatingCalculation = newCalc;
+            GetScalingRequirements();
+        }
+    }
+
+    private void GetScalingRequirements()
+    {
+        var info = new List<ScalingRequirementsInfo>();
+
+        info.Add(new ScalingRequirementsInfo
+            {
+                Label = "Requirements",
+                Strength = $"{input.Weapon.StrRequirement}",
+                Dexterity = $"{input.Weapon.DexRequirement}",
+                Intelligence = $"{input.Weapon.IntRequirement}",
+                Faith = $"{input.Weapon.FthRequirement}",
+                Arcane = $"{input.Weapon.ArcRequirement}",
+            });
+
+        info.Add(new ScalingRequirementsInfo
+            {
+                Label = "Scaling",
+                Strength = $"{attackRatingCalculation.StrScaling} ({attackRatingCalculation.StrScalingGrade})",
+                Dexterity = $"{attackRatingCalculation.DexScaling} ({attackRatingCalculation.DexScalingGrade})",
+                Intelligence = $"{attackRatingCalculation.IntScaling} ({attackRatingCalculation.IntScalingGrade})",
+                Faith = $"{attackRatingCalculation.FthScaling} ({attackRatingCalculation.FthScalingGrade})",
+                Arcane = $"{attackRatingCalculation.ArcScaling} ({attackRatingCalculation.ArcScalingGrade})",
+            });
+
+        scalingRequirements = info;
     }
 
     private string StyleStatRequirement(int stat, int req)
@@ -409,16 +425,14 @@
 
     protected override void OnInitialized()
     {
-        EditContext = new EditContext(input);
-
         weaponList = EquipmentService.BaseWeapons;
+        weaponCategoryList = EquipmentService.WeaponCategories;
 
         filteredWeaponNames = weaponList.Select(w => w.Name);
 
-        weaponCategoryList = EquipmentService.WeaponCategories;
-
-        weaponCategoryNames = new List<string>() { "All" };
-        weaponCategoryNames.AddRange(EquipmentService.WeaponCategories.Select(c => c.WeaponType).Distinct().OrderBy(c => c));
+        weaponCategoryNames = new List<string>
+    () { "All" };
+        weaponCategoryNames.AddRange(weaponCategoryList.Select(c => c.WeaponType).Distinct().OrderBy(c => c));
 
         var weapon = weaponList.Single(w => w.Id == 10080000);
 
@@ -433,8 +447,10 @@
                 WeaponLevel = 25,
             };
 
+        EditContext = new EditContext(input);
+
         UpdateWeapon(weapon.Name);
 
         base.OnInitialized();
     }
-}
+    }
