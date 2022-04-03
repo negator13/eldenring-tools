@@ -143,9 +143,7 @@ namespace EldenRingBlazor.Data.AttackRating
 
             var calcCorrectGraph = _calcCorrectService.GetCalcCorrectGraph(calcCorrectId);
 
-            var effectiveStrength = input.TwoHand ? (int)Math.Floor((input.Strength) * 1.5) : input.Strength;
-
-            var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, effectiveStrength);
+            var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.EffectiveStrength);
             var dexCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Dexterity);
             var intCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Intelligence);
             var fthCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Faith);
@@ -158,7 +156,7 @@ namespace EldenRingBlazor.Data.AttackRating
             var arcScaling = hasArcScaling ? baseDamage * weapon.ArcScaling * .01 * arcCorrection.Output : 0;
 
             var meetsAllStatReqs = true;
-            if (effectiveStrength < weapon.StrRequirement && hasStrScaling)
+            if (input.EffectiveStrength < weapon.StrRequirement && hasStrScaling)
             {
                 meetsAllStatReqs = false;
             }

@@ -8,6 +8,8 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public int Strength { get; set; }
 
+        public int EffectiveStrength => TwoHand ? (int)Math.Floor(1.5 * Strength) : Strength;
+
         public int Dexterity { get; set; }
 
         public int Intelligence { get; set; }

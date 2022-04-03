@@ -21,7 +21,7 @@
                         <MudNumericField T="int" Label="STR" Variant="Variant.Outlined" Value="@input.Strength" ValueChanged="UpdateStrength" />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudSwitch @bind-Checked="@TwoHand" Label="Two-Hand" Color="Color.Info" />
+                        <MudSwitch @bind-Checked="@TwoHand" Label="Two-Hand" Color="Color.Info" /> (@(input.EffectiveStrength))
                     </MudItem>
                     <MudItem xs="6">
                         <MudNumericField T="int" Label="DEX" Variant="Variant.Outlined" Value="@input.Dexterity" ValueChanged="UpdateDexterity" />
@@ -213,9 +213,6 @@
 
 @code {
     private EditContext EditContext;
-
-    private MudAutocomplete<string> autocomplete;
-
     private AttackRatingCalculation attackRatingCalculation;
     private AttackRatingCalculationInput input = new AttackRatingCalculationInput();
 
@@ -224,6 +221,10 @@
     private string weaponCategory = "All";
     private IEnumerable<WeaponCategory> weaponCategoryList = new List<WeaponCategory>();
     private List<string> weaponCategoryNames = new List<string>();
+
+    private int lastSelectedAffinity;
+    private int lastSelectedNormalUpgrade;
+    private int lastSelectedSpecialUpgrade;
 
     private IEnumerable<string> filteredWeaponNames = new List<string>();
 
@@ -283,9 +284,25 @@
                 return;
             }
 
+            if (input.Weapon.Infusable == "Yes")
+            {
+                lastSelectedAffinity = input.AffinityId;
+            }
+
+            if (input.Weapon.MaxUpgrade > 10)
+            {
+                lastSelectedNormalUpgrade = input.WeaponLevel;
+            }
+            else
+            {
+                lastSelectedSpecialUpgrade = input.WeaponLevel;
+            }
+
+
             input.Weapon = weapon;
             input.WeaponName = weapon.Name;
-            input.AffinityId = 0;
+            input.AffinityId = weapon.IsInfusable ? lastSelectedAffinity : 0;
+            input.WeaponLevel = weapon.MaxUpgrade > 10 ? lastSelectedNormalUpgrade : lastSelectedSpecialUpgrade;
 
             affinityList = weapon.IsInfusable ? Affinities.StandardAffinities : new List<WeaponAffinity>();
 
