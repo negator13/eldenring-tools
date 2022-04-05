@@ -19,6 +19,7 @@ namespace EldenRingBlazor.DataAccess
             Map(m => m.IntScaling).Name("Int Scaling");
             Map(m => m.FthScaling).Name("Fai Scaling");
             Map(m => m.ArcScaling).Name("Arc Scaling");
+            Map(m => m.StaminaAttackScaling).Name("Stamina Attack");
         }
     }
 }

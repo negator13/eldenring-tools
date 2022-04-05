@@ -54,7 +54,7 @@
 
         public string Infusable { get; set; }
 
-        public int StaminaDamage { get; set; }
+        public double StaminaDamage { get; set; }
 
         public int Effect1 { get; set; }
 

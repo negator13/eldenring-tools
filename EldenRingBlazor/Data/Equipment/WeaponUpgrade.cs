@@ -14,6 +14,8 @@
 
         public int WeaponLevel { get; set; }
 
+        public double StaminaAttackScaling { get; set; }
+
         public double PhysicalGuard { get; set; }
 
     }

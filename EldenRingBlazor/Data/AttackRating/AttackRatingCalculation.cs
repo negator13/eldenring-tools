@@ -21,6 +21,8 @@ namespace EldenRingBlazor.Data.AttackRating
             FthScaling = Math.Round(weapon.FthScaling, 2);
             ArcScaling = Math.Round(weapon.ArcScaling, 2);
 
+            StaminaDamage = (int)Math.Floor(weapon.StaminaDamage);
+
             Physical = physical ?? new AttackRatingComponent(DamageType.Physical);
             Magic = magic ?? new AttackRatingComponent(DamageType.Magic);
             Fire = fire ?? new AttackRatingComponent(DamageType.Fire);
@@ -33,7 +35,11 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public string? WeaponCategory { get; set; }
 
-        public int TotalAttackRating => Physical.Total + Magic.Total + Fire.Total + Lightning.Total + Holy.Total;
+        public int DisplayTotalAttackRating => (int)Math.Floor(TotalAttackRating);
+
+        public double TotalAttackRating => Physical.Total + Magic.Total + Fire.Total + Lightning.Total + Holy.Total;
+
+        public int StaminaDamage { get; set; }
 
         public double StrScaling { get; set; }
 
@@ -117,7 +123,9 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public int TotalScaling { get; set; }
 
-        public int Total { get; set; }
+        public int DisplayTotal { get; set; }
+
+        public double Total { get; set; }
 
         public double StrScaling { get; set; }
 

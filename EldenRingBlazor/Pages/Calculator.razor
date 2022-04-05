@@ -95,13 +95,18 @@
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Total AR</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@attackRatingCalculation.TotalAttackRating</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@attackRatingCalculation.DisplayTotalAttackRating</b></MudText>
                         </div>
                     </MudListItem>
                     <MudDivider />
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Physical</MudText>
+                            <MudText Inline="true" Class="ml-auto">
+                                <b>@attackRatingCalculation.Physical.DisplayTotal</b>
+                            </MudText>
+                        </div>
+                        <div class="d-flex">
                             <MudText Inline="true" Class="ml-auto">
                                 @attackRatingCalculation.Physical.Base
                                 @(attackRatingCalculation.Physical.TotalScaling >= 0 ? " +" : " ")
@@ -113,6 +118,11 @@
                         <div class="d-flex">
                             <MudText>Magic</MudText>
                             <MudText Class="ml-auto">
+                                <b>@attackRatingCalculation.Magic.DisplayTotal</b>
+                            </MudText>
+                        </div>
+                        <div class="d-flex">
+                            <MudText Class="ml-auto">
                                 @attackRatingCalculation.Magic.Base
                                 @(attackRatingCalculation.Magic.TotalScaling >= 0 ? " +" : " ")
                                 <span style="@StyleNumber(attackRatingCalculation.Magic.TotalScaling)">@attackRatingCalculation.Magic.TotalScaling</span>
@@ -122,6 +132,11 @@
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Fire</MudText>
+                            <MudText Class="ml-auto">
+                                <b>@attackRatingCalculation.Fire.DisplayTotal</b>
+                            </MudText>
+                        </div>
+                        <div class="d-flex">
                             <MudText Class="ml-auto">
                                 @attackRatingCalculation.Fire.Base
                                 @(attackRatingCalculation.Fire.TotalScaling >= 0 ? " +" : " ")
@@ -133,6 +148,11 @@
                         <div class="d-flex">
                             <MudText>Lightning</MudText>
                             <MudText Class="ml-auto">
+                                <b>@attackRatingCalculation.Lightning.DisplayTotal</b>
+                            </MudText>
+                        </div>
+                        <div class="d-flex">
+                            <MudText Class="ml-auto">
                                 @attackRatingCalculation.Lightning.Base
                                 @(attackRatingCalculation.Lightning.TotalScaling >= 0 ? " +" : " ")
                                 <span style="@StyleNumber(attackRatingCalculation.Lightning.TotalScaling)">@attackRatingCalculation.Lightning.TotalScaling</span>
@@ -142,6 +162,11 @@
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Holy</MudText>
+                            <MudText Class="ml-auto">
+                                <b>@attackRatingCalculation.Holy.DisplayTotal</b>
+                            </MudText>
+                        </div>
+                        <div class="d-flex">
                             <MudText Class="ml-auto">
                                 @attackRatingCalculation.Holy.Base
                                 @(attackRatingCalculation.Holy.TotalScaling >= 0 ? " +" : " ")
@@ -178,12 +203,12 @@
                             </div>
                         </MudListItem>
                     }
-                    @*<MudListItem>
+                    <MudListItem>
                         <div class="d-flex">
-                        <MudText>Stamina Damage</MudText>
-                        <MudText Inline="true" Class="ml-auto">@input.Weapon.StaminaDamage</MudText>
+                            <MudText>Stamina Damage</MudText>
+                            <MudText Inline="true" Class="ml-auto">@attackRatingCalculation.StaminaDamage</MudText>
                         </div>
-                        </MudListItem>*@
+                    </MudListItem>
                 </MudList>
 
                 <MudTable Items=@scalingRequirements>

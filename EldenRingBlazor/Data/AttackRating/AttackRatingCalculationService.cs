@@ -187,7 +187,8 @@ namespace EldenRingBlazor.Data.AttackRating
 
             var finalComponent = new AttackRatingComponent(damageType)
             {
-                Total = (int)Math.Floor(totalDamage),
+                Total = totalDamage,
+                DisplayTotal = (int)Math.Floor(totalDamage),
                 Base = (int)Math.Floor(baseDamage),
                 TotalScaling = (int)Math.Floor(totalScaling),
                 StrScaling = strScaling,

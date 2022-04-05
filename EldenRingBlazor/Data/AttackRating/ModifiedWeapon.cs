@@ -39,7 +39,7 @@ namespace EldenRingBlazor.Data.AttackRating
             Effect1Type = weapon.Effect1Type;
             Effect2Type = weapon.Effect2Type;
 
-            StaminaDamage = weapon.StaminaDamage;
+            StaminaDamage = weapon.StaminaDamage * weaponUpgrade.StaminaAttackScaling;
         }
 
         public double Effect1Scaling { get; set; }
