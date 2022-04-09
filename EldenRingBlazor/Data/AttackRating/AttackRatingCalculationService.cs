@@ -35,8 +35,6 @@ namespace EldenRingBlazor.Data.AttackRating
                 var attackElement = _equipmentService.GetAttackElementCorrect(baseWeapon.AttackElementCorrectId);
 
                 var attackRating = GetCorrections(input, modifiedWeapon, attackElement);
-
-                attackRating.WeaponCategory = _equipmentService.GetWeaponCategory(baseWeapon.Name);
  
                 return attackRating;
             }
@@ -142,8 +140,9 @@ namespace EldenRingBlazor.Data.AttackRating
             }
 
             var calcCorrectGraph = _calcCorrectService.GetCalcCorrectGraph(calcCorrectId);
+            var effectiveStrength = weapon.IsTwoHandDualWield ? input.Strength : input.EffectiveStrength;
 
-            var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.EffectiveStrength);
+            var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, effectiveStrength);
             var dexCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Dexterity);
             var intCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Intelligence);
             var fthCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Faith);
@@ -156,7 +155,7 @@ namespace EldenRingBlazor.Data.AttackRating
             var arcScaling = hasArcScaling ? baseDamage * weapon.ArcScaling * .01 * arcCorrection.Output : 0;
 
             var meetsAllStatReqs = true;
-            if (input.EffectiveStrength < weapon.StrRequirement && hasStrScaling)
+            if (effectiveStrength < weapon.StrRequirement && hasStrScaling)
             {
                 meetsAllStatReqs = false;
             }
