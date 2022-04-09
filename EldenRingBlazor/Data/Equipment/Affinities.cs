@@ -34,6 +34,12 @@
 
         public static readonly int StaffOrSeal2 = 2400;
 
+        public static readonly int Shield = 8100;
+
+        public static readonly int Greatshield1 = 8200;
+
+        public static readonly int Greatshield2 = 8300;
+
         public static List<WeaponAffinity> StandardAffinities = new List<WeaponAffinity>
     {
         new WeaponAffinity
@@ -107,6 +113,22 @@
           new WeaponAffinity
         {
             Id = StaffOrSeal2, Name = "--"
+        },
+    };
+
+        public static List<WeaponAffinity> ShieldAffinities = new List<WeaponAffinity>
+    {
+         new WeaponAffinity
+        {
+            Id = Shield, Name = "--"
+        },
+          new WeaponAffinity
+        {
+            Id = Greatshield1, Name = "--"
+        },
+            new WeaponAffinity
+        {
+            Id = Greatshield2, Name = "--"
         },
     };
     }
