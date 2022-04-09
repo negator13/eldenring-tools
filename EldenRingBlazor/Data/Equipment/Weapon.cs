@@ -6,6 +6,8 @@
 
         public string Name { get; set; }
 
+        public string WeaponType { get; set; }
+
         public int AttackElementCorrectId { get; set; }
 
         public int ReinforceTypeId { get; set; }
@@ -69,5 +71,16 @@
         public double Weight { get; set; }
 
         public bool IsInfusable => Infusable == "Yes";
+
+        public string TwoHandDualWield { get; set; }
+
+        public bool IsTwoHandDualWield => TwoHandDualWield == "Yes";
+
+        public bool IsBaseWeapon()
+        {
+            return ReinforceTypeId == Affinities.Standard || ReinforceTypeId == Affinities.Somber
+                || ReinforceTypeId == Affinities.StaffOrSeal1  || ReinforceTypeId == Affinities.StaffOrSeal2
+                || ReinforceTypeId == Affinities.Shield || ReinforceTypeId == Affinities.Greatshield1 || ReinforceTypeId == Affinities.Greatshield2;
+        }
     }
 }

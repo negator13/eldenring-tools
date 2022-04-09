@@ -7,6 +7,7 @@ namespace EldenRingBlazor.Data.AttackRating
         public ModifiedWeapon(Weapon weapon, WeaponUpgrade weaponUpgrade) : base(weaponUpgrade.WeaponLevel)
         {
             Name = $"{weapon.Name} +{weaponUpgrade.WeaponLevel}";
+            WeaponType = weapon.WeaponType;
 
             AttackElementCorrectId = weaponUpgrade.AttackElementCorrectId;
 
@@ -40,6 +41,11 @@ namespace EldenRingBlazor.Data.AttackRating
             Effect2Type = weapon.Effect2Type;
 
             StaminaDamage = weapon.StaminaDamage * weaponUpgrade.StaminaAttackScaling;
+
+            Critical = weapon.Critical;
+
+            Infusable = weapon.Infusable;
+            TwoHandDualWield = weapon.TwoHandDualWield;
         }
 
         public double Effect1Scaling { get; set; }

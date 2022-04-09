@@ -11,11 +11,10 @@ namespace EldenRingBlazor.Data.Equipment
         private readonly IEnumerable<Weapon> _allWeapons;
         private readonly IEnumerable<WeaponUpgrade> _weaponUpgrades;
         private readonly IEnumerable<AttackElement> _attackElements;
-        private readonly IEnumerable<WeaponCategory> _allWeaponCategories;
         private readonly IEnumerable<PassiveEffect> _passiveEffects;
         
         public IEnumerable<Weapon> BaseWeapons { get; }
-        public IEnumerable<WeaponCategory> WeaponCategories { get; }
+        public IEnumerable<Weapon> WeaponCategories { get; }
 
         public EquipmentService(IWebHostEnvironment hostingEnvironment)
         {
@@ -24,15 +23,13 @@ namespace EldenRingBlazor.Data.Equipment
             _allWeapons = ReadWeaponsFromCsv();
 
             BaseWeapons = _allWeapons
-                .Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber || w.ReinforceTypeId == Affinities.StaffOrSeal1 || w.ReinforceTypeId == Affinities.StaffOrSeal2)
+                .Where(w => w.IsBaseWeapon())
                 .OrderBy(w => w.Name);
 
             _weaponUpgrades = ReadWeaponUpgradesFromCsv();
             _attackElements = ReadAttackElementsFromCsv();
 
-            _allWeaponCategories = ReadWeaponCategoriesFromCsv();
-
-            WeaponCategories  = _allWeaponCategories
+            WeaponCategories = _allWeapons
                 .Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber || w.ReinforceTypeId == Affinities.StaffOrSeal1 || w.ReinforceTypeId == Affinities.StaffOrSeal2)
                 .OrderBy(w => w.Name);
 
@@ -64,15 +61,6 @@ namespace EldenRingBlazor.Data.Equipment
             using var elementCorrectsCsv = new CsvReader(elementCorrectsReader, CultureInfo.InvariantCulture);
             elementCorrectsCsv.Context.RegisterClassMap<AttackElementMap>();
             return elementCorrectsCsv.GetRecords<AttackElement>().ToList();
-        }
-
-        private IEnumerable<WeaponCategory> ReadWeaponCategoriesFromCsv()
-        {
-            string weaponCsvPath = Path.Combine(_webRootPath, VersionInfo.PatchVersion.v1_02, "Weapons.csv");
-            using var weaponsReader = new StreamReader(weaponCsvPath);
-            using var weaponsCsv = new CsvReader(weaponsReader, CultureInfo.InvariantCulture);
-            weaponsCsv.Context.RegisterClassMap<WeaponCategoryMap>();
-            return weaponsCsv.GetRecords<WeaponCategory>().ToList();
         }
 
         private IEnumerable<PassiveEffect> ReadPassiveEffectsFromCsv()

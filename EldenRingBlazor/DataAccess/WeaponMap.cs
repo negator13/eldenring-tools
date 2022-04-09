@@ -10,6 +10,7 @@ namespace EldenRingBlazor.DataAccess
         {
             Map(m => m.Id).Name("ID");
             Map(m => m.Name).Name("Name");
+            Map(m => m.WeaponType).Name("Weapon Type");
             Map(m => m.ReinforceTypeId).Name("Reinforce Type ID");
             Map(m => m.AttackElementCorrectId).Name("Attack Element Correct ID");
 
@@ -42,6 +43,7 @@ namespace EldenRingBlazor.DataAccess
             Map(m => m.StaminaDamage).Name("Stamina Attack");
             Map(m => m.Critical).Name("Attack Power (Critical)");
             Map(m => m.Weight).Name("Weight");
+            Map(m => m.TwoHandDualWield).Name("2H Dual-Wield");
         }
     }
 }

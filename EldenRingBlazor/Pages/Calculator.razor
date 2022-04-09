@@ -106,13 +106,16 @@
                                 <b>@attackRatingCalculation.Physical.DisplayTotal</b>
                             </MudText>
                         </div>
-                        <div class="d-flex">
-                            <MudText Inline="true" Class="ml-auto">
-                                @attackRatingCalculation.Physical.Base
-                                @(attackRatingCalculation.Physical.TotalScaling >= 0 ? " +" : " ")
-                                <span style="@StyleNumber(attackRatingCalculation.Physical.TotalScaling)">@attackRatingCalculation.Physical.TotalScaling</span>
-                            </MudText>
-                        </div>
+                        @if (attackRatingCalculation.Physical.DisplayTotal > 0)
+                        {
+                            <div class="d-flex">
+                                <MudText Inline="true" Class="ml-auto">
+                                    @attackRatingCalculation.Physical.Base
+                                    @(attackRatingCalculation.Physical.TotalScaling >= 0 ? " +" : " ")
+                                    <span style="@StyleNumber(attackRatingCalculation.Physical.TotalScaling)">@attackRatingCalculation.Physical.TotalScaling</span>
+                                </MudText>
+                            </div>
+                        }
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
@@ -121,13 +124,16 @@
                                 <b>@attackRatingCalculation.Magic.DisplayTotal</b>
                             </MudText>
                         </div>
-                        <div class="d-flex">
-                            <MudText Class="ml-auto">
-                                @attackRatingCalculation.Magic.Base
-                                @(attackRatingCalculation.Magic.TotalScaling >= 0 ? " +" : " ")
-                                <span style="@StyleNumber(attackRatingCalculation.Magic.TotalScaling)">@attackRatingCalculation.Magic.TotalScaling</span>
-                            </MudText>
-                        </div>
+                        @if (attackRatingCalculation.Magic.DisplayTotal > 0)
+                        {
+                            <div class="d-flex">
+                                <MudText Class="ml-auto">
+                                    @attackRatingCalculation.Magic.Base
+                                    @(attackRatingCalculation.Magic.TotalScaling >= 0 ? " +" : " ")
+                                    <span style="@StyleNumber(attackRatingCalculation.Magic.TotalScaling)">@attackRatingCalculation.Magic.TotalScaling</span>
+                                </MudText>
+                            </div>
+                        }
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
@@ -136,13 +142,16 @@
                                 <b>@attackRatingCalculation.Fire.DisplayTotal</b>
                             </MudText>
                         </div>
-                        <div class="d-flex">
-                            <MudText Class="ml-auto">
-                                @attackRatingCalculation.Fire.Base
-                                @(attackRatingCalculation.Fire.TotalScaling >= 0 ? " +" : " ")
-                                <span style="@StyleNumber(attackRatingCalculation.Fire.TotalScaling)">@attackRatingCalculation.Fire.TotalScaling</span>
-                            </MudText>
-                        </div>
+                        @if (attackRatingCalculation.Fire.DisplayTotal > 0)
+                        {
+                            <div class="d-flex">
+                                <MudText Class="ml-auto">
+                                    @attackRatingCalculation.Fire.Base
+                                    @(attackRatingCalculation.Fire.TotalScaling >= 0 ? " +" : " ")
+                                    <span style="@StyleNumber(attackRatingCalculation.Fire.TotalScaling)">@attackRatingCalculation.Fire.TotalScaling</span>
+                                </MudText>
+                            </div>
+                        }
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
@@ -151,13 +160,16 @@
                                 <b>@attackRatingCalculation.Lightning.DisplayTotal</b>
                             </MudText>
                         </div>
-                        <div class="d-flex">
-                            <MudText Class="ml-auto">
-                                @attackRatingCalculation.Lightning.Base
-                                @(attackRatingCalculation.Lightning.TotalScaling >= 0 ? " +" : " ")
-                                <span style="@StyleNumber(attackRatingCalculation.Lightning.TotalScaling)">@attackRatingCalculation.Lightning.TotalScaling</span>
-                            </MudText>
-                        </div>
+                        @if (attackRatingCalculation.Lightning.DisplayTotal > 0)
+                        {
+                            <div class="d-flex">
+                                <MudText Class="ml-auto">
+                                    @attackRatingCalculation.Lightning.Base
+                                    @(attackRatingCalculation.Lightning.TotalScaling >= 0 ? " +" : " ")
+                                    <span style="@StyleNumber(attackRatingCalculation.Lightning.TotalScaling)">@attackRatingCalculation.Lightning.TotalScaling</span>
+                                </MudText>
+                            </div>
+                        }
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
@@ -166,13 +178,16 @@
                                 <b>@attackRatingCalculation.Holy.DisplayTotal</b>
                             </MudText>
                         </div>
-                        <div class="d-flex">
-                            <MudText Class="ml-auto">
-                                @attackRatingCalculation.Holy.Base
-                                @(attackRatingCalculation.Holy.TotalScaling >= 0 ? " +" : " ")
-                                <span style="@StyleNumber(attackRatingCalculation.Holy.TotalScaling)">@attackRatingCalculation.Holy.TotalScaling</span>
-                            </MudText>
-                        </div>
+                        @if (attackRatingCalculation.Holy.DisplayTotal > 0)
+                        {
+                            <div class="d-flex">
+                                <MudText Class="ml-auto">
+                                    @attackRatingCalculation.Holy.Base
+                                    @(attackRatingCalculation.Holy.TotalScaling >= 0 ? " +" : " ")
+                                    <span style="@StyleNumber(attackRatingCalculation.Holy.TotalScaling)">@attackRatingCalculation.Holy.TotalScaling</span>
+                                </MudText>
+                            </div>
+                        }
                     </MudListItem>
                     @if (input.Weapon.WeaponType == "Sacred Seal" || input.Weapon.WeaponType == "Glintstone Staff")
                     {
@@ -205,8 +220,20 @@
                     }
                     <MudListItem>
                         <div class="d-flex">
+                            <MudText>Critical</MudText>
+                            <MudText Inline="true" Class="ml-auto">@input.Weapon.Critical</MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem>
+                        <div class="d-flex">
                             <MudText>Stamina Damage</MudText>
                             <MudText Inline="true" Class="ml-auto">@attackRatingCalculation.StaminaDamage</MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem>
+                        <div class="d-flex">
+                            <MudText>Weight</MudText>
+                            <MudText Inline="true" Class="ml-auto">@String.Format("{0:0.0}", input.Weapon.Weight)</MudText>
                         </div>
                     </MudListItem>
                 </MudList>
@@ -244,7 +271,6 @@
     private IEnumerable<Weapon> weaponList = new List<Weapon>();
 
     private string weaponCategory = "All";
-    private IEnumerable<WeaponCategory> weaponCategoryList = new List<WeaponCategory>();
     private List<string> weaponCategoryNames = new List<string>();
 
     private int lastSelectedAffinity;
@@ -281,7 +307,7 @@
         {
             weaponCategory = category;
 
-            var matchingWeapons = category == "All" ? weaponCategoryList : weaponCategoryList.Where(c => c.WeaponType == category);
+            var matchingWeapons = category == "All" ? weaponList : weaponList.Where(c => c.WeaponType == category);
 
             filteredWeaponNames = matchingWeapons.Select(c => c.Name).OrderBy(c => c);
         }
@@ -427,7 +453,7 @@
 
         info.Add(new ScalingRequirementsInfo
             {
-                Label = "Requirements",
+                Label = "Reqs.",
                 Strength = $"{input.Weapon.StrRequirement}",
                 Dexterity = $"{input.Weapon.DexRequirement}",
                 Intelligence = $"{input.Weapon.IntRequirement}",
@@ -438,11 +464,21 @@
         info.Add(new ScalingRequirementsInfo
             {
                 Label = "Scaling",
-                Strength = $"{attackRatingCalculation.StrScaling} ({attackRatingCalculation.StrScalingGrade})",
-                Dexterity = $"{attackRatingCalculation.DexScaling} ({attackRatingCalculation.DexScalingGrade})",
-                Intelligence = $"{attackRatingCalculation.IntScaling} ({attackRatingCalculation.IntScalingGrade})",
-                Faith = $"{attackRatingCalculation.FthScaling} ({attackRatingCalculation.FthScalingGrade})",
-                Arcane = $"{attackRatingCalculation.ArcScaling} ({attackRatingCalculation.ArcScalingGrade})",
+                Strength = $"{attackRatingCalculation.StrScaling}",
+                Dexterity = $"{attackRatingCalculation.DexScaling}",
+                Intelligence = $"{attackRatingCalculation.IntScaling}",
+                Faith = $"{attackRatingCalculation.FthScaling}",
+                Arcane = $"{attackRatingCalculation.ArcScaling}",
+            });
+
+        info.Add(new ScalingRequirementsInfo
+            {
+                Label = "",
+                Strength = $"{attackRatingCalculation.StrScalingGrade}",
+                Dexterity = $"{attackRatingCalculation.DexScalingGrade}",
+                Intelligence = $"{attackRatingCalculation.IntScalingGrade}",
+                Faith = $"{attackRatingCalculation.FthScalingGrade}",
+                Arcane = $"{attackRatingCalculation.ArcScalingGrade}",
             });
 
         scalingRequirements = info;
@@ -452,7 +488,7 @@
     {
         if (stat >= req)
         {
-            return "";
+            return "font-weight: bold;";
         }
         else
         {
@@ -468,12 +504,11 @@
     protected override void OnInitialized()
     {
         weaponList = EquipmentService.BaseWeapons;
-        weaponCategoryList = EquipmentService.WeaponCategories;
 
         filteredWeaponNames = weaponList.Select(w => w.Name);
 
         weaponCategoryNames = new List<string>() { "All" };
-        weaponCategoryNames.AddRange(weaponCategoryList.Select(c => c.WeaponType).Distinct().OrderBy(c => c));
+        weaponCategoryNames.AddRange(weaponList.Select(c => c.WeaponType).Distinct().OrderBy(c => c));
 
         var weapon = weaponList.Single(w => w.Id == 10080000);
 
