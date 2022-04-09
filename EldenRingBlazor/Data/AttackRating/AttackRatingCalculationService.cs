@@ -35,8 +35,6 @@ namespace EldenRingBlazor.Data.AttackRating
                 var attackElement = _equipmentService.GetAttackElementCorrect(baseWeapon.AttackElementCorrectId);
 
                 var attackRating = GetCorrections(input, modifiedWeapon, attackElement);
-
-                attackRating.WeaponCategory = _equipmentService.GetWeaponCategory(baseWeapon.Name);
  
                 return attackRating;
             }
