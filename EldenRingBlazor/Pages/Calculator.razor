@@ -195,7 +195,7 @@
                             <div class="d-flex">
                                 <MudText>Sorc/Incant Scaling</MudText>
                                 <MudText Class="ml-auto">
-                                    @(attackRatingCalculation.SorceryIncantation.Total)
+                                    @string.Format("{0:0.0}", attackRatingCalculation.SorceryIncantation.Total)
                                 </MudText>
                             </div>
                         </MudListItem>
@@ -233,7 +233,7 @@
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Weight</MudText>
-                            <MudText Inline="true" Class="ml-auto">@String.Format("{0:0.0}", input.Weapon.Weight)</MudText>
+                            <MudText Inline="true" Class="ml-auto">@string.Format("{0:0.0}", input.Weapon.Weight)</MudText>
                         </div>
                     </MudListItem>
                 </MudList>
@@ -464,11 +464,11 @@
         info.Add(new ScalingRequirementsInfo
             {
                 Label = "Scaling",
-                Strength = $"{attackRatingCalculation.StrScaling}",
-                Dexterity = $"{attackRatingCalculation.DexScaling}",
-                Intelligence = $"{attackRatingCalculation.IntScaling}",
-                Faith = $"{attackRatingCalculation.FthScaling}",
-                Arcane = $"{attackRatingCalculation.ArcScaling}",
+                Strength = $"{attackRatingCalculation.StrScaling:0.#}",
+                Dexterity = $"{attackRatingCalculation.DexScaling:0.#}",
+                Intelligence = $"{attackRatingCalculation.IntScaling:0.#}",
+                Faith = $"{attackRatingCalculation.FthScaling:0.#}",
+                Arcane = $"{attackRatingCalculation.ArcScaling:0.#}",
             });
 
         info.Add(new ScalingRequirementsInfo
