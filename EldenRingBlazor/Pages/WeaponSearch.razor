@@ -91,13 +91,10 @@
     </MudItem>
 
     <MudItem>
-        <MudTable Items=@searchResults Filter="new Func<ModifiedWeapon,bool>(FilterFunc1)" @bind-SelectedItem="selectedWeapon">
+        <MudTable Items=@searchResults Filter="new Func<ModifiedWeapon,bool>(FilterFunc1)" @bind-SelectedItem="selectedWeapon" FixedFooter=true FixedHeader=true HorizontalScrollbar>
             <ToolBarContent>
-                <MudText Typo="Typo.h6">Armaments</MudText>
-                <MudSpacer />
                 <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
             </ToolBarContent>
-            @*TODO: Add a top-level header for Requirements, Scaling*@
             <HeaderContent>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.BaseName)">Name</MudTableSortLabel></MudTh>
                 <MudTh>Affinity</MudTh>
@@ -145,7 +142,7 @@
                 <MudTd DataLabel="ARC Req">@context.FthRequirement</MudTd>
             </RowTemplate>
             <PagerContent>
-                <MudTablePager />
+                <MudTablePager HorizontalAlignment="HorizontalAlignment.Left" />
             </PagerContent>
         </MudTable>
     </MudItem>
