@@ -113,6 +113,7 @@
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.IntScaling)">INT Scaling</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FthScaling)">FAI Scaling</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.ArcScaling)">ARC Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.Critical)">Critical</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.Weight)">Weight</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.StrRequirement)">STR Req</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.DexRequirement)">DEX Req</MudTableSortLabel></MudTh>
@@ -135,6 +136,7 @@
                 <MudTd DataLabel="INT Sc">@Math.Round(context.IntScaling, 2)</MudTd>
                 <MudTd DataLabel="FAI Sc">@Math.Round(context.FthScaling, 2)</MudTd>
                 <MudTd DataLabel="ARC Sc">@Math.Round(context.ArcScaling, 2)</MudTd>
+                <MudTd DataLabel="Critical">@context.Critical</MudTd>
                 <MudTd DataLabel="Weight">@context.Weight</MudTd>
                 <MudTd DataLabel="STR Rq">@context.StrRequirement</MudTd>
                 <MudTd DataLabel="DEX Rq">@context.DexRequirement</MudTd>
