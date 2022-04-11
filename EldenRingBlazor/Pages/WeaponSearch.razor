@@ -1,0 +1,96 @@
+﻿@page "/weapons"
+@page "/armaments"
+@using EldenRingBlazor.Data
+@using EldenRingBlazor.Data.Equipment
+@inject EquipmentService EquipmentService
+
+<PageTitle>Armaments</PageTitle>
+
+<MudText Typo="Typo.h2">Armaments</MudText>
+
+<MudGrid>
+
+    <MudItem xs="6">
+        <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
+
+            <MudText Typo="Typo.h5" GutterBottom="true">Character</MudText>
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="STR" Variant="Variant.Outlined" @bind-Value="input.MaxStrength" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudSwitch @bind-Checked="@input.TwoHand" Label="Two-Hand" Color="Color.Info" /> (@(input.EffectiveStrength))
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="DEX" Variant="Variant.Outlined" @bind-Value="input.MaxDexterity" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="INT" Variant="Variant.Outlined" @bind-Value="input.MaxIntelligence" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="FAI" Variant="Variant.Outlined" @bind-Value="input.MaxFaith" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="ARC" Variant="Variant.Outlined" @bind-Value="input.MaxArcane" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Search</MudButton>
+                </MudItem>
+            </MudGrid>
+
+        </EditForm>
+    </MudItem>
+
+    <MudItem>
+        <MudTable Items=@searchResults>
+            <HeaderContent>
+                <MudTh>Name</MudTh>
+                <MudTh>Category</MudTh>
+                <MudTh>STR</MudTh>
+                <MudTh>DEX</MudTh>
+                <MudTh>INT</MudTh>
+                <MudTh>FAI</MudTh>
+                <MudTh>ARC</MudTh>
+                <MudTh>STR</MudTh>
+                <MudTh>DEX</MudTh>
+                <MudTh>INT</MudTh>
+                <MudTh>FAI</MudTh>
+                <MudTh>ARC</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="Name">@context.WeaponType</MudTd>
+                <MudTd DataLabel="STR">@context.StrScaling</MudTd>
+                <MudTd DataLabel="DEX">@context.DexScaling</MudTd>
+                <MudTd DataLabel="INT">@context.IntScaling</MudTd>
+                <MudTd DataLabel="FAI">@context.FthScaling</MudTd>
+                <MudTd DataLabel="ARC">@context.ArcScaling</MudTd>
+                <MudTd DataLabel="STR">@context.StrRequirement</MudTd>
+                <MudTd DataLabel="DEX">@context.DexRequirement</MudTd>
+                <MudTd DataLabel="INT">@context.IntRequirement</MudTd>
+                <MudTd DataLabel="FAI">@context.FthRequirement</MudTd>
+                <MudTd DataLabel="ARC">@context.FthRequirement</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private EditContext EditContext;
+    private SearchWeaponsRequest input = new SearchWeaponsRequest();
+
+    private List<ModifiedWeapon> searchResults = new List<ModifiedWeapon>();
+
+    protected override void OnInitialized()
+    {
+        searchResults = EquipmentService.SearchWeapons(input);
+        EditContext = new EditContext(input);
+
+        base.OnInitialized();
+    }
+
+    private void HandleValidSubmit()
+    {
+        searchResults = EquipmentService.SearchWeapons(input);
+    }
+}

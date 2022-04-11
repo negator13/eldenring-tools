@@ -1,5 +1,5 @@
 ﻿using CsvHelper;
-using EldenRingBlazor.DataAccess;
+using EldenRingBlazor.CsvMappings;
 using System.Globalization;
 using EldenRingBlazor.Data.Equipment;
 

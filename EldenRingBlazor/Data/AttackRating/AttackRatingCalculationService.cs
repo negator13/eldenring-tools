@@ -19,6 +19,7 @@ namespace EldenRingBlazor.Data.AttackRating
         {
             try
             {
+                // TODO: Refactor to use new EquipmentService methods
                 var weaponId = input.Weapon.Id;
                 var affinityId = input.AffinityId;
 
@@ -38,7 +39,7 @@ namespace EldenRingBlazor.Data.AttackRating
  
                 return attackRating;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }

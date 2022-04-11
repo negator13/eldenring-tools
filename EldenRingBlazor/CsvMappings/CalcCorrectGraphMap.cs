@@ -1,7 +1,7 @@
 ﻿using CsvHelper.Configuration;
 using EldenRingBlazor.Data.CalcCorrect;
 
-namespace EldenRingBlazor.DataAccess
+namespace EldenRingBlazor.CsvMappings
 {
     // CalcCorrectGraph
     public class CalcCorrectGraphMap: ClassMap<CalcCorrectGraph>

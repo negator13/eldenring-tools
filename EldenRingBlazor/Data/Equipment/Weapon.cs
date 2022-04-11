@@ -4,9 +4,9 @@
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string WeaponType { get; set; }
+        public string? WeaponType { get; set; }
 
         public int AttackElementCorrectId { get; set; }
 
@@ -60,11 +60,11 @@
 
         public int Effect1 { get; set; }
 
-        public string Effect1Type { get; set; }
+        public string? Effect1Type { get; set; }
 
         public int Effect2 { get; set; }
 
-        public string Effect2Type { get; set; }
+        public string? Effect2Type { get; set; }
 
         public int Critical { get; set; }
 
@@ -72,7 +72,7 @@
 
         public bool IsInfusable => Infusable == "Yes";
 
-        public string TwoHandDualWield { get; set; }
+        public string? TwoHandDualWield { get; set; }
 
         public bool IsTwoHandDualWield => TwoHandDualWield == "Yes";
 

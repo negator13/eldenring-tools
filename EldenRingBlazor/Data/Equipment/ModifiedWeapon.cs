@@ -1,6 +1,6 @@
 ﻿using EldenRingBlazor.Data.Equipment;
 
-namespace EldenRingBlazor.Data.AttackRating
+namespace EldenRingBlazor.Data.Equipment
 {
     public class ModifiedWeapon : WeaponUpgrade
     {
@@ -47,13 +47,5 @@ namespace EldenRingBlazor.Data.AttackRating
             Infusable = weapon.Infusable;
             TwoHandDualWield = weapon.TwoHandDualWield;
         }
-
-        public double Effect1Scaling { get; set; }
-
-        public double Effect2Scaling { get; set; }
-
-        public string PassiveEffect1 { get; set; }
-
-        public string PassiveEffect2 { get; set; }
     }
 }
