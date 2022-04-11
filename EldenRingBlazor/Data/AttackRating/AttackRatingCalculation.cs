@@ -49,48 +49,6 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public double ArcScaling { get; set; }
 
-        public string StrScalingGrade => GetScalingGrade(StrScaling);
-
-        public string DexScalingGrade => GetScalingGrade(DexScaling);
-
-        public string IntScalingGrade => GetScalingGrade(IntScaling);
-
-        public string FthScalingGrade => GetScalingGrade(FthScaling);
-
-        public string ArcScalingGrade => GetScalingGrade(ArcScaling);
-
-        private string GetScalingGrade(double scaling)
-        {
-            if (scaling >= 175)
-            {
-                return "S";
-            }
-            else if (scaling >= 140)
-            {
-                return "A";
-            }
-            else if (scaling >= 90)
-            {
-                return "B";
-            }
-            else if (scaling >= 60)
-            {
-                return "C";
-            }
-            else if (scaling >= 25)
-            {
-                return "D";
-            }
-            else if (scaling > 0)
-            {
-                return "E";
-            }
-            else
-            {
-                return "-";
-            }
-        }
-
         public AttackRatingComponent Physical { get; set; }
 
         public AttackRatingComponent Magic { get; set; }

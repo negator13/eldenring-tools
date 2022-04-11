@@ -474,11 +474,11 @@
         info.Add(new ScalingRequirementsInfo
             {
                 Label = "",
-                Strength = $"{attackRatingCalculation.StrScalingGrade}",
-                Dexterity = $"{attackRatingCalculation.DexScalingGrade}",
-                Intelligence = $"{attackRatingCalculation.IntScalingGrade}",
-                Faith = $"{attackRatingCalculation.FthScalingGrade}",
-                Arcane = $"{attackRatingCalculation.ArcScalingGrade}",
+                Strength = $"{attackRatingCalculation.StrScaling.GetScalingGrade()}",
+                Dexterity = $"{attackRatingCalculation.DexScaling.GetScalingGrade()}",
+                Intelligence = $"{attackRatingCalculation.IntScaling.GetScalingGrade()}",
+                Faith = $"{attackRatingCalculation.FthScaling.GetScalingGrade()}",
+                Arcane = $"{attackRatingCalculation.ArcScaling.GetScalingGrade()}",
             });
 
         scalingRequirements = info;

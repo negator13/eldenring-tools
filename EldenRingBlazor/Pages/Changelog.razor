@@ -3,129 +3,131 @@
 
 <PageTitle>Changelog</PageTitle>
 
-<MudText Typo="Typo.h2">Changelog</MudText>
+<MudContainer Class="mt-16">
+    <MudText Typo="Typo.h3">Changelog</MudText>
 
-<MudGrid>
-    <MudItem>
-        <MudSimpleTable Style="overflow-x: auto;">
-            <thead>
-                <tr>
-                    <th>App Version</th>
-                    <th>Patch Version</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.v1_0_0</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>
-                        <ul>
-                            <li>Added initial version of <MudLink Href="/armaments">Weapon Search</MudLink> tool</li>
-                            <li>Remodeled the site a bit, added About page and consolidated some others</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.v0_7_0</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>
-                        <ul>
-                            <li>Display Critical, Weight</li>
-                            <li>Fix behavior where two-hand STR bonus was incorrectly applied to dual-wield weapons</li>
-                            <li>Include Shields in selectabe weapons, categories</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.v0_6_1</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>
-                        <ul>
-                            <li>Add Stamina Damage (correctly scaling with upgrade level)</li>
-                            <li>Update displayed AR breakdown by damage type, show rounded numbers to match in-game</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.v0_6_0</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>
-                        <ul>
-                            <li>Remember previous upgrade level and affinity selections</li>
-                            <li>Show effective STR when two-handing</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.v0_5_2</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>
-                        <ul>
-                            <li>Fixed incorrect Passive Effect scaling calculations</li>
-                            <li>Only show Sorcery/Incantation scaling for Seals + Staffs</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.v0_5_0</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>
-                        <ul>
-                            <li>Finished implementing weapon category filtering</li>
-                            <li>Implemented Passive Effects (Bleed, Poison, etc)</li>
-                            <li>[0.5.1] Fixed incorrect Passive Effect calculations</li>
-                            <li>Added stamina damage</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.v0_4_0</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>
-                        <ul>
-                            <li>Implemented Sorcery/Incantation scaling for Staffs + Seals</li>
-                            <li>Added ability to filter weapons by category in the AR Calculator (WIP)</li>
-                            <li>AR Calculator UI improvements</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.v0_3_0</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>
-                        <ul>
-                            <li>Big styling overhaul, implemented Dark mode</li>
-                            <li>Improved AR Calculator UI/UX</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.v0_2_0</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>
-                        <ul>
-                            <li>Condensed input forms on AR Calculator for ease of use</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.v0_1_1</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>
-                        <ul>
-                            <li>Implemented typeahead text search for Weapon on Calculator page</li>
-                            <li>Styling updates (reverted to light theme for now due to issues with dark theme)</li>
-                            <li>Added Changelog and Acknowledgements, changed route for AR Calculator from /calculatear to /calculator</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>@VersionInfo.AppVersion.Initial</strong></td>
-                    <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
-                    <td>Initial Release</td>
-                </tr>
-            </tbody>
-        </MudSimpleTable>
-    </MudItem>
-</MudGrid>
+    <MudGrid>
+        <MudItem>
+            <MudSimpleTable Style="overflow-x: auto;">
+                <thead>
+                    <tr>
+                        <th>App Version</th>
+                        <th>Patch Version</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.v1_0_0</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>
+                            <ul>
+                                <li>Added initial version of <MudLink Href="/armaments">Weapon Search</MudLink> tool</li>
+                                <li>Remodeled the site a bit, added About page and consolidated some others</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.v0_7_0</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>
+                            <ul>
+                                <li>Display Critical, Weight</li>
+                                <li>Fix behavior where two-hand STR bonus was incorrectly applied to dual-wield weapons</li>
+                                <li>Include Shields in selectabe weapons, categories</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.v0_6_1</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>
+                            <ul>
+                                <li>Add Stamina Damage (correctly scaling with upgrade level)</li>
+                                <li>Update displayed AR breakdown by damage type, show rounded numbers to match in-game</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.v0_6_0</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>
+                            <ul>
+                                <li>Remember previous upgrade level and affinity selections</li>
+                                <li>Show effective STR when two-handing</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.v0_5_2</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>
+                            <ul>
+                                <li>Fixed incorrect Passive Effect scaling calculations</li>
+                                <li>Only show Sorcery/Incantation scaling for Seals + Staffs</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.v0_5_0</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>
+                            <ul>
+                                <li>Finished implementing weapon category filtering</li>
+                                <li>Implemented Passive Effects (Bleed, Poison, etc)</li>
+                                <li>[0.5.1] Fixed incorrect Passive Effect calculations</li>
+                                <li>Added stamina damage</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.v0_4_0</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>
+                            <ul>
+                                <li>Implemented Sorcery/Incantation scaling for Staffs + Seals</li>
+                                <li>Added ability to filter weapons by category in the AR Calculator (WIP)</li>
+                                <li>AR Calculator UI improvements</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.v0_3_0</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>
+                            <ul>
+                                <li>Big styling overhaul, implemented Dark mode</li>
+                                <li>Improved AR Calculator UI/UX</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.v0_2_0</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>
+                            <ul>
+                                <li>Condensed input forms on AR Calculator for ease of use</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.v0_1_1</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>
+                            <ul>
+                                <li>Implemented typeahead text search for Weapon on Calculator page</li>
+                                <li>Styling updates (reverted to light theme for now due to issues with dark theme)</li>
+                                <li>Added Changelog and Acknowledgements, changed route for AR Calculator from /calculatear to /calculator</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>@VersionInfo.AppVersion.Initial</strong></td>
+                        <td><strong>@VersionInfo.PatchVersion.v1_03</strong></td>
+                        <td>Initial Release</td>
+                    </tr>
+                </tbody>
+            </MudSimpleTable>
+        </MudItem>
+    </MudGrid>
+</MudContainer>

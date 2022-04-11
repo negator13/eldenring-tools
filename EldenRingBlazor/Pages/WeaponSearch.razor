@@ -131,18 +131,18 @@
                 <MudTd DataLabel="Fir">@Math.Round(@context.FireAttack, 2)</MudTd>
                 <MudTd DataLabel="Lig">@Math.Round(@context.LightningAttack, 2)</MudTd>
                 <MudTd DataLabel="Hol">@Math.Round(@context.HolyAttack, 2)</MudTd>
-                <MudTd DataLabel="STR Sc">@Math.Round(context.StrScaling, 2)</MudTd>
-                <MudTd DataLabel="DEX Sc">@Math.Round(context.DexScaling, 2)</MudTd>
-                <MudTd DataLabel="INT Sc">@Math.Round(context.IntScaling, 2)</MudTd>
-                <MudTd DataLabel="FAI Sc">@Math.Round(context.FthScaling, 2)</MudTd>
-                <MudTd DataLabel="ARC Sc">@Math.Round(context.ArcScaling, 2)</MudTd>
+                <MudTd DataLabel="STR Scl">@Math.Round(context.StrScaling, 2) (@context.StrScaling.GetScalingGrade())</MudTd>
+                <MudTd DataLabel="DEX Scl">@Math.Round(context.DexScaling, 2) (@context.DexScaling.GetScalingGrade())</MudTd>
+                <MudTd DataLabel="INT Scl">@Math.Round(context.IntScaling, 2) (@context.IntScaling.GetScalingGrade())</MudTd>
+                <MudTd DataLabel="FAI Scl">@Math.Round(context.FthScaling, 2) (@context.FthScaling.GetScalingGrade())</MudTd>
+                <MudTd DataLabel="ARC Scl">@Math.Round(context.ArcScaling, 2) (@context.ArcScaling.GetScalingGrade())</MudTd>
                 <MudTd DataLabel="Critical">@context.Critical</MudTd>
                 <MudTd DataLabel="Weight">@context.Weight</MudTd>
-                <MudTd DataLabel="STR Rq">@context.StrRequirement</MudTd>
-                <MudTd DataLabel="DEX Rq">@context.DexRequirement</MudTd>
-                <MudTd DataLabel="INT Rq">@context.IntRequirement</MudTd>
-                <MudTd DataLabel="FAI Rq">@context.FthRequirement</MudTd>
-                <MudTd DataLabel="ARC Rq">@context.FthRequirement</MudTd>
+                <MudTd DataLabel="STR Req">@context.StrRequirement</MudTd>
+                <MudTd DataLabel="DEX Req">@context.DexRequirement</MudTd>
+                <MudTd DataLabel="INT Req">@context.IntRequirement</MudTd>
+                <MudTd DataLabel="FAI Req">@context.FthRequirement</MudTd>
+                <MudTd DataLabel="ARC Req">@context.FthRequirement</MudTd>
             </RowTemplate>
             <PagerContent>
                 <MudTablePager />
