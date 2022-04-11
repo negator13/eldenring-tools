@@ -1,7 +1,7 @@
 ﻿using CsvHelper.Configuration;
 using EldenRingBlazor.Data.Equipment;
 
-namespace EldenRingBlazor.DataAccess
+namespace EldenRingBlazor.CsvMappings
 {
     public class PassiveEffectMap: ClassMap<PassiveEffect>
     {

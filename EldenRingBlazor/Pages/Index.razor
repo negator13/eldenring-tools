@@ -3,13 +3,45 @@
 
 <PageTitle>Elden Ring Web Tools - Home</PageTitle>
 
-<MudPaper>
-    <MudImage Src="/eldenring-logo.png" />
-
-    <MudText Typo="Typo.h3">Welcome to Elden Ring Web Tools!</MudText>
-
+<MudContainer Class="mt-16">
+    <div class="d-flex justify-center">
+        <MudImage Src="/eldenring-logo.png" ObjectPosition="ObjectPosition.Center" />
+    </div>
+    <MudText Typo="Typo.h3" Align="Align.Center">Web Tools</MudText>
+    <MudText Align="Align.Center" GutterBottom="true"> by negator13</MudText>
+    <br />
     <MudText Typo="Typo.body1">
-        This is the "alpha" release of the site App Version <strong>@VersionInfo.AppVersion.Latest</strong>, featuring a working <MudLink Href="/calculator">AR Calculator</MudLink> as of Patch <strong>@VersionInfo.PatchVersion.Latest</strong>.
-        More features coming soon.
+        This is app version <strong>@VersionInfo.AppVersion.Latest</strong>, featuring a working <MudLink Href="/calculator">AR Calculator</MudLink> as of Patch <strong>@VersionInfo.PatchVersion.Latest</strong> and a <MudLink Href="/armaments">Weapon Search</MudLink> utility.
+        More features will be added going forward!
     </MudText>
-</MudPaper>
+    <MudGrid Class="mt-8">
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="25" Class="rounded-lg pb-4">
+                <MudLink Href="/calculator">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5" Align="Align.Center">AR Calculator</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                </MudLink>
+                <MudCardContent>
+                    <MudText Align="Align.Center">View detailed base damage, scaling and other attributes for any weapon, tuned to your build.</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="25" Class="rounded-lg pb-4">
+                <MudLink Href="/armaments">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5" Align="Align.Center">Weapon Search</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                </MudLink>
+                <MudCardContent>
+                    <MudText Align="Align.Center">Search and filter weapons by stat requirements, weapon class, affinity, or upgrade level, and sort by damage, weight, scaling, and more.</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>

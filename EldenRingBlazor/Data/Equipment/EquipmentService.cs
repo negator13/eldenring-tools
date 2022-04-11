@@ -1,5 +1,5 @@
 ﻿using CsvHelper;
-using EldenRingBlazor.DataAccess;
+using EldenRingBlazor.CsvMappings;
 using System.Globalization;
 
 namespace EldenRingBlazor.Data.Equipment
@@ -12,7 +12,7 @@ namespace EldenRingBlazor.Data.Equipment
         private readonly IEnumerable<WeaponUpgrade> _weaponUpgrades;
         private readonly IEnumerable<AttackElement> _attackElements;
         private readonly IEnumerable<PassiveEffect> _passiveEffects;
-        
+
         public IEnumerable<Weapon> BaseWeapons { get; }
         public IEnumerable<Weapon> WeaponCategories { get; }
 
@@ -73,35 +73,72 @@ namespace EldenRingBlazor.Data.Equipment
         }
 
         // Raw_Data lookup
-        public Weapon GetWeapon(int id)
+        public Weapon? GetWeapon(int id)
         {
             var weapon = _allWeapons.SingleOrDefault(w => w.Id == id);
-
             return weapon;
         }
 
         // ReinforceWeaponParam lookup
-        public WeaponUpgrade GetWeaponUpgrade(Weapon weapon, int upgradeLevel)
+        public WeaponUpgrade? GetWeaponUpgrade(Weapon weapon, int upgradeLevel)
         {
             int id = weapon.ReinforceTypeId + upgradeLevel;
 
             var weaponUpgrade = _weaponUpgrades.SingleOrDefault(wu => wu.Id == id);
 
-            weaponUpgrade.WeaponLevel = upgradeLevel;
+            if (weaponUpgrade != null)
+            {
+                weaponUpgrade.WeaponLevel = upgradeLevel;
+            }
 
             return weaponUpgrade;
         }
 
         // AttackElementCorrect lookup
-        public AttackElement GetAttackElementCorrect(int id)
+        public AttackElement? GetAttackElementCorrect(int id)
         {
             return _attackElements.SingleOrDefault(a => a.Id == id);
         }
 
         // SpEffectParam lookup
-        public PassiveEffect GetPassiveEffect(int id)
+        public PassiveEffect? GetPassiveEffect(int id)
         {
             return _passiveEffects.SingleOrDefault(e => e.Id == id);
+        }
+
+        public List<ModifiedWeapon> SearchWeapons(SearchWeaponsRequest request)
+        {
+            var filteredWeapons = _allWeapons
+                .Where(w =>
+                    (request.WeaponCategory == null || request.WeaponCategory == "All" || w.WeaponType == request.WeaponCategory)
+                    && (request.MaxStrength == 0 || (w.IsTwoHandDualWield ? w.StrRequirement <= request.MaxStrength : w.StrRequirement <= request.EffectiveStrength))
+                    && (request.MaxDexterity == 0 || w.DexRequirement <= request.MaxDexterity)
+                    && (request.MaxIntelligence == 0 || w.IntRequirement <= request.MaxIntelligence)
+                    && (request.MaxFaith == 0 || w.FthRequirement <= request.MaxFaith)
+                    && (request.MaxArcane == 0 || w.ArcRequirement <= request.MaxArcane)
+                    && (request.MaxWeight == 0 || w.Weight <= request.MaxWeight))
+                .ToList();
+
+            var modifiedWeapons = filteredWeapons.Select(w => GetModifiedWeapon(w, request));
+
+            if (request.Affinity > -1)
+            {
+                modifiedWeapons = modifiedWeapons.Where(m => m.AffinityName == Affinities.FromReinforceTypeId(request.Affinity));
+            }
+
+            return modifiedWeapons
+                .OrderBy(m => m.BaseName)
+                .ToList();
+        }
+
+        public ModifiedWeapon GetModifiedWeapon(Weapon weapon, SearchWeaponsRequest request)
+        {
+            var weaponUpgrade = GetWeaponUpgrade(weapon, weapon.IsInfusable ? request.UpgradeLevel : request.SomberUpgradeLevel);
+            var modifiedWeapon = new ModifiedWeapon(weapon, weaponUpgrade);
+            var baseWeaponId = weapon.Id - weapon.ReinforceTypeId;
+            modifiedWeapon.BaseName = GetWeapon(baseWeaponId)?.Name ?? modifiedWeapon.Name;
+            modifiedWeapon.AffinityName = Affinities.FromReinforceTypeId(weapon.ReinforceTypeId);
+            return modifiedWeapon;
         }
     }
 }

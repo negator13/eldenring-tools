@@ -1,0 +1,233 @@
+﻿@page "/weapons"
+@page "/armaments"
+@using EldenRingBlazor.Data
+@using EldenRingBlazor.Data.Equipment
+@inject EquipmentService EquipmentService
+
+<PageTitle>Armaments</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudText Typo="Typo.h4" GutterBottom="true">Armaments</MudText>
+<MudGrid>
+
+    <MudItem xs="12">
+        <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
+
+            <MudText Typo="Typo.h5" GutterBottom="true">Requirements</MudText>
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="STR" Variant="Variant.Outlined" @bind-Value="input.MaxStrength" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudSwitch @bind-Checked="@input.TwoHand" Label="Two-Hand" Color="Color.Info" /> (@(input.EffectiveStrength))
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="DEX" Variant="Variant.Outlined" @bind-Value="input.MaxDexterity" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="INT" Variant="Variant.Outlined" @bind-Value="input.MaxIntelligence" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="FAI" Variant="Variant.Outlined" @bind-Value="input.MaxFaith" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="ARC" Variant="Variant.Outlined" @bind-Value="input.MaxArcane" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Search</MudButton>
+                </MudItem>
+            </MudGrid>
+
+            <MudGrid>
+
+                <MudItem xs="6">
+                    <MudSelect Label="Weapon Category" T="string" Variant="Variant.Text"
+                               Value="input.WeaponCategory"
+                               ValueChanged="@UpdateWeaponCategory">
+                        @foreach (var category in weaponCategoryNames)
+                        {
+                            <MudSelectItem Value="@category" />
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="6">
+                    <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
+                               Value="@input.Affinity"
+                               ValueChanged="@UpdateWeaponAffinity">
+                        @foreach (var affinity in affinityList)
+                        {
+                            <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="6">
+                    <MudSelect Label="Upgrade Level (Normal)" T="int" Variant="Variant.Text"
+                               Value="@input.UpgradeLevel"
+                               ValueChanged="@UpdateWeaponLevel">
+                        @foreach (var level in upgradeList)
+                        {
+                            <MudSelectItem Value="@level">+ @level</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="6">
+                    <MudSelect Label="Upgrade Level (Special)" T="int" Variant="Variant.Text"
+                               Value="@input.SomberUpgradeLevel"
+                               ValueChanged="@UpdateSomberWeaponLevel">
+                        @foreach (var level in somberUpgradeList)
+                        {
+                            <MudSelectItem Value="@level">+ @level</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                
+            </MudGrid>
+
+        </EditForm>
+    </MudItem>
+
+    <MudItem>
+        <MudTable Items=@searchResults Filter="new Func<ModifiedWeapon,bool>(FilterFunc1)" @bind-SelectedItem="selectedWeapon">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Armaments</MudText>
+                <MudSpacer />
+                <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            @*TODO: Add a top-level header for Requirements, Scaling*@
+            <HeaderContent>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.BaseName)">Name</MudTableSortLabel></MudTh>
+                <MudTh>Affinity</MudTh>
+                <MudTh>Category</MudTh>
+                <MudTh>Type</MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.PhysicalAttack)">Physical</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.MagicAttack)">Magic</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FireAttack)">Fire</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.LightningAttack)">Lightning</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.HolyAttack)">Holy</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.StrScaling)">STR Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.DexScaling)">DEX Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.IntScaling)">INT Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FthScaling)">FAI Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.ArcScaling)">ARC Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.Critical)">Critical</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.Weight)">Weight</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.StrRequirement)">STR Req</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.DexRequirement)">DEX Req</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.IntRequirement)">INT Req</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FthRequirement)">FAI Req</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.ArcRequirement)">ARC Req</MudTableSortLabel></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="Affinity">@context.AffinityName</MudTd>
+                <MudTd DataLabel="Category">@context.WeaponType</MudTd>
+                <MudTd DataLabel="Type">@(context.IsInfusable ? "Normal" : "Special")</MudTd>
+                <MudTd DataLabel="Phy">@Math.Round(@context.PhysicalAttack, 2)</MudTd>
+                <MudTd DataLabel="Mag">@Math.Round(@context.MagicAttack, 2)</MudTd>
+                <MudTd DataLabel="Fir">@Math.Round(@context.FireAttack, 2)</MudTd>
+                <MudTd DataLabel="Lig">@Math.Round(@context.LightningAttack, 2)</MudTd>
+                <MudTd DataLabel="Hol">@Math.Round(@context.HolyAttack, 2)</MudTd>
+                <MudTd DataLabel="STR Scl">@Math.Round(context.StrScaling, 2) (@context.StrScaling.GetScalingGrade())</MudTd>
+                <MudTd DataLabel="DEX Scl">@Math.Round(context.DexScaling, 2) (@context.DexScaling.GetScalingGrade())</MudTd>
+                <MudTd DataLabel="INT Scl">@Math.Round(context.IntScaling, 2) (@context.IntScaling.GetScalingGrade())</MudTd>
+                <MudTd DataLabel="FAI Scl">@Math.Round(context.FthScaling, 2) (@context.FthScaling.GetScalingGrade())</MudTd>
+                <MudTd DataLabel="ARC Scl">@Math.Round(context.ArcScaling, 2) (@context.ArcScaling.GetScalingGrade())</MudTd>
+                <MudTd DataLabel="Critical">@context.Critical</MudTd>
+                <MudTd DataLabel="Weight">@context.Weight</MudTd>
+                <MudTd DataLabel="STR Req">@context.StrRequirement</MudTd>
+                <MudTd DataLabel="DEX Req">@context.DexRequirement</MudTd>
+                <MudTd DataLabel="INT Req">@context.IntRequirement</MudTd>
+                <MudTd DataLabel="FAI Req">@context.FthRequirement</MudTd>
+                <MudTd DataLabel="ARC Req">@context.FthRequirement</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
+    </MudItem>
+</MudGrid>
+</MudContainer>
+
+@code {
+    private EditContext EditContext;
+    private SearchWeaponsRequest input = new SearchWeaponsRequest();
+
+    private List<string> weaponCategoryNames = new List<string>();
+    private List<WeaponAffinity> affinityList = new List<WeaponAffinity>();
+    private IEnumerable<int> upgradeList = new List<int>();
+    private IEnumerable<int> somberUpgradeList = new List<int>();
+
+    private List<ModifiedWeapon> searchResults = new List<ModifiedWeapon>();
+
+    private ModifiedWeapon selectedWeapon;
+    private string searchString = "";
+
+    protected override void OnInitialized()
+    {
+        searchResults = EquipmentService.SearchWeapons(input);
+        EditContext = new EditContext(input);
+
+        var weaponList = EquipmentService.BaseWeapons.ToList();
+        weaponCategoryNames = new List<string>() { "All" };
+        weaponCategoryNames.AddRange(weaponList
+            .Select(c => c.WeaponType)
+            .Distinct()
+            .OrderBy(c => c));
+
+        upgradeList = Enumerable.Range(0, 26).AsQueryable();
+        somberUpgradeList = Enumerable.Range(0, 11).AsQueryable();
+
+        affinityList = new List<WeaponAffinity>() { new WeaponAffinity { Id = -1, Name = "All" } };
+        affinityList.AddRange(Affinities.StandardAffinities);
+
+        base.OnInitialized();
+    }
+
+    private void HandleValidSubmit()
+    {
+        searchResults = EquipmentService.SearchWeapons(input);
+    }
+
+    private bool FilterFunc1(ModifiedWeapon weapon) => FilterFunc(weapon, searchString);
+
+    private bool FilterFunc(ModifiedWeapon weapon, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+        {
+            return true;
+        }
+        if (weapon.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void UpdateWeaponCategory(string category)
+    {
+        input.WeaponCategory = category;
+        HandleValidSubmit();
+    }
+
+    private void UpdateWeaponLevel(int id)
+    {
+        input.UpgradeLevel = id;
+        HandleValidSubmit();
+    }
+
+    private void UpdateSomberWeaponLevel(int id)
+    {
+        input.SomberUpgradeLevel = id;
+        HandleValidSubmit();
+    }
+
+    private void UpdateWeaponAffinity(int id)
+    {
+        input.Affinity = id;
+        HandleValidSubmit();
+    }
+}

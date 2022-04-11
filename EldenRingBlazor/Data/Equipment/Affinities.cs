@@ -2,11 +2,63 @@
 {
     public static class Affinities
     {
+        //public static readonly Dictionary<int, string> ReinforceTypeIdMap = new Dictionary<int, string>
+        //{
+        //    { Standard, "" },
+        //    { Heavy, "Heavy" },
+        //    { Heavy2, "Heavy" },
+        //    { Keen, "Keen" },
+        //    { Keen2, "Keen" },
+        //    { Quality, "Quality" },
+        //    { Fire, "Fire" },
+        //    { FlameArt, "Flame Art" },
+        //    { Lightning, "Lightning" },
+        //    { Sacred, "Sacred" },
+        //    { Magic, "Magic" },
+        //    { Cold, "Cold" },
+        //    { Poison, "Poison" },
+        //    { Blood, "Blood" },
+        //    { Occult, "Occult" },
+        //};
+
+        public static string FromReinforceTypeId(this int reinforceTypeId)
+        {
+           var ReinforceTypeIdMap = new Dictionary<int, string>
+        {
+            { Standard, "" },
+            { Heavy, "Heavy" },
+            { Heavy2, "Heavy" },
+            { Keen, "Keen" },
+            { Keen2, "Keen" },
+            { Quality, "Quality" },
+            { Fire, "Fire" },
+            { FlameArt, "Flame Art" },
+            { Lightning, "Lightning" },
+            { Sacred, "Sacred" },
+            { Magic, "Magic" },
+            { Cold, "Cold" },
+            { Poison, "Poison" },
+            { Blood, "Blood" },
+            { Occult, "Occult" },
+        };
+
+            if (!ReinforceTypeIdMap.ContainsKey(reinforceTypeId))
+            {
+                return "";
+            }
+
+            return ReinforceTypeIdMap[reinforceTypeId];
+        }
+
         public static readonly int Standard = 0;
 
         public static readonly int Heavy = 100;
 
+        public static readonly int Heavy2 = 6000;
+
         public static readonly int Keen = 200;
+
+        public static readonly int Keen2 = 5000;
 
         public static readonly int Quality = 300;
 
