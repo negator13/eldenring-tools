@@ -2,7 +2,7 @@
 {
     public class SearchWeaponsRequest
     {
-        public string? WeaponCategory { get; set; }
+        public string? WeaponCategory { get; set; } = "All";
 
         public int UpgradeLevel { get; set; } = 25;
 
