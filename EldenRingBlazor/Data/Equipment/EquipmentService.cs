@@ -111,28 +111,33 @@ namespace EldenRingBlazor.Data.Equipment
             var filteredWeapons = _allWeapons
                 .Where(w =>
                     (request.WeaponCategory == null || w.WeaponType == request.WeaponCategory)
-                    && (request.MaxStrength == 0 || w.StrRequirement <= request.MaxStrength)
+                    && (request.MaxStrength == 0 || (w.IsTwoHandDualWield ? w.StrRequirement <= request.MaxStrength : w.StrRequirement <= request.EffectiveStrength))
                     && (request.MaxDexterity == 0 || w.StrRequirement <= request.MaxDexterity)
                     && (request.MaxIntelligence == 0 || w.StrRequirement <= request.MaxIntelligence)
                     && (request.MaxFaith == 0 || w.StrRequirement <= request.MaxFaith)
                     && (request.MaxArcane == 0 || w.StrRequirement <= request.MaxArcane)
                     && (request.MaxWeight == 0 || w.Weight <= request.MaxWeight))
-                .OrderBy(w => w.Name) // TODO: Order by Scalings, etc
-                //.Skip(request.Offset)
-                //.Take(request.Limit)
+                .OrderBy(w => w.Name) 
                 .ToList();
 
             var modifiedWeapons = filteredWeapons.Select(w => GetModifiedWeapon(w, request));
+
+            if (request.Affinity > -1)
+            {
+                modifiedWeapons = modifiedWeapons.Where(m => m.AffinityName == Affinities.FromReinforceTypeId(request.Affinity));
+            }
 
             return modifiedWeapons.ToList();
         }
 
         public ModifiedWeapon GetModifiedWeapon(Weapon weapon, SearchWeaponsRequest request)
         {
-            var affinitizedId = weapon.Id + request.Affinity;
-            var baseWeapon = GetWeapon(affinitizedId);
-            var weaponUpgrade = GetWeaponUpgrade(baseWeapon, baseWeapon.IsInfusable ? request.UpgradeLevel : request.SomberUpgradeLevel);
-            return new ModifiedWeapon(weapon, weaponUpgrade);
+            var weaponUpgrade = GetWeaponUpgrade(weapon, weapon.IsInfusable ? request.UpgradeLevel : request.SomberUpgradeLevel);
+            var modifiedWeapon = new ModifiedWeapon(weapon, weaponUpgrade);
+            var baseWeaponId = weapon.Id - weapon.ReinforceTypeId;
+            modifiedWeapon.BaseName = GetWeapon(baseWeaponId)?.Name ?? modifiedWeapon.Name;
+            modifiedWeapon.AffinityName = Affinities.FromReinforceTypeId(weapon.ReinforceTypeId);
+            return modifiedWeapon;
         }
     }
 }

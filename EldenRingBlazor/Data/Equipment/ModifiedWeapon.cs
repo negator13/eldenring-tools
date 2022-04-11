@@ -53,5 +53,11 @@
             Infusable = weapon.Infusable;
             TwoHandDualWield = weapon.TwoHandDualWield;
         }
+
+        public string BaseName { get; set; }
+
+        public int AffinityId { get; set; }
+
+        public string AffinityName { get; set; }
     }
 }

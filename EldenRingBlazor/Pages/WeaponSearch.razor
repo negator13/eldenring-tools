@@ -6,11 +6,11 @@
 
 <PageTitle>Armaments</PageTitle>
 
-<MudText Typo="Typo.h2">Armaments</MudText>
-
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudText Typo="Typo.h4" GutterBottom="true">Armaments</MudText>
 <MudGrid>
 
-    <MudItem xs="6">
+    <MudItem xs="12">
         <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
             <MudText Typo="Typo.h5" GutterBottom="true">Character</MudText>
@@ -40,9 +40,10 @@
 
             <MudGrid>
 
-                <MudItem xs="12">
+                <MudItem xs="6">
                     <MudSelect Label="Weapon Category" T="string" Variant="Variant.Text"
-                               @bind-Value="input.WeaponCategory">
+                               Value="input.WeaponCategory"
+                               ValueChanged="@UpdateWeaponCategory">
                         @foreach (var category in weaponCategoryNames)
                         {
                             <MudSelectItem Value="@category" />
@@ -50,9 +51,21 @@
                     </MudSelect>
                 </MudItem>
 
-                <MudItem xs="12">
-                    <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
-                               @bind-Value="input.UpgradeLevel">
+                <MudItem xs="6">
+                    <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
+                               Value="@input.Affinity"
+                               ValueChanged="@UpdateWeaponAffinity">
+                        @foreach (var affinity in affinityList)
+                        {
+                            <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="6">
+                    <MudSelect Label="Upgrade Level (Normal)" T="int" Variant="Variant.Text"
+                               Value="@input.UpgradeLevel"
+                               ValueChanged="@UpdateWeaponLevel">
                         @foreach (var level in upgradeList)
                         {
                             <MudSelectItem Value="@level">+ @level</MudSelectItem>
@@ -60,28 +73,18 @@
                     </MudSelect>
                 </MudItem>
 
-                <MudItem xs="12">
-                    <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
-                               @bind-Value="input.SomberUpgradeLevel">
-                        @foreach (var level in upgradeList)
+                <MudItem xs="6">
+                    <MudSelect Label="Upgrade Level (Special)" T="int" Variant="Variant.Text"
+                               Value="@input.SomberUpgradeLevel"
+                               ValueChanged="@UpdateSomberWeaponLevel">
+                        @foreach (var level in somberUpgradeList)
                         {
                             <MudSelectItem Value="@level">+ @level</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>
 
-                @if (affinityList != null && affinityList.Any())
-                {
-                    <MudItem xs="12">
-                        <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
-                               @bind-Value="input.Affinity">
-                            @foreach (var affinity in affinityList)
-                            {
-                                <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
-                            }
-                        </MudSelect>
-                    </MudItem>
-                }
+                
             </MudGrid>
 
         </EditForm>
@@ -96,36 +99,48 @@
             </ToolBarContent>
             @*TODO: Add a top-level header for Requirements, Scaling*@
             <HeaderContent>
-                <MudTh>Name</MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.BaseName)">Name</MudTableSortLabel></MudTh>
+                <MudTh>Affinity</MudTh>
                 <MudTh>Category</MudTh>
                 <MudTh>Type</MudTh>
-                <MudTh>Weight</MudTh>
-                <MudTh>STR</MudTh>
-                <MudTh>DEX</MudTh>
-                <MudTh>INT</MudTh>
-                <MudTh>FAI</MudTh>
-                <MudTh>ARC</MudTh>
-                <MudTh>STR</MudTh>
-                <MudTh>DEX</MudTh>
-                <MudTh>INT</MudTh>
-                <MudTh>FAI</MudTh>
-                <MudTh>ARC</MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.PhysicalAttack)">Physical</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.MagicAttack)">Magic</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FireAttack)">Fire</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.LightningAttack)">Lightning</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.HolyAttack)">Holy</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.StrScaling)">STR Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.DexScaling)">DEX Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.IntScaling)">INT Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FthScaling)">FAI Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.ArcScaling)">ARC Scaling</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.Weight)">Weight</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.StrRequirement)">STR Req</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.DexRequirement)">DEX Req</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.IntRequirement)">INT Req</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FthRequirement)">FAI Req</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.ArcRequirement)">ARC Req</MudTableSortLabel></MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="Affinity">@context.AffinityName</MudTd>
                 <MudTd DataLabel="Category">@context.WeaponType</MudTd>
                 <MudTd DataLabel="Type">@(context.IsInfusable ? "Normal" : "Special")</MudTd>
+                <MudTd DataLabel="Phy">@Math.Round(@context.PhysicalAttack, 2)</MudTd>
+                <MudTd DataLabel="Mag">@Math.Round(@context.MagicAttack, 2)</MudTd>
+                <MudTd DataLabel="Fir">@Math.Round(@context.FireAttack, 2)</MudTd>
+                <MudTd DataLabel="Lig">@Math.Round(@context.LightningAttack, 2)</MudTd>
+                <MudTd DataLabel="Hol">@Math.Round(@context.HolyAttack, 2)</MudTd>
+                <MudTd DataLabel="STR Sc">@Math.Round(context.StrScaling, 2)</MudTd>
+                <MudTd DataLabel="DEX Sc">@Math.Round(context.DexScaling, 2)</MudTd>
+                <MudTd DataLabel="INT Sc">@Math.Round(context.IntScaling, 2)</MudTd>
+                <MudTd DataLabel="FAI Sc">@Math.Round(context.FthScaling, 2)</MudTd>
+                <MudTd DataLabel="ARC Sc">@Math.Round(context.ArcScaling, 2)</MudTd>
                 <MudTd DataLabel="Weight">@context.Weight</MudTd>
-                <MudTd DataLabel="STR">@Math.Round(context.StrScaling, 2)</MudTd>
-                <MudTd DataLabel="DEX">@Math.Round(context.DexScaling, 2)</MudTd>
-                <MudTd DataLabel="INT">@Math.Round(context.IntScaling, 2)</MudTd>
-                <MudTd DataLabel="FAI">@Math.Round(context.FthScaling, 2)</MudTd>
-                <MudTd DataLabel="ARC">@Math.Round(context.ArcScaling, 2)</MudTd>
-                <MudTd DataLabel="STR">@context.StrRequirement</MudTd>
-                <MudTd DataLabel="DEX">@context.DexRequirement</MudTd>
-                <MudTd DataLabel="INT">@context.IntRequirement</MudTd>
-                <MudTd DataLabel="FAI">@context.FthRequirement</MudTd>
-                <MudTd DataLabel="ARC">@context.FthRequirement</MudTd>
+                <MudTd DataLabel="STR Rq">@context.StrRequirement</MudTd>
+                <MudTd DataLabel="DEX Rq">@context.DexRequirement</MudTd>
+                <MudTd DataLabel="INT Rq">@context.IntRequirement</MudTd>
+                <MudTd DataLabel="FAI Rq">@context.FthRequirement</MudTd>
+                <MudTd DataLabel="ARC Rq">@context.FthRequirement</MudTd>
             </RowTemplate>
             <PagerContent>
                 <MudTablePager />
@@ -133,6 +148,7 @@
         </MudTable>
     </MudItem>
 </MudGrid>
+</MudContainer>
 
 @code {
     private EditContext EditContext;
@@ -141,7 +157,7 @@
     private string weaponCategory = "All";
     private List<string> weaponCategoryNames = new List<string>();
 
-    private IEnumerable<WeaponAffinity> affinityList = new List<WeaponAffinity>();
+    private List<WeaponAffinity> affinityList = new List<WeaponAffinity>();
     private IEnumerable<int> upgradeList = new List<int>();
     private IEnumerable<int> somberUpgradeList = new List<int>();
 
@@ -158,7 +174,6 @@
         var weaponList = EquipmentService.BaseWeapons.ToList();
         weaponCategoryNames = new List<string>() { "All" };
         weaponCategoryNames.AddRange(weaponList
-            .Where(c => c.WeaponType != null)
             .Select(c => c.WeaponType)
             .Distinct()
             .OrderBy(c => c));
@@ -166,7 +181,8 @@
         upgradeList = Enumerable.Range(0, 26).AsQueryable();
         somberUpgradeList = Enumerable.Range(0, 11).AsQueryable();
 
-        affinityList = Affinities.StandardAffinities;
+        affinityList = new List<WeaponAffinity>() { new WeaponAffinity { Id = -1, Name = "All" } };
+        affinityList.AddRange(Affinities.StandardAffinities);
 
         base.OnInitialized();
     }
@@ -189,5 +205,29 @@
             return true;
         }
         return false;
+    }
+
+    private void UpdateWeaponCategory(string category)
+    {
+        input.WeaponCategory = category;
+        HandleValidSubmit();
+    }
+
+    private void UpdateWeaponLevel(int id)
+    {
+        input.UpgradeLevel = id;
+        HandleValidSubmit();
+    }
+
+    private void UpdateSomberWeaponLevel(int id)
+    {
+        input.SomberUpgradeLevel = id;
+        HandleValidSubmit();
+    }
+
+    private void UpdateWeaponAffinity(int id)
+    {
+        input.Affinity = id;
+        HandleValidSubmit();
     }
 }
