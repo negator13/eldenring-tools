@@ -16,17 +16,17 @@
 
             AttackElementCorrectId = weaponUpgrade?.AttackElementCorrectId ?? weapon.AttackElementCorrectId;
 
-            PhysicalAttack = weapon.PhysicalAttack * weaponUpgrade?.PhysicalAttack ?? 1;
-            MagicAttack = weapon.MagicAttack * weaponUpgrade?.MagicAttack ?? 1;
-            FireAttack = weapon.FireAttack * weaponUpgrade?.FireAttack ?? 1;
-            LightningAttack = weapon.LightningAttack * weaponUpgrade?.LightningAttack ?? 1;
-            HolyAttack = weapon.HolyAttack * weaponUpgrade?.HolyAttack ?? 1;
+            PhysicalAttack = weapon.PhysicalAttack * (weaponUpgrade?.PhysicalAttack ?? 1);
+            MagicAttack = weapon.MagicAttack * (weaponUpgrade?.MagicAttack ?? 1);
+            FireAttack = weapon.FireAttack * (weaponUpgrade?.FireAttack ?? 1);
+            LightningAttack = weapon.LightningAttack * (weaponUpgrade?.LightningAttack ?? 1);
+            HolyAttack = weapon.HolyAttack * (weaponUpgrade?.HolyAttack ?? 1);
 
-            StrScaling = weapon.StrScaling * weaponUpgrade?.StrScaling ?? 1;
-            DexScaling = weapon.DexScaling * weaponUpgrade?.DexScaling ?? 1;
-            IntScaling = weapon.IntScaling * weaponUpgrade?.IntScaling ?? 1;
-            FthScaling = weapon.FthScaling * weaponUpgrade?.FthScaling ?? 1;
-            ArcScaling = weapon.ArcScaling * weaponUpgrade?.ArcScaling ?? 1;
+            StrScaling = weapon.StrScaling * (weaponUpgrade?.StrScaling ?? 1);
+            DexScaling = weapon.DexScaling * (weaponUpgrade?.DexScaling ?? 1);
+            IntScaling = weapon.IntScaling * (weaponUpgrade?.IntScaling ?? 1);
+            FthScaling = weapon.FthScaling * (weaponUpgrade?.FthScaling ?? 1);
+            ArcScaling = weapon.ArcScaling * (weaponUpgrade?.ArcScaling ?? 1);
 
             PhysicalCorrectId = weapon.PhysicalCorrectId;
             MagicCorrectId = weapon.MagicCorrectId;
@@ -45,7 +45,7 @@
             Effect1Type = weapon.Effect1Type;
             Effect2Type = weapon.Effect2Type;
 
-            StaminaDamage = weapon.StaminaDamage * weaponUpgrade?.StaminaAttackScaling ?? 1;
+            StaminaDamage = weapon.StaminaDamage * (weaponUpgrade?.StaminaAttackScaling ?? 1);
 
             Critical = weapon.Critical;
             Weight = weapon.Weight;
