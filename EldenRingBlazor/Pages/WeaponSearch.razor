@@ -38,14 +38,68 @@
                 </MudItem>
             </MudGrid>
 
+            <MudGrid>
+
+                <MudItem xs="12">
+                    <MudSelect Label="Weapon Category" T="string" Variant="Variant.Text"
+                               @bind-Value="input.WeaponCategory">
+                        @foreach (var category in weaponCategoryNames)
+                        {
+                            <MudSelectItem Value="@category" />
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
+                               @bind-Value="input.UpgradeLevel">
+                        @foreach (var level in upgradeList)
+                        {
+                            <MudSelectItem Value="@level">+ @level</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
+                               @bind-Value="input.SomberUpgradeLevel">
+                        @foreach (var level in upgradeList)
+                        {
+                            <MudSelectItem Value="@level">+ @level</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                @if (affinityList != null && affinityList.Any())
+                {
+                    <MudItem xs="12">
+                        <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
+                               @bind-Value="input.Affinity">
+                            @foreach (var affinity in affinityList)
+                            {
+                                <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                }
+            </MudGrid>
+
         </EditForm>
     </MudItem>
 
     <MudItem>
-        <MudTable Items=@searchResults>
+        <MudTable Items=@searchResults Filter="new Func<ModifiedWeapon,bool>(FilterFunc1)" @bind-SelectedItem="selectedWeapon">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Armaments</MudText>
+                <MudSpacer />
+                <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            @*TODO: Add a top-level header for Requirements, Scaling*@
             <HeaderContent>
                 <MudTh>Name</MudTh>
                 <MudTh>Category</MudTh>
+                <MudTh>Type</MudTh>
+                <MudTh>Weight</MudTh>
                 <MudTh>STR</MudTh>
                 <MudTh>DEX</MudTh>
                 <MudTh>INT</MudTh>
@@ -59,18 +113,23 @@
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Name">@context.Name</MudTd>
-                <MudTd DataLabel="Name">@context.WeaponType</MudTd>
-                <MudTd DataLabel="STR">@context.StrScaling</MudTd>
-                <MudTd DataLabel="DEX">@context.DexScaling</MudTd>
-                <MudTd DataLabel="INT">@context.IntScaling</MudTd>
-                <MudTd DataLabel="FAI">@context.FthScaling</MudTd>
-                <MudTd DataLabel="ARC">@context.ArcScaling</MudTd>
+                <MudTd DataLabel="Category">@context.WeaponType</MudTd>
+                <MudTd DataLabel="Type">@(context.IsInfusable ? "Normal" : "Special")</MudTd>
+                <MudTd DataLabel="Weight">@context.Weight</MudTd>
+                <MudTd DataLabel="STR">@Math.Round(context.StrScaling, 2)</MudTd>
+                <MudTd DataLabel="DEX">@Math.Round(context.DexScaling, 2)</MudTd>
+                <MudTd DataLabel="INT">@Math.Round(context.IntScaling, 2)</MudTd>
+                <MudTd DataLabel="FAI">@Math.Round(context.FthScaling, 2)</MudTd>
+                <MudTd DataLabel="ARC">@Math.Round(context.ArcScaling, 2)</MudTd>
                 <MudTd DataLabel="STR">@context.StrRequirement</MudTd>
                 <MudTd DataLabel="DEX">@context.DexRequirement</MudTd>
                 <MudTd DataLabel="INT">@context.IntRequirement</MudTd>
                 <MudTd DataLabel="FAI">@context.FthRequirement</MudTd>
                 <MudTd DataLabel="ARC">@context.FthRequirement</MudTd>
             </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
         </MudTable>
     </MudItem>
 </MudGrid>
@@ -79,12 +138,35 @@
     private EditContext EditContext;
     private SearchWeaponsRequest input = new SearchWeaponsRequest();
 
+    private string weaponCategory = "All";
+    private List<string> weaponCategoryNames = new List<string>();
+
+    private IEnumerable<WeaponAffinity> affinityList = new List<WeaponAffinity>();
+    private IEnumerable<int> upgradeList = new List<int>();
+    private IEnumerable<int> somberUpgradeList = new List<int>();
+
     private List<ModifiedWeapon> searchResults = new List<ModifiedWeapon>();
+
+    private ModifiedWeapon selectedWeapon;
+    private string searchString = "";
 
     protected override void OnInitialized()
     {
         searchResults = EquipmentService.SearchWeapons(input);
         EditContext = new EditContext(input);
+
+        var weaponList = EquipmentService.BaseWeapons.ToList();
+        weaponCategoryNames = new List<string>() { "All" };
+        weaponCategoryNames.AddRange(weaponList
+            .Where(c => c.WeaponType != null)
+            .Select(c => c.WeaponType)
+            .Distinct()
+            .OrderBy(c => c));
+
+        upgradeList = Enumerable.Range(0, 26).AsQueryable();
+        somberUpgradeList = Enumerable.Range(0, 11).AsQueryable();
+
+        affinityList = Affinities.StandardAffinities;
 
         base.OnInitialized();
     }
@@ -92,5 +174,20 @@
     private void HandleValidSubmit()
     {
         searchResults = EquipmentService.SearchWeapons(input);
+    }
+
+    private bool FilterFunc1(ModifiedWeapon weapon) => FilterFunc(weapon, searchString);
+
+    private bool FilterFunc(ModifiedWeapon weapon, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+        {
+            return true;
+        }
+        if (weapon.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+        return false;
     }
 }

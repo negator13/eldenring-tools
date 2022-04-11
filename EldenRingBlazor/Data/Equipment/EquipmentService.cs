@@ -118,8 +118,8 @@ namespace EldenRingBlazor.Data.Equipment
                     && (request.MaxArcane == 0 || w.StrRequirement <= request.MaxArcane)
                     && (request.MaxWeight == 0 || w.Weight <= request.MaxWeight))
                 .OrderBy(w => w.Name) // TODO: Order by Scalings, etc
-                .Skip(request.Offset)
-                .Take(request.Limit)
+                //.Skip(request.Offset)
+                //.Take(request.Limit)
                 .ToList();
 
             var modifiedWeapons = filteredWeapons.Select(w => GetModifiedWeapon(w, request));
@@ -129,7 +129,7 @@ namespace EldenRingBlazor.Data.Equipment
 
         public ModifiedWeapon GetModifiedWeapon(Weapon weapon, SearchWeaponsRequest request)
         {
-            var affinitizedId = weapon.Id + request.Affinity.GetValueOrDefault();
+            var affinitizedId = weapon.Id + request.Affinity;
             var baseWeapon = GetWeapon(affinitizedId);
             var weaponUpgrade = GetWeaponUpgrade(baseWeapon, baseWeapon.IsInfusable ? request.UpgradeLevel : request.SomberUpgradeLevel);
             return new ModifiedWeapon(weapon, weaponUpgrade);

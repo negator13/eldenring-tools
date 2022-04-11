@@ -2,9 +2,9 @@
 {
     public class SearchWeaponsRequest
     {
-        public int Limit { get; set; } = 10;
+        //public int Limit { get; set; } = 10;
 
-        public int Offset { get; set; } = 0;
+        //public int Offset { get; set; } = 0;
 
         public string? WeaponCategory { get; set; }
 
@@ -12,7 +12,7 @@
 
         public int SomberUpgradeLevel { get; set; } = 10;
 
-        public int? Affinity { get; set; }
+        public int Affinity { get; set; }
 
         public int MaxStrength { get; set; }
 

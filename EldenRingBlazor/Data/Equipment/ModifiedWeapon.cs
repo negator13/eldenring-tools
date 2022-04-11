@@ -1,27 +1,32 @@
-﻿using EldenRingBlazor.Data.Equipment;
-
-namespace EldenRingBlazor.Data.Equipment
+﻿namespace EldenRingBlazor.Data.Equipment
 {
     public class ModifiedWeapon : WeaponUpgrade
     {
-        public ModifiedWeapon(Weapon weapon, WeaponUpgrade weaponUpgrade) : base(weaponUpgrade.WeaponLevel)
+        public ModifiedWeapon(Weapon weapon, WeaponUpgrade weaponUpgrade) : base(weaponUpgrade?.WeaponLevel ?? 0)
         {
-            Name = $"{weapon.Name} +{weaponUpgrade.WeaponLevel}";
+            var name = weapon.Name;
+
+            if (weaponUpgrade?.WeaponLevel > 0 )
+            {
+                name = $"{weapon.Name} +{weaponUpgrade.WeaponLevel}";
+            }
+
+            Name = name;
             WeaponType = weapon.WeaponType;
 
-            AttackElementCorrectId = weaponUpgrade.AttackElementCorrectId;
+            AttackElementCorrectId = weaponUpgrade?.AttackElementCorrectId ?? weapon.AttackElementCorrectId;
 
-            PhysicalAttack = weapon.PhysicalAttack * weaponUpgrade.PhysicalAttack;
-            MagicAttack = weapon.MagicAttack * weaponUpgrade.MagicAttack;
-            FireAttack = weapon.FireAttack * weaponUpgrade.FireAttack;
-            LightningAttack = weapon.LightningAttack * weaponUpgrade.LightningAttack;
-            HolyAttack = weapon.HolyAttack * weaponUpgrade.HolyAttack;
+            PhysicalAttack = weapon.PhysicalAttack * weaponUpgrade?.PhysicalAttack ?? 1;
+            MagicAttack = weapon.MagicAttack * weaponUpgrade?.MagicAttack ?? 1;
+            FireAttack = weapon.FireAttack * weaponUpgrade?.FireAttack ?? 1;
+            LightningAttack = weapon.LightningAttack * weaponUpgrade?.LightningAttack ?? 1;
+            HolyAttack = weapon.HolyAttack * weaponUpgrade?.HolyAttack ?? 1;
 
-            StrScaling = weapon.StrScaling * weaponUpgrade.StrScaling;
-            DexScaling = weapon.DexScaling * weaponUpgrade.DexScaling;
-            IntScaling = weapon.IntScaling * weaponUpgrade.IntScaling;
-            FthScaling = weapon.FthScaling * weaponUpgrade.FthScaling;
-            ArcScaling = weapon.ArcScaling * weaponUpgrade.ArcScaling;
+            StrScaling = weapon.StrScaling * weaponUpgrade?.StrScaling ?? 1;
+            DexScaling = weapon.DexScaling * weaponUpgrade?.DexScaling ?? 1;
+            IntScaling = weapon.IntScaling * weaponUpgrade?.IntScaling ?? 1;
+            FthScaling = weapon.FthScaling * weaponUpgrade?.FthScaling ?? 1;
+            ArcScaling = weapon.ArcScaling * weaponUpgrade?.ArcScaling ?? 1;
 
             PhysicalCorrectId = weapon.PhysicalCorrectId;
             MagicCorrectId = weapon.MagicCorrectId;
@@ -40,9 +45,10 @@ namespace EldenRingBlazor.Data.Equipment
             Effect1Type = weapon.Effect1Type;
             Effect2Type = weapon.Effect2Type;
 
-            StaminaDamage = weapon.StaminaDamage * weaponUpgrade.StaminaAttackScaling;
+            StaminaDamage = weapon.StaminaDamage * weaponUpgrade?.StaminaAttackScaling ?? 1;
 
             Critical = weapon.Critical;
+            Weight = weapon.Weight;
 
             Infusable = weapon.Infusable;
             TwoHandDualWield = weapon.TwoHandDualWield;
