@@ -110,7 +110,7 @@ namespace EldenRingBlazor.Data.Equipment
         {
             var filteredWeapons = _allWeapons
                 .Where(w =>
-                    (request.WeaponCategory == null || w.WeaponType == request.WeaponCategory)
+                    (request.WeaponCategory == null || request.WeaponCategory == "All" || w.WeaponType == request.WeaponCategory)
                     && (request.MaxStrength == 0 || (w.IsTwoHandDualWield ? w.StrRequirement <= request.MaxStrength : w.StrRequirement <= request.EffectiveStrength))
                     && (request.MaxDexterity == 0 || w.DexRequirement <= request.MaxDexterity)
                     && (request.MaxIntelligence == 0 || w.IntRequirement <= request.MaxIntelligence)
@@ -126,7 +126,9 @@ namespace EldenRingBlazor.Data.Equipment
                 modifiedWeapons = modifiedWeapons.Where(m => m.AffinityName == Affinities.FromReinforceTypeId(request.Affinity));
             }
 
-            return modifiedWeapons.ToList();
+            return modifiedWeapons
+                .OrderBy(m => m.BaseName)
+                .ToList();
         }
 
         public ModifiedWeapon GetModifiedWeapon(Weapon weapon, SearchWeaponsRequest request)
