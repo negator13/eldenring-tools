@@ -79,7 +79,7 @@
         public bool IsBaseWeapon()
         {
             return ReinforceTypeId == Affinities.Standard || ReinforceTypeId == Affinities.Somber
-                || ReinforceTypeId == Affinities.StaffOrSeal1  || ReinforceTypeId == Affinities.StaffOrSeal2
+                || ReinforceTypeId == Affinities.StaffOrSeal1  || ReinforceTypeId == Affinities.StaffOrSeal2 || ReinforceTypeId == Affinities.StaffOrSeal3
                 || ReinforceTypeId == Affinities.Shield || ReinforceTypeId == Affinities.Greatshield1 || ReinforceTypeId == Affinities.Greatshield2;
         }
     }
