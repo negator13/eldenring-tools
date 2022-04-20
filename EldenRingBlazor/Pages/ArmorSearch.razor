@@ -1,0 +1,155 @@
+﻿@page "/armor"
+@page "/armorsearch"
+@using EldenRingBlazor.Data
+@using EldenRingBlazor.Data.Equipment
+@inject EquipmentService EquipmentService
+
+<PageTitle>Armor</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudText Typo="Typo.h4" GutterBottom="true">Armor</MudText>
+    <MudGrid>
+
+        <MudItem xs="12">
+            <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
+
+                <MudGrid>
+
+                    <MudItem xs="4">
+                        <MudSelect Label="Equip Slot" T="string" Variant="Variant.Text"
+                                   Value="input.EquipSlot"
+                                   ValueChanged="@UpdateEquipSlot">
+                            @foreach (var slot in SearchArmorRequest.EquipSlots)
+                            {
+                                <MudSelectItem Value="@slot" />
+                            }
+                        </MudSelect>
+                    </MudItem>
+
+                    <MudItem xs="4">
+                        <MudNumericField T="int" Label="Min Poise" Variant="Variant.Outlined" Value="input.MinPoise"
+                                   ValueChanged="@UpdateMinPoise" />
+                    </MudItem>
+                    <MudItem xs="4">
+                        <MudNumericField T="double" Label="Max Weight" Variant="Variant.Outlined" Value="input.MaxWeight"
+                                   ValueChanged="@UpdateMaxWeight" />
+                    </MudItem>
+
+                </MudGrid>
+
+            </EditForm>
+        </MudItem>
+
+        <MudItem>
+            <MudTable Items=@searchResults Filter="new Func<Armor,bool>(FilterFunc1)" FixedFooter=true FixedHeader=true HorizontalScrollbar>
+                <ToolBarContent>
+                    <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+                    <MudTh>Slot</MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Weight)">Weight</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Poise)">Poise</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.PoiseToWeight)">P:W</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.PhysicalNegation)">Physical</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.PhysicalNegationToWeight)">D:W</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.StrikeNegation)">Strike</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.SlashNegation)">Slash</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.PierceNegation)">Pierce</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.MagicNegation)">Magic</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.FireNegation)">Fire</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.LightningNegation)">Lightning</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.HolyNegation)">Holy</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Immunity)">Immunity</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Robustness)">Robustness</MudTableSortLabel></MudTh>
+                    @*<MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Frost)">Frost</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Sleep)">Sleep</MudTableSortLabel></MudTh>*@
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Focus)">Focus</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Vitality)">Vitality</MudTableSortLabel></MudTh>
+
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Name">@context.Name</MudTd>
+                    <MudTd DataLabel="Slot">@context.EquipSlot</MudTd>
+                    <MudTd DataLabel="Weight">@context.Weight</MudTd>
+                    <MudTd DataLabel="Poise">@context.Poise</MudTd>
+                    <MudTd DataLabel="P:W">@Math.Round(@context.PoiseToWeight, 2)</MudTd>
+                    <MudTd DataLabel="Phy">@Math.Round(@context.PhysicalNegation, 2)</MudTd>
+                    <MudTd DataLabel="D:W">@Math.Round(@context.PhysicalNegationToWeight, 2)</MudTd>
+                    <MudTd DataLabel="Str">@Math.Round(@context.StrikeNegation, 2)</MudTd>
+                    <MudTd DataLabel="Sla">@Math.Round(@context.SlashNegation, 2)</MudTd>
+                    <MudTd DataLabel="Pie">@Math.Round(@context.SlashNegation, 2)</MudTd>
+                    <MudTd DataLabel="Mag">@Math.Round(@context.MagicNegation, 2)</MudTd>
+                    <MudTd DataLabel="Fir">@Math.Round(@context.FireNegation, 2)</MudTd>
+                    <MudTd DataLabel="Lig">@Math.Round(@context.LightningNegation, 2)</MudTd>
+                    <MudTd DataLabel="Hol">@Math.Round(@context.HolyNegation, 2)</MudTd>
+                    <MudTd DataLabel="Imm">@context.Immunity</MudTd>
+                    <MudTd DataLabel="Rob">@context.Robustness</MudTd>
+                    @*<MudTd DataLabel="Fro">@context.Frost</MudTd>
+                        <MudTd DataLabel="Sle">@context.Sleep</MudTd>*@
+                    <MudTd DataLabel="Foc">@context.Focus</MudTd>
+                    <MudTd DataLabel="Vit">@context.Vitality</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager HorizontalAlignment="HorizontalAlignment.Left" />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private EditContext EditContext;
+    private SearchArmorRequest input = new SearchArmorRequest();
+
+    private List<Armor> searchResults = new List<Armor>();
+    private string searchString = "";
+
+    protected override void OnInitialized()
+    {
+        searchResults = EquipmentService.SearchArmor(input);
+        EditContext = new EditContext(input);
+
+        var weaponList = EquipmentService.Armor.ToList();
+
+        base.OnInitialized();
+    }
+
+    private void HandleValidSubmit()
+    {
+        searchResults = EquipmentService.SearchArmor(input);
+    }
+
+    private bool FilterFunc1(Armor armor) => FilterFunc(armor, searchString);
+
+    private bool FilterFunc(Armor armor, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+        {
+            return true;
+        }
+        if (armor.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void UpdateEquipSlot(string slot)
+    {
+        input.EquipSlot = slot;
+        HandleValidSubmit();
+    }
+
+    private void UpdateMinPoise(int poise)
+    {
+        input.MinPoise = poise;
+        HandleValidSubmit();
+    }
+
+    private void UpdateMaxWeight(double weight)
+    {
+        input.MaxWeight = weight;
+        HandleValidSubmit();
+    }
+}

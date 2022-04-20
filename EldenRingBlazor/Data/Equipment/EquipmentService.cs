@@ -13,6 +13,8 @@ namespace EldenRingBlazor.Data.Equipment
         private readonly IEnumerable<AttackElement> _attackElements;
         private readonly IEnumerable<PassiveEffect> _passiveEffects;
 
+        public readonly IEnumerable<Armor> Armor;
+
         public IEnumerable<Weapon> BaseWeapons { get; }
         public IEnumerable<Weapon> WeaponCategories { get; }
 
@@ -34,6 +36,8 @@ namespace EldenRingBlazor.Data.Equipment
                 .OrderBy(w => w.Name);
 
             _passiveEffects = ReadPassiveEffectsFromCsv();
+
+            Armor = ReadArmorFromCsv();
         }
 
         private IEnumerable<Weapon> ReadWeaponsFromCsv()
@@ -70,6 +74,15 @@ namespace EldenRingBlazor.Data.Equipment
             using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
             csv.Context.RegisterClassMap<PassiveEffectMap>();
             return csv.GetRecords<PassiveEffect>().ToList();
+        }
+
+        private IEnumerable<Armor> ReadArmorFromCsv()
+        {
+            string armorCsvPath = Path.Combine(_webRootPath, VersionInfo.PatchVersion.Latest, "Armor.csv");
+            using var armorReader = new StreamReader(armorCsvPath);
+            using var armorCsv = new CsvReader(armorReader, CultureInfo.InvariantCulture);
+            armorCsv.Context.RegisterClassMap<ArmorMap>();
+            return armorCsv.GetRecords<Armor>().ToList();
         }
 
         // Raw_Data lookup
@@ -139,6 +152,20 @@ namespace EldenRingBlazor.Data.Equipment
             modifiedWeapon.BaseName = GetWeapon(baseWeaponId)?.Name ?? modifiedWeapon.Name;
             modifiedWeapon.AffinityName = Affinities.FromReinforceTypeId(weapon.ReinforceTypeId);
             return modifiedWeapon;
+        }
+
+        public List<Armor> SearchArmor(SearchArmorRequest request)
+        {
+            var filteredArmor = Armor
+                .Where(w =>
+                    (request.EquipSlot == null || request.EquipSlot == "All" || w.EquipSlot == request.EquipSlot)
+                    && (request.MaxWeight == 0 || w.Weight <= request.MaxWeight)
+                    && (request.MinPoise == 0 || w.Poise >= request.MinPoise))
+                .ToList();
+
+            return filteredArmor
+                .OrderBy(m => m.Name)
+                .ToList();
         }
     }
 }
