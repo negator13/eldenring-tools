@@ -1,4 +1,6 @@
 ﻿@page "/"
+@page "/home"
+@page "/index"
 @using EldenRingBlazor.Data
 
 <PageTitle>Elden Ring Web Tools - Home</PageTitle>
@@ -7,12 +9,12 @@
     <div class="d-flex justify-center">
         <MudImage Src="/eldenring-logo.png" ObjectPosition="ObjectPosition.Center" />
     </div>
-    <MudText Typo="Typo.h3" Align="Align.Center">Web Tools</MudText>
+    <MudText Typo="Typo.h3" Align="Align.Center">Elden Ring Web Tools</MudText>
     <MudText Align="Align.Center" GutterBottom="true"> by negator13</MudText>
     <br />
-    <MudText Typo="Typo.body1">
-        This is app version <strong>@VersionInfo.AppVersion.Latest</strong>, featuring a working <MudLink Href="/calculator">AR Calculator</MudLink> as of Patch <strong>@VersionInfo.PatchVersion.Latest</strong> and a <MudLink Href="/armaments">Weapon Search</MudLink> utility.
-        More features will be added going forward!
+    <MudText Align="Align.Center" Typo="Typo.body1">
+        This is app version <strong>@VersionInfo.AppVersion.Latest</strong>, current as of as of Patch <strong>@VersionInfo.PatchVersion.Latest</strong>.
+        More features are being added on a continual basis.
     </MudText>
     <MudGrid Class="mt-8">
         <MudItem xs="12" sm="6" md="4">
@@ -40,6 +42,20 @@
                 </MudLink>
                 <MudCardContent>
                     <MudText Align="Align.Center">Search and filter weapons by stat requirements, weapon class, affinity, or upgrade level, and sort by damage, weight, scaling, and more.</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="25" Class="rounded-lg pb-4">
+                <MudLink Href="/armor">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5" Align="Align.Center">Armor Search</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                </MudLink>
+                <MudCardContent>
+                    <MudText Align="Align.Center">Search and filter armor by equip slot, minimum Poise or maximum Weight, and sort by attributes as well as Poise:Weight and Defense:Weight ratios.</MudText>
                 </MudCardContent>
             </MudCard>
         </MudItem>
