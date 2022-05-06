@@ -8,7 +8,7 @@ namespace EldenRingBlazor.CsvMappings
     {
         public CalcCorrectGraphMap()
         {
-            Map(m => m.Id).Name("ID");
+            Map(m => m.Id).Name("Row ID");
             Map(m => m.Name).Name("Row Name");
             Map(m => m.StatMax0).Name("Stat Max 0");
             Map(m => m.StatMax1).Name("Stat Max 1");

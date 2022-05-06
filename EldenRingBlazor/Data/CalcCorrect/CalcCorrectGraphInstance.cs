@@ -37,6 +37,19 @@
             }
         }
 
+        /// <summary>
+        /// Same as Output but not divided by 100
+        /// </summary>
+        public double OutputRaw
+        {
+            get
+            {
+                var growth = GetGrowth();
+
+                return (GrowMin + ((GrowMax - GrowMin) * growth));
+            }
+        }
+
         private double GetGrowth()
         {
             var ratio = GetRatio();
