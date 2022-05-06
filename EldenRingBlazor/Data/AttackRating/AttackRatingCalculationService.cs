@@ -19,7 +19,12 @@ namespace EldenRingBlazor.Data.AttackRating
         {
             try
             {
-                // TODO: Refactor to use new EquipmentService methods
+                input.Strength = Math.Min(input.Strength, 99);
+                input.Dexterity = Math.Min(input.Dexterity, 99);
+                input.Intelligence = Math.Min(input.Intelligence, 99);
+                input.Faith = Math.Min(input.Faith, 99);
+                input.Arcane = Math.Min(input.Arcane, 99);
+
                 var weaponId = input.Weapon.Id;
                 var affinityId = input.AffinityId;
 

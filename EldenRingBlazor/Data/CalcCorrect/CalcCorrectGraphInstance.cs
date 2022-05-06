@@ -4,7 +4,7 @@
     {
         public CalcCorrectGraphInstance(int inputStat, double statMin, double statMax, double growMin, double growMax, double adjustMin, double adjustMax)
         {
-            InputStat = inputStat <= 0 ? 1 : Math.Min(inputStat, 150);
+            InputStat = inputStat <= 0 ? 1 : inputStat;
             StatMin = statMin;
             StatMax = statMax;
             GrowMin = growMin;

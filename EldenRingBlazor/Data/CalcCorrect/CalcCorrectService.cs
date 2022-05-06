@@ -14,7 +14,7 @@ namespace EldenRingBlazor.Data.CalcCorrect
         {
             string contentPath = hostingEnvironment.WebRootPath;
 
-            string calcCorrectGraphCsvPath = Path.Combine(contentPath, VersionInfo.PatchVersion.Latest, "CalcCorrectGraph_Full.csv");
+            string calcCorrectGraphCsvPath = Path.Combine(contentPath, VersionInfo.PatchVersion.Latest, "CalcCorrectGraph.csv");
             string calcCorrectGraphIdCsvPath = Path.Combine(contentPath, VersionInfo.PatchVersion.Latest, "CalcCorrectGraph_ID.csv");
 
             using var calcCorrectGraphsReader = new StreamReader(calcCorrectGraphCsvPath);
@@ -47,6 +47,12 @@ namespace EldenRingBlazor.Data.CalcCorrect
         public double GetSpecificCalcCorrectOutputRaw(int id, int statValue)
         {
             var calcCorrectGraph = _calcCorrectGraphs.SingleOrDefault(c => c.Id == id);
+
+            if (calcCorrectGraph is null)
+            {
+                return 0;
+            }
+
             return GetSpecificCalcCorrect(calcCorrectGraph, statValue).OutputRaw;
         }
 

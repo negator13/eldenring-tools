@@ -24,19 +24,15 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         // TODO: Resistances
 
-        public double PoisonResist { get; set; }
+        public double BaseResistance { get; set; }
 
-        public double RotResist { get; set; }
+        public double Immunity { get; set; }
 
-        public double BleedResist { get; set; }
+        public double Robustness { get; set; }
 
-        public double FrostResist { get; set; }
+        public double Focus { get; set; }
 
-        public double SleepResist { get; set; }
-
-        public double MadnessResist { get; set; }
-
-        public double DeathResist { get; set; }
+        public double Vitality { get; set; }
 
         public double BaseDefense { get; set; }
 
