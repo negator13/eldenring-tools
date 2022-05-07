@@ -8,13 +8,16 @@ namespace EldenRingBlazor.Data.BuildPlanner
     {
         private CalcCorrectService _calcCorrectService;
         private AttackRatingCalculationService _attackRatingCalculationService;
+        private TalismanService _talismanService;
 
         public BuildPlannerService(
             CalcCorrectService calcCorrectService,
-            AttackRatingCalculationService attackRatingCalculationService)
+            AttackRatingCalculationService attackRatingCalculationService,
+             TalismanService talismanService)
         {
             _calcCorrectService = calcCorrectService;
             _attackRatingCalculationService = attackRatingCalculationService;
+            _talismanService = talismanService;
         }
 
         public CharacterStatsCalculation? CalculateStats(BuildPlannerInput input)
@@ -29,6 +32,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
                 input.Intelligence = Math.Min(input.Intelligence, 99);
                 input.Faith = Math.Min(input.Faith, 99);
                 input.Arcane = Math.Min(input.Arcane, 99);
+
+                _talismanService.ApplyPreCalculationTalismanEffects(input, input.Talisman1?.Name);
+                _talismanService.ApplyPreCalculationTalismanEffects(input, input.Talisman2?.Name);
+                _talismanService.ApplyPreCalculationTalismanEffects(input, input.Talisman3?.Name);
+                _talismanService.ApplyPreCalculationTalismanEffects(input, input.Talisman4?.Name);
 
                 var calculation = new CharacterStatsCalculation();
 
@@ -68,7 +76,30 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 // TODO: Talismans
 
+                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman1?.Name);
+                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman2?.Name);
+                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman3?.Name);
+                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman4?.Name);
+
                 // TODO: Other weapon slots
+
+                calculation.TotalWeight += input.Head?.Weight ?? 0;
+                calculation.TotalWeight += input.Chest?.Weight ?? 0;
+                calculation.TotalWeight += input.Arms?.Weight ?? 0;
+                calculation.TotalWeight += input.Legs?.Weight ?? 0;
+
+                calculation.TotalWeight += input.Talisman1?.Weight ?? 0;
+                calculation.TotalWeight += input.Talisman2?.Weight ?? 0;
+                calculation.TotalWeight += input.Talisman3?.Weight ?? 0;
+                calculation.TotalWeight += input.Talisman4?.Weight ?? 0;
+
+                calculation.TotalWeight += input.RightWeapon1?.Weapon?.Weight ?? 0;
+                calculation.TotalWeight += input.RightWeapon2?.Weapon?.Weight ?? 0;
+                calculation.TotalWeight += input.RightWeapon3?.Weapon?.Weight ?? 0;
+
+                calculation.TotalWeight += input.LeftWeapon1?.Weapon?.Weight ?? 0;
+                calculation.TotalWeight += input.LeftWeapon2?.Weapon?.Weight ?? 0;
+                calculation.TotalWeight += input.LeftWeapon3?.Weapon?.Weight ?? 0;
 
                 var rightWeapon1Input = new AttackRatingCalculationInput
                 {

@@ -6,7 +6,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
     {
         public Weapon Weapon { get; set; }
 
-        public string Weapon1Name { get; set; }
+        public string WeaponName { get; set; }
 
         public int AffinityId { get; set; }
 

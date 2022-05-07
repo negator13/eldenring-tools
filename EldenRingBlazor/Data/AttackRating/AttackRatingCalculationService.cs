@@ -19,6 +19,11 @@ namespace EldenRingBlazor.Data.AttackRating
         {
             try
             {
+                if (input.Weapon == null)
+                {
+                    return null;
+                }
+
                 input.Strength = Math.Min(input.Strength, 99);
                 input.Dexterity = Math.Min(input.Dexterity, 99);
                 input.Intelligence = Math.Min(input.Intelligence, 99);

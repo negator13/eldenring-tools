@@ -15,6 +15,8 @@ namespace EldenRingBlazor.Data.Equipment
 
         public readonly IEnumerable<Armor> Armor;
 
+        public readonly IEnumerable<Talisman> Talismans;
+
         public IEnumerable<Weapon> BaseWeapons { get; }
         public IEnumerable<Weapon> WeaponCategories { get; }
 
@@ -38,6 +40,8 @@ namespace EldenRingBlazor.Data.Equipment
             _passiveEffects = ReadPassiveEffectsFromCsv();
 
             Armor = ReadArmorFromCsv();
+
+            Talismans = ReadTalismansFromCsv();
         }
 
         private IEnumerable<Weapon> ReadWeaponsFromCsv()
@@ -83,6 +87,15 @@ namespace EldenRingBlazor.Data.Equipment
             using var armorCsv = new CsvReader(armorReader, CultureInfo.InvariantCulture);
             armorCsv.Context.RegisterClassMap<ArmorMap>();
             return armorCsv.GetRecords<Armor>().ToList();
+        }
+
+        private IEnumerable<Talisman> ReadTalismansFromCsv()
+        {
+            string csvPath = Path.Combine(_webRootPath, VersionInfo.PatchVersion.Latest, "Talisman.csv");
+            using var reader = new StreamReader(csvPath);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            csv.Context.RegisterClassMap<TalismanMap>();
+            return csv.GetRecords<Talisman>().ToList();
         }
 
         // Raw_Data lookup

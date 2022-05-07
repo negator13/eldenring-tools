@@ -19,6 +19,7 @@ builder.Services.AddSingleton<EquipmentService>();
 builder.Services.AddSingleton<AttackRatingCalculationService>();
 builder.Services.AddSingleton<BuildPlannerService>();
 builder.Services.AddSingleton<CalcCorrectService>();
+builder.Services.AddSingleton<TalismanService>();
 
 var app = builder.Build();
 

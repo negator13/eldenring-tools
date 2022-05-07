@@ -22,6 +22,10 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public double Poise { get; set; }
 
+        public double TotalWeight { get; set; }
+
+        public double EquipBurdenPercent => TotalWeight / EquipLoad;
+
 
         // TODO: Resistances
 

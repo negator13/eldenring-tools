@@ -4,6 +4,11 @@
     {
         public void ApplyPreCalculationTalismanEffects(BuildPlannerInput input, string talisman, bool isPve = true)
         {
+            if (talisman == null)
+            {
+                return;
+            }
+
             switch (talisman.ToLowerInvariant())
             {
                 case "radagon's scarseal":
@@ -47,6 +52,11 @@
 
         public void ApplyPostCalculationTalismanEffects(CharacterStatsCalculation calc, string talisman, bool isPve = true)
         {
+            if (talisman == null)
+            {
+                return;
+            }
+
             switch (talisman.ToLowerInvariant())
             {
                 case "crimson amber medallion":
