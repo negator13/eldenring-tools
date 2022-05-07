@@ -1,6 +1,4 @@
-﻿using EldenRingBlazor.Data.Equipment;
-
-namespace EldenRingBlazor.Data.BuildPlanner
+﻿namespace EldenRingBlazor.Data.BuildPlanner
 {
     public class BuildPlannerInput
     {
@@ -28,20 +26,16 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public int Arcane { get; set; }
 
-        public Weapon RightWeapon1 { get; set; }
+        public WeaponSlot RightWeapon1 { get; set; }
 
-        public string RightWeapon1Name { get; set; }
+        public WeaponSlot RightWeapon2 { get; set; }
 
-        public int RightWeapon1AffinityId { get; set; }
+        public WeaponSlot RightWeapon3 { get; set; }
 
-        public int RightWeapon1Level { get; set; }
+        public WeaponSlot LeftWeapon1 { get; set; }
 
-        public Weapon LeftWeapon1 { get; set; }
+        public WeaponSlot LeftWeapon2 { get; set; }
 
-        public string LeftWeapon1Name { get; set; }
-
-        public int LeftWeapon1AffinityId { get; set; }
-
-        public int LeftWeapon1Level { get; set; }
+        public WeaponSlot LeftWeapon3 { get; set; }
     }
 }

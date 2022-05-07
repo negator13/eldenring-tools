@@ -7,20 +7,21 @@ namespace EldenRingBlazor.Data.BuildPlanner
     {
         public CharacterStatsCalculation()
         {
-
+            PassiveEffects = new List<string>();
         }
 
-        public int Hp { get; set; }
+        public double Hp { get; set; }
 
-        public int Fp { get; set; }
+        public double Fp { get; set; }
 
-        public int Stamina { get; set; }
+        public double Stamina { get; set; }
 
         public double EquipLoad { get; set; }
 
-        public int Discovery { get; set; }
+        public double Discovery { get; set; }
 
-        public int Poise { get; set; }
+        public double Poise { get; set; }
+
 
         // TODO: Resistances
 
@@ -46,6 +47,16 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public double HolyDefense { get; set; }
 
+        public double PhysicalNegation { get; set; }
+
+        public double MagicNegation { get; set; }
+
+        public double FireNegation { get; set; }
+
+        public double LightningNegation { get; set; }
+
+        public double HolyNegation { get; set; }
+
         // TODO: Immunity, Robustness, Focus, Vitality
 
         public AttackRatingCalculation RightWeapon1 { get; set; }
@@ -59,5 +70,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
         public AttackRatingCalculation LeftWeapon2 { get; set; }
 
         public AttackRatingCalculation LeftWeapon3 { get; set; }
+
+        public List<string> PassiveEffects { get; set; }
     }
 }

@@ -78,12 +78,87 @@ namespace EldenRingBlazor.Data.BuildPlanner
                     Faith = input.Faith,
                     Arcane = input.Arcane,
                     TwoHand = input.TwoHand,
-                    Weapon = input.RightWeapon1,
-                    AffinityId = input.RightWeapon1AffinityId,
-                    WeaponLevel = input.RightWeapon1Level
+                    Weapon = input.RightWeapon1.Weapon,
+                    AffinityId = input.RightWeapon1.AffinityId,
+                    WeaponLevel = input.RightWeapon1.Level
                 };
 
                 calculation.RightWeapon1 = _attackRatingCalculationService.CalculateAttackRating(rightWeapon1Input);
+
+                var rightWeapon2Input = new AttackRatingCalculationInput
+                {
+                    Strength = input.Strength,
+                    Dexterity = input.Dexterity,
+                    Intelligence = input.Intelligence,
+                    Faith = input.Faith,
+                    Arcane = input.Arcane,
+                    TwoHand = input.TwoHand,
+                    Weapon = input.RightWeapon2.Weapon,
+                    AffinityId = input.RightWeapon2.AffinityId,
+                    WeaponLevel = input.RightWeapon2.Level
+                };
+
+                calculation.RightWeapon2 = _attackRatingCalculationService.CalculateAttackRating(rightWeapon2Input);
+
+                var rightWeapon3Input = new AttackRatingCalculationInput
+                {
+                    Strength = input.Strength,
+                    Dexterity = input.Dexterity,
+                    Intelligence = input.Intelligence,
+                    Faith = input.Faith,
+                    Arcane = input.Arcane,
+                    TwoHand = input.TwoHand,
+                    Weapon = input.RightWeapon3.Weapon,
+                    AffinityId = input.RightWeapon3.AffinityId,
+                    WeaponLevel = input.RightWeapon3.Level
+                };
+
+                calculation.RightWeapon3 = _attackRatingCalculationService.CalculateAttackRating(rightWeapon3Input);
+
+                var leftWeapon1Input = new AttackRatingCalculationInput
+                {
+                    Strength = input.Strength,
+                    Dexterity = input.Dexterity,
+                    Intelligence = input.Intelligence,
+                    Faith = input.Faith,
+                    Arcane = input.Arcane,
+                    TwoHand = input.TwoHand,
+                    Weapon = input.LeftWeapon1.Weapon,
+                    AffinityId = input.LeftWeapon1.AffinityId,
+                    WeaponLevel = input.LeftWeapon1.Level
+                };
+
+                calculation.LeftWeapon1 = _attackRatingCalculationService.CalculateAttackRating(leftWeapon1Input);
+
+                var leftWeapon2Input = new AttackRatingCalculationInput
+                {
+                    Strength = input.Strength,
+                    Dexterity = input.Dexterity,
+                    Intelligence = input.Intelligence,
+                    Faith = input.Faith,
+                    Arcane = input.Arcane,
+                    TwoHand = input.TwoHand,
+                    Weapon = input.LeftWeapon2.Weapon,
+                    AffinityId = input.LeftWeapon2.AffinityId,
+                    WeaponLevel = input.LeftWeapon2.Level
+                };
+
+                calculation.LeftWeapon2 = _attackRatingCalculationService.CalculateAttackRating(leftWeapon2Input);
+
+                var leftWeapon3Input = new AttackRatingCalculationInput
+                {
+                    Strength = input.Strength,
+                    Dexterity = input.Dexterity,
+                    Intelligence = input.Intelligence,
+                    Faith = input.Faith,
+                    Arcane = input.Arcane,
+                    TwoHand = input.TwoHand,
+                    Weapon = input.LeftWeapon3.Weapon,
+                    AffinityId = input.LeftWeapon3.AffinityId,
+                    WeaponLevel = input.LeftWeapon3.Level
+                };
+
+                calculation.LeftWeapon3 = _attackRatingCalculationService.CalculateAttackRating(leftWeapon3Input);
 
                 return calculation;
             }

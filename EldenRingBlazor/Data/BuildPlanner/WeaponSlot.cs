@@ -1,12 +1,15 @@
-﻿namespace EldenRingBlazor.Data.BuildPlanner
+﻿using EldenRingBlazor.Data.Equipment;
+
+namespace EldenRingBlazor.Data.BuildPlanner
 {
-    public enum WeaponSlot
+    public class WeaponSlot
     {
-        Right1,
-        Right2,
-        Right3,
-        Left1,
-        Left2,
-        Left3,
+        public Weapon Weapon { get; set; }
+
+        public string Weapon1Name { get; set; }
+
+        public int AffinityId { get; set; }
+
+        public int Level { get; set; }
     }
 }
