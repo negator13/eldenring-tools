@@ -104,7 +104,7 @@
                 case "arsenal charm +1":
                     calc.EquipLoad *= 1.17;
                     break;
-                case "great jar's arsenal":
+                case "great-jar's arsenal":
                     calc.EquipLoad *= 1.19;
                     break;
                 case "erdtree's favor":

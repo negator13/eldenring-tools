@@ -206,91 +206,91 @@
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>HP</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.Hp</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayHp</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>FP</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.Fp</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayFp</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Stamina</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.Stamina</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayStamina</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Equip Load</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@Math.Round(calculation.TotalWeight, 2) / @Math.Round(calculation.EquipLoad, 2) (@(Math.Round(calculation.EquipBurdenPercent, 2))%)</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayWeight / @calculation.DisplayEquipLoad (@calculation.EquipBurdenPercent)</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Discovery</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.Discovery</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayDiscovery</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Poise</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@Math.Round(calculation.Poise, 2)</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPoise</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
-                            <MudText>Physical Defense</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@Math.Round(calculation.PhysicalDefense, 2)</b></MudText>
+                            <MudText>Physical Defense / Negation</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplayPhysicalNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
-                            <MudText>Magic Defense</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@Math.Round(calculation.MagicDefense, 2)</b></MudText>
+                            <MudText>Magic Defense / Negation</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayMagicDefense / @calculation.DisplayMagicNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
-                            <MudText>Fire Defense</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@Math.Round(calculation.FireDefense, 2)</b></MudText>
+                            <MudText>Fire Defense / Negation</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayFireDefense / @calculation.DisplayFireNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
-                            <MudText>Lightning Defense</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@Math.Round(calculation.LightningDefense, 2)</b></MudText>
+                            <MudText>Lightning Defense / Negation</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayLightningDefense / @calculation.DisplayLightningNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
-                            <MudText>Holy Defense</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@Math.Round(calculation.HolyDefense, 2)</b></MudText>
+                            <MudText>Holy Defense / Negation</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayHolyDefense / @calculation.DisplayHolyNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Immunity</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.Immunity</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayImmunity</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Robustness</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.Robustness</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayRobustness</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Focus</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.Focus</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayFocus</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Vitality</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.Vitality</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayVitality</b></MudText>
                         </div>
                     </MudListItem>
                 </MudList>
@@ -315,12 +315,6 @@
                             </div>
                         </MudListItem>
                     }
-                    @*<MudListItem>
-                        <div class="d-flex">
-                        <MudText>Weight</MudText>
-                        <MudText Inline="true" Class="ml-auto">@string.Format("{0:0.0}", input.RightWeapon1.Weapon.Weight)</MudText>
-                        </div>
-                        </MudListItem>*@
                 </MudList>
 
                 @*<MudTable Items=@scalingRequirements>

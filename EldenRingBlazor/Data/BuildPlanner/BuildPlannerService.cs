@@ -8,15 +8,18 @@ namespace EldenRingBlazor.Data.BuildPlanner
     {
         private CalcCorrectService _calcCorrectService;
         private AttackRatingCalculationService _attackRatingCalculationService;
+        private ArmorEffectsService _armorEffectsService;
         private TalismanService _talismanService;
 
         public BuildPlannerService(
             CalcCorrectService calcCorrectService,
             AttackRatingCalculationService attackRatingCalculationService,
+             ArmorEffectsService armorEffectsService,
              TalismanService talismanService)
         {
             _calcCorrectService = calcCorrectService;
             _attackRatingCalculationService = attackRatingCalculationService;
+            _armorEffectsService = armorEffectsService;
             _talismanService = talismanService;
         }
 
@@ -32,6 +35,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
                 input.Intelligence = Math.Min(input.Intelligence, 99);
                 input.Faith = Math.Min(input.Faith, 99);
                 input.Arcane = Math.Min(input.Arcane, 99);
+
+                _armorEffectsService.ApplyPreCalculationArmorEffects(input, input.Head?.Name);
+                _armorEffectsService.ApplyPreCalculationArmorEffects(input, input.Chest?.Name);
+                _armorEffectsService.ApplyPreCalculationArmorEffects(input, input.Arms?.Name);
+                _armorEffectsService.ApplyPreCalculationArmorEffects(input, input.Legs?.Name);
 
                 _talismanService.ApplyPreCalculationTalismanEffects(input, input.Talisman1?.Name);
                 _talismanService.ApplyPreCalculationTalismanEffects(input, input.Talisman2?.Name);
@@ -74,15 +82,6 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 calculation.Vitality = calculation.BaseResistance + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Vitality_Arcane, input.Arcane);
 
-                // TODO: Talismans
-
-                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman1?.Name);
-                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman2?.Name);
-                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman3?.Name);
-                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman4?.Name);
-
-                // TODO: Other weapon slots
-
                 calculation.TotalWeight += input.Head?.Weight ?? 0;
                 calculation.TotalWeight += input.Chest?.Weight ?? 0;
                 calculation.TotalWeight += input.Arms?.Weight ?? 0;
@@ -100,6 +99,46 @@ namespace EldenRingBlazor.Data.BuildPlanner
                 calculation.TotalWeight += input.LeftWeapon1?.Weapon?.Weight ?? 0;
                 calculation.TotalWeight += input.LeftWeapon2?.Weapon?.Weight ?? 0;
                 calculation.TotalWeight += input.LeftWeapon3?.Weapon?.Weight ?? 0;
+
+                calculation.Poise += input.Head?.Poise ?? 0;
+                calculation.Poise += input.Chest?.Poise ?? 0;
+                calculation.Poise += input.Arms?.Poise ?? 0;
+                calculation.Poise += input.Legs?.Poise ?? 0;
+
+                calculation.PhysicalNegation += input.Head?.PhysicalNegation ?? 0;
+                calculation.PhysicalNegation += input.Chest?.PhysicalNegation ?? 0;
+                calculation.PhysicalNegation += input.Arms?.PhysicalNegation ?? 0;
+                calculation.PhysicalNegation += input.Legs?.PhysicalNegation ?? 0;
+
+                calculation.MagicNegation += input.Head?.MagicNegation ?? 0;
+                calculation.MagicNegation += input.Chest?.MagicNegation ?? 0;
+                calculation.MagicNegation += input.Arms?.MagicNegation ?? 0;
+                calculation.MagicNegation += input.Legs?.MagicNegation ?? 0;
+
+                calculation.FireNegation += input.Head?.FireNegation ?? 0;
+                calculation.FireNegation += input.Chest?.FireNegation ?? 0;
+                calculation.FireNegation += input.Arms?.FireNegation ?? 0;
+                calculation.FireNegation += input.Legs?.FireNegation ?? 0;
+
+                calculation.LightningNegation += input.Head?.LightningNegation ?? 0;
+                calculation.LightningNegation += input.Chest?.LightningNegation ?? 0;
+                calculation.LightningNegation += input.Arms?.LightningNegation ?? 0;
+                calculation.LightningNegation += input.Legs?.LightningNegation ?? 0;
+
+                calculation.HolyNegation += input.Head?.HolyNegation ?? 0;
+                calculation.HolyNegation += input.Chest?.HolyNegation ?? 0;
+                calculation.HolyNegation += input.Arms?.HolyNegation ?? 0;
+                calculation.HolyNegation += input.Legs?.HolyNegation ?? 0;
+
+                _armorEffectsService.ApplyPostCalculationArmorEffects(calculation, input.Head?.Name);
+                _armorEffectsService.ApplyPostCalculationArmorEffects(calculation, input.Chest?.Name);
+                _armorEffectsService.ApplyPostCalculationArmorEffects(calculation, input.Arms?.Name);
+                _armorEffectsService.ApplyPostCalculationArmorEffects(calculation, input.Legs?.Name);
+
+                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman1?.Name);
+                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman2?.Name);
+                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman3?.Name);
+                _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman4?.Name);
 
                 var rightWeapon1Input = new AttackRatingCalculationInput
                 {
