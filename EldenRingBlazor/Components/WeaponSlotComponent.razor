@@ -1,0 +1,68 @@
+﻿@using EldenRingBlazor.Data.BuildPlanner
+<MudGrid>
+
+    <MudItem xs="12">
+        <MudAutocomplete T="string"
+                         Label="Right Weapon 1"
+                         Value="@Slot.WeaponName"
+                         ValueChanged="UpdateRightWeapon1"
+                         SearchFunc="RightWeapon1Search"
+                         MaxItems="1000" />
+    </MudItem>
+
+    <MudItem xs="4">
+        <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
+                   Value="@input.RightWeapon1.Level"
+                   ValueChanged="@UpdateRightWeapon1Level">
+            @foreach (var level in input.RightWeapon1.UpgradeList)
+            {
+                <MudSelectItem Value="@level">+ @level</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+
+    <MudItem xs="8">
+        @if (input.RightWeapon1.AffinityList != null && input.RightWeapon1.AffinityList.Any())
+        {
+            <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
+                   Value="@input.RightWeapon1.AffinityId"
+                   ValueChanged="@UpdateRightWeapon1Affinity">
+                @foreach (var affinity in input.RightWeapon1.AffinityList)
+                {
+                    <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
+                }
+            </MudSelect>
+        }
+    </MudItem>
+
+
+    @if (input.RightWeapon1?.Weapon != null)
+    {
+        <MudList Clickable="true">
+            <MudListItem>
+                <div class="d-flex">
+                    <MudText>Total AR</MudText>
+                    <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon1?.DisplayTotalAttackRating</b></MudText>
+                </div>
+            </MudListItem>
+            <MudDivider />
+            @if (input.RightWeapon1.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon1.Weapon?.WeaponType == "Glintstone Staff")
+            {
+                <MudListItem>
+                    <div class="d-flex">
+                        <MudText>Sorc/Incant Scaling</MudText>
+                        <MudText Class="ml-auto">
+                            @string.Format("{0:0.0}", calculation.RightWeapon1?.SorceryIncantation.Total)
+                        </MudText>
+                    </div>
+                </MudListItem>
+            }
+        </MudList>
+    }
+
+</MudGrid>
+
+@code {
+    [Parameter]
+    WeaponSlot Slot { get; set; }
+}

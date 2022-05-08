@@ -81,23 +81,23 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public double PhysicalNegation { get; set; }
 
-        public double DisplayPhysicalNegation => Math.Round(PhysicalNegation, 2);
+        public double DisplayPhysicalNegation => Math.Round(PhysicalNegation, 3);
 
         public double MagicNegation { get; set; }
 
-        public double DisplayMagicNegation => Math.Round(MagicNegation, 2);
+        public double DisplayMagicNegation => Math.Round(MagicNegation, 3);
 
         public double FireNegation { get; set; }
 
-        public double DisplayFireNegation => Math.Round(FireNegation, 2);
+        public double DisplayFireNegation => Math.Round(FireNegation, 3);
 
         public double LightningNegation { get; set; }
 
-        public double DisplayLightningNegation => Math.Round(LightningNegation, 2);
+        public double DisplayLightningNegation => Math.Round(LightningNegation, 3);
 
         public double HolyNegation { get; set; }
 
-        public double DisplayHolyNegation => Math.Round(HolyNegation, 2);
+        public double DisplayHolyNegation => Math.Round(HolyNegation, 3);
 
         public AttackRatingCalculation RightWeapon1 { get; set; }
 

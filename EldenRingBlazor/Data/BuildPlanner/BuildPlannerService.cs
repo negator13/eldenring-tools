@@ -1,6 +1,5 @@
 ﻿using EldenRingBlazor.Data.AttackRating;
 using EldenRingBlazor.Data.CalcCorrect;
-using EldenRingBlazor.Data.Equipment;
 
 namespace EldenRingBlazor.Data.BuildPlanner
 {
@@ -105,6 +104,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
                 calculation.Poise += input.Arms?.Poise ?? 0;
                 calculation.Poise += input.Legs?.Poise ?? 0;
 
+                // TODO: Damage Negation is not simply additive
                 calculation.PhysicalNegation += input.Head?.PhysicalNegation ?? 0;
                 calculation.PhysicalNegation += input.Chest?.PhysicalNegation ?? 0;
                 calculation.PhysicalNegation += input.Arms?.PhysicalNegation ?? 0;

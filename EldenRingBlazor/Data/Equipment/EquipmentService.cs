@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using EldenRingBlazor.CsvMappings;
+using EldenRingBlazor.Data.BuildPlanner;
 using System.Globalization;
 
 namespace EldenRingBlazor.Data.Equipment
@@ -16,6 +17,8 @@ namespace EldenRingBlazor.Data.Equipment
         public readonly IEnumerable<Armor> Armor;
 
         public readonly IEnumerable<Talisman> Talismans;
+
+        public readonly IEnumerable<StartingClass> StartingClasses;
 
         public IEnumerable<Weapon> BaseWeapons { get; }
         public IEnumerable<Weapon> WeaponCategories { get; }
@@ -42,6 +45,8 @@ namespace EldenRingBlazor.Data.Equipment
             Armor = ReadArmorFromCsv();
 
             Talismans = ReadTalismansFromCsv();
+
+            StartingClasses = ReadStartingClassesFromCsv();
         }
 
         private IEnumerable<Weapon> ReadWeaponsFromCsv()
@@ -96,6 +101,15 @@ namespace EldenRingBlazor.Data.Equipment
             using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
             csv.Context.RegisterClassMap<TalismanMap>();
             return csv.GetRecords<Talisman>().ToList();
+        }
+
+        private IEnumerable<StartingClass> ReadStartingClassesFromCsv()
+        {
+            string csvPath = Path.Combine(_webRootPath, VersionInfo.PatchVersion.Latest, "StartingClasses.csv");
+            using var reader = new StreamReader(csvPath);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            csv.Context.RegisterClassMap<StartingClassMap>();
+            return csv.GetRecords<StartingClass>().ToList();
         }
 
         // Raw_Data lookup

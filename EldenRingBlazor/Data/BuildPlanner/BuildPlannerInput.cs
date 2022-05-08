@@ -4,19 +4,21 @@ namespace EldenRingBlazor.Data.BuildPlanner
 {
     public class BuildPlannerInput
     {
-        public BuildPlannerInput()
+        public BuildPlannerInput(EquipmentService equipmentService)
         {
-            RightWeapon1 = new WeaponSlot();
-            RightWeapon2 = new WeaponSlot();
-            RightWeapon3 = new WeaponSlot();
-            LeftWeapon1 = new WeaponSlot();
-            LeftWeapon2 = new WeaponSlot();
-            LeftWeapon3 = new WeaponSlot();
+            RightWeapon1 = new WeaponSlot(equipmentService);
+            RightWeapon2 = new WeaponSlot(equipmentService);
+            RightWeapon3 = new WeaponSlot(equipmentService);
+            LeftWeapon1 = new WeaponSlot(equipmentService);
+            LeftWeapon2 = new WeaponSlot(equipmentService);
+            LeftWeapon3 = new WeaponSlot(equipmentService);
         }
 
         public int DisplayLevel => Level - 79;
 
         public int Level => Vigor + Mind + Endurance + Strength + Dexterity + Intelligence + Faith + Arcane;
+
+        public StartingClass StartingClass { get; set; }
 
         public bool TwoHand { get; set; }
 
