@@ -12,40 +12,40 @@
             switch (talisman.ToLowerInvariant())
             {
                 case "radagon's scarseal":
-                    input.Vigor += 3;
-                    input.Endurance += 3;
-                    input.Strength += 3;
-                    input.Dexterity +=3;
+                    input.VigorBonus += 3;
+                    input.EnduranceBonus += 3;
+                    input.StrengthBonus += 3;
+                    input.DexterityBonus +=3;
                     break;
                 case "radagon's soreseal":
-                    input.Vigor += 5;
-                    input.Endurance += 5;
-                    input.Strength += 5;
-                    input.Dexterity +=5;
+                    input.VigorBonus += 5;
+                    input.EnduranceBonus += 5;
+                    input.StrengthBonus += 5;
+                    input.DexterityBonus +=5;
                     break;
                 case "marika's scarseal":
-                    input.Mind += 3;
-                    input.Intelligence += 3;
-                    input.Faith += 3;
-                    input.Arcane +=3;
+                    input.MindBonus += 3;
+                    input.IntelligenceBonus += 3;
+                    input.FaithBonus += 3;
+                    input.ArcaneBonus +=3;
                     break;
                 case "marika's soreseal":
-                    input.Mind += 5;
-                    input.Intelligence += 5;
-                    input.Faith += 5;
-                    input.Arcane +=5;
+                    input.MindBonus += 5;
+                    input.IntelligenceBonus += 5;
+                    input.FaithBonus += 5;
+                    input.ArcaneBonus +=5;
                     break;
                 case "starscourge heirloom":
-                    input.Strength += 5;
+                    input.StrengthBonus += 5;
                     break;
                 case "prosthesis-wearer heirloom":
-                    input.Dexterity += 5;
+                    input.DexterityBonus += 5;
                     break;
                 case "stargazer heirloom":
-                    input.Intelligence += 5;
+                    input.IntelligenceBonus += 5;
                     break;
                 case "two fingers heirloom":
-                    input.Faith += 5;
+                    input.FaithBonus += 5;
                     break;
             }
         }
