@@ -10,33 +10,8 @@
     <MudText Typo="Typo.h4" GutterBottom="true">Weapons</MudText>
 <MudGrid>
 
-    <MudItem xs="12">
+    <MudItem sm="12" md="6">
         <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
-
-            <MudText Typo="Typo.h5" GutterBottom="true">Requirements</MudText>
-            <MudGrid>
-                <MudItem xs="6">
-                    <MudNumericField T="int" Label="STR" Variant="Variant.Outlined" @bind-Value="input.MaxStrength" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudSwitch @bind-Checked="@input.TwoHand" Label="Two-Hand" Color="Color.Info" /> (@(input.EffectiveStrength))
-                </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField T="int" Label="DEX" Variant="Variant.Outlined" @bind-Value="input.MaxDexterity" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField T="int" Label="INT" Variant="Variant.Outlined" @bind-Value="input.MaxIntelligence" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField T="int" Label="FAI" Variant="Variant.Outlined" @bind-Value="input.MaxFaith" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField T="int" Label="ARC" Variant="Variant.Outlined" @bind-Value="input.MaxArcane" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Search</MudButton>
-                </MudItem>
-            </MudGrid>
 
             <MudGrid>
 
@@ -83,8 +58,37 @@
                         }
                     </MudSelect>
                 </MudItem>
+            </MudGrid>
 
-                
+        </EditForm>
+    </MudItem>
+
+     <MudItem sm="12" md="6">
+        <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
+
+            <MudText Typo="Typo.h5" GutterBottom="true">Requirements (Optional)</MudText>
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="STR" Variant="Variant.Outlined" @bind-Value="input.MaxStrength" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudSwitch @bind-Checked="@input.TwoHand" Label="Two-Hand" Color="Color.Info" /> (@(input.EffectiveStrength))
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="DEX" Variant="Variant.Outlined" @bind-Value="input.MaxDexterity" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="INT" Variant="Variant.Outlined" @bind-Value="input.MaxIntelligence" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="FAI" Variant="Variant.Outlined" @bind-Value="input.MaxFaith" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField T="int" Label="ARC" Variant="Variant.Outlined" @bind-Value="input.MaxArcane" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Apply</MudButton>
+                </MudItem>
             </MudGrid>
 
         </EditForm>
