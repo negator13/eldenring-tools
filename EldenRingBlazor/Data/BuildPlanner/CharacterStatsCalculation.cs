@@ -43,19 +43,19 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public double Immunity { get; set; }
 
-        public int DisplayImmunity => (int)Math.Floor(Immunity);
+        public int DisplayImmunity => (int)Math.Floor(Immunity + ImmunityArmor);
 
         public double Robustness { get; set; }
 
-        public int DisplayRobustness => (int)Math.Floor(Robustness);
+        public int DisplayRobustness => (int)Math.Floor(Robustness + RobustnessArmor);
 
         public double Focus { get; set; }
 
-        public int DisplayFocus => (int)Math.Floor(Focus);
+        public int DisplayFocus => (int)Math.Floor(Focus + FocusArmor);
 
         public double Vitality { get; set; }
 
-        public int DisplayVitality => (int)Math.Floor(Vitality);
+        public int DisplayVitality => (int)Math.Floor(Vitality + VitalityArmor);
 
         public double BaseDefense { get; set; }
 
@@ -81,6 +81,18 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public double PhysicalNegation { get; set; }
 
+        public double StrikeNegation { get; set; }
+
+        public double DisplayStrikeNegation => Math.Round(StrikeNegation, 3);
+
+        public double SlashNegation { get; set; }
+
+        public double DisplaySlashNegation => Math.Round(SlashNegation, 3);
+
+        public double PierceNegation { get; set; }
+
+        public double DisplayPierceNegation => Math.Round(PierceNegation, 3);
+
         public double DisplayPhysicalNegation => Math.Round(PhysicalNegation, 3);
 
         public double MagicNegation { get; set; }
@@ -98,6 +110,14 @@ namespace EldenRingBlazor.Data.BuildPlanner
         public double HolyNegation { get; set; }
 
         public double DisplayHolyNegation => Math.Round(HolyNegation, 3);
+
+        public double RobustnessArmor { get; set; }
+
+        public double ImmunityArmor { get; set; }
+
+        public double FocusArmor { get; set; }
+
+        public double VitalityArmor { get; set; }
 
         public AttackRatingCalculation RightWeapon1 { get; set; }
 

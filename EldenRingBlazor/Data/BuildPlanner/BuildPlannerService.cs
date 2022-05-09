@@ -104,31 +104,9 @@ namespace EldenRingBlazor.Data.BuildPlanner
                 calculation.Poise += input.Arms?.Poise ?? 0;
                 calculation.Poise += input.Legs?.Poise ?? 0;
 
-                // TODO: Damage Negation is not simply additive
-                calculation.PhysicalNegation += input.Head?.PhysicalNegation ?? 0;
-                calculation.PhysicalNegation += input.Chest?.PhysicalNegation ?? 0;
-                calculation.PhysicalNegation += input.Arms?.PhysicalNegation ?? 0;
-                calculation.PhysicalNegation += input.Legs?.PhysicalNegation ?? 0;
+                ApplyDamageNegation(calculation, input);
 
-                calculation.MagicNegation += input.Head?.MagicNegation ?? 0;
-                calculation.MagicNegation += input.Chest?.MagicNegation ?? 0;
-                calculation.MagicNegation += input.Arms?.MagicNegation ?? 0;
-                calculation.MagicNegation += input.Legs?.MagicNegation ?? 0;
-
-                calculation.FireNegation += input.Head?.FireNegation ?? 0;
-                calculation.FireNegation += input.Chest?.FireNegation ?? 0;
-                calculation.FireNegation += input.Arms?.FireNegation ?? 0;
-                calculation.FireNegation += input.Legs?.FireNegation ?? 0;
-
-                calculation.LightningNegation += input.Head?.LightningNegation ?? 0;
-                calculation.LightningNegation += input.Chest?.LightningNegation ?? 0;
-                calculation.LightningNegation += input.Arms?.LightningNegation ?? 0;
-                calculation.LightningNegation += input.Legs?.LightningNegation ?? 0;
-
-                calculation.HolyNegation += input.Head?.HolyNegation ?? 0;
-                calculation.HolyNegation += input.Chest?.HolyNegation ?? 0;
-                calculation.HolyNegation += input.Arms?.HolyNegation ?? 0;
-                calculation.HolyNegation += input.Legs?.HolyNegation ?? 0;
+                ApplyResistanceNegation(calculation, input);
 
                 _armorEffectsService.ApplyPostCalculationArmorEffects(calculation, input.Head?.Name);
                 _armorEffectsService.ApplyPostCalculationArmorEffects(calculation, input.Chest?.Name);
@@ -236,6 +214,74 @@ namespace EldenRingBlazor.Data.BuildPlanner
             {
                 return null;
             }
+        }
+
+        private void ApplyDamageNegation(CharacterStatsCalculation calculation, BuildPlannerInput input)
+        {
+            // TODO: Encapsulate this calculation better
+            calculation.PhysicalNegation = (1 - (
+                (input.Head?.EffectivePhysicalNegation ?? 1) *
+                (input.Chest?.EffectivePhysicalNegation ?? 1) *
+                (input.Arms?.EffectivePhysicalNegation ?? 1) *
+                (input.Legs?.EffectivePhysicalNegation ?? 1)
+                )) * 100;
+
+            calculation.StrikeNegation = (1 - (
+                (input.Head?.EffectiveStrikeNegation ?? 1) *
+                (input.Chest?.EffectiveStrikeNegation ?? 1) *
+                (input.Arms?.EffectiveStrikeNegation ?? 1) *
+                (input.Legs?.EffectiveStrikeNegation ?? 1)
+                )) * 100;
+
+            calculation.SlashNegation = (1 - (
+                (input.Head?.EffectiveSlashNegation ?? 1) *
+                (input.Chest?.EffectiveSlashNegation ?? 1) *
+                (input.Arms?.EffectiveSlashNegation ?? 1) *
+                (input.Legs?.EffectiveSlashNegation ?? 1)
+                )) * 100;
+
+            calculation.PierceNegation = (1 - (
+                (input.Head?.EffectivePierceNegation ?? 1) *
+                (input.Chest?.EffectivePierceNegation ?? 1) *
+                (input.Arms?.EffectivePierceNegation ?? 1) *
+                (input.Legs?.EffectivePierceNegation ?? 1)
+                )) * 100;
+
+            calculation.MagicNegation = (1 - (
+                (input.Head?.EffectiveMagicNegation ?? 1) *
+                (input.Chest?.EffectiveMagicNegation ?? 1) *
+                (input.Arms?.EffectiveMagicNegation ?? 1) *
+                (input.Legs?.EffectiveMagicNegation ?? 1)
+                )) * 100;
+
+            calculation.FireNegation = (1 - (
+                (input.Head?.EffectiveFireNegation ?? 1) *
+                (input.Chest?.EffectiveFireNegation ?? 1) *
+                (input.Arms?.EffectiveFireNegation ?? 1) *
+                (input.Legs?.EffectiveFireNegation ?? 1)
+                )) * 100;
+
+            calculation.LightningNegation = (1 - (
+                (input.Head?.EffectiveLightningNegation ?? 1) *
+                (input.Chest?.EffectiveLightningNegation ?? 1) *
+                (input.Arms?.EffectiveLightningNegation ?? 1) *
+                (input.Legs?.EffectiveLightningNegation ?? 1)
+                )) * 100;
+
+            calculation.HolyNegation = (1 - (
+                (input.Head?.EffectiveHolyNegation ?? 1) *
+                (input.Chest?.EffectiveHolyNegation ?? 1) *
+                (input.Arms?.EffectiveHolyNegation ?? 1) *
+                (input.Legs?.EffectiveHolyNegation ?? 1)
+                )) * 100;
+        }
+
+        private void ApplyResistanceNegation(CharacterStatsCalculation calculation, BuildPlannerInput input)
+        {
+            calculation.Robustness += calculation.RobustnessArmor = (input.Head?.Robustness ?? 0) + (input.Chest?.Robustness ?? 0) + (input.Arms?.Robustness ?? 0) + (input.Legs?.Robustness ?? 0);
+            calculation.Immunity += calculation.ImmunityArmor = (input.Head?.Immunity ?? 0) + (input.Chest?.Immunity ?? 0) + (input.Arms?.Immunity ?? 0) + (input.Legs?.Immunity ?? 0);
+            calculation.Focus += calculation.FocusArmor = (input.Head?.Focus ?? 0) + (input.Chest?.Focus ?? 0) + (input.Arms?.Focus ?? 0) + (input.Legs?.Focus ?? 0);
+            calculation.Vitality += calculation.VitalityArmor = (input.Head?.Vitality ?? 0) + (input.Chest?.Vitality ?? 0) + (input.Arms?.Vitality ?? 0) + (input.Legs?.Vitality ?? 0);
         }
     }
 }

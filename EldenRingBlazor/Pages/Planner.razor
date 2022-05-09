@@ -60,44 +60,73 @@
 
                 <MudGrid>
                     <MudItem xs="6">
-                        <MudSelect Label="Head" T="string" Variant="Variant.Text"
+                        @*<MudSelect Label="Head" T="string" Variant="Variant.Text"
                                    Value="@input.Head?.Name"
                                    ValueChanged="@UpdateHead">
                             @foreach (var armor in headArmors)
                             {
                                 <MudSelectItem Value="@armor.Name">@armor.Name</MudSelectItem>
                             }
-                        </MudSelect>
+                        </MudSelect>*@
+
+                        <MudAutocomplete T="string"
+                                         Label="Head"
+                                         Value="@input.Head?.Name"
+                                         ValueChanged="UpdateHead"
+                                         SearchFunc="HeadArmorSearch"
+                                         MaxItems="1000" />
+
                     </MudItem>
                     <MudItem xs="6">
-                        <MudSelect Label="Chest" T="string" Variant="Variant.Text"
+                        @*<MudSelect Label="Chest" T="string" Variant="Variant.Text"
                                    Value="@input.Chest?.Name"
                                    ValueChanged="@UpdateChest">
                             @foreach (var armor in chestArmors)
                             {
                                 <MudSelectItem Value="@armor.Name">@armor.Name</MudSelectItem>
                             }
-                        </MudSelect>
+                        </MudSelect>*@
+
+                        <MudAutocomplete T="string"
+                                         Label="Chest"
+                                         Value="@input.Chest?.Name"
+                                         ValueChanged="UpdateChest"
+                                         SearchFunc="ChestArmorSearch"
+                                         MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudSelect Label="Arms" T="string" Variant="Variant.Text"
+                        @*<MudSelect Label="Arms" T="string" Variant="Variant.Text"
                                    Value="@input.Arms?.Name"
                                    ValueChanged="@UpdateArms">
                             @foreach (var armor in armsArmors)
                             {
                                 <MudSelectItem Value="@armor.Name">@armor.Name</MudSelectItem>
                             }
-                        </MudSelect>
+                        </MudSelect>*@
+
+                        <MudAutocomplete T="string"
+                                         Label="Arms"
+                                         Value="@input.Arms?.Name"
+                                         ValueChanged="UpdateArms"
+                                         SearchFunc="ArmsArmorSearch"
+                                         MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudSelect Label="Legs" T="string" Variant="Variant.Text"
+                        @*<MudSelect Label="Legs" T="string" Variant="Variant.Text"
                                    Value="@input.Legs?.Name"
                                    ValueChanged="@UpdateLegs">
                             @foreach (var armor in legsArmors)
                             {
                                 <MudSelectItem Value="@armor.Name">@armor.Name</MudSelectItem>
                             }
-                        </MudSelect>
+                        </MudSelect>*@
+
+                        <MudAutocomplete T="string"
+                                         Label="Legs"
+                                         Value="@input.Legs?.Name"
+                                         ValueChanged="UpdateLegs"
+                                         SearchFunc="LegsArmorSearch"
+                                         MaxItems="1000" />
                     </MudItem>
 
                 </MudGrid>
@@ -200,10 +229,10 @@
                         <MudList Clickable="true">
                             @*<MudListItem>
                                 <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon1?.DisplayTotalAttackRating</b></MudText>
+                                <MudText>Total AR</MudText>
+                                <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon1?.DisplayTotalAttackRating</b></MudText>
                                 </div>
-                            </MudListItem>*@
+                                </MudListItem>*@
                             <MudDivider />
                             @if (input.RightWeapon1.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon1.Weapon?.WeaponType == "Glintstone Staff")
                             {
@@ -265,10 +294,10 @@
                         <MudList Clickable="true">
                             @*<MudListItem>
                                 <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon2?.DisplayTotalAttackRating</b></MudText>
+                                <MudText>Total AR</MudText>
+                                <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon2?.DisplayTotalAttackRating</b></MudText>
                                 </div>
-                            </MudListItem>*@
+                                </MudListItem>*@
                             <MudDivider />
                             @if (input.RightWeapon2.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon2.Weapon?.WeaponType == "Glintstone Staff")
                             {
@@ -343,6 +372,24 @@
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
+                            <MudText>VS Strike</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplayStrikeNegation</b></MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem>
+                        <div class="d-flex">
+                            <MudText>VS Slash</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplaySlashNegation</b></MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem>
+                        <div class="d-flex">
+                            <MudText>VS Pierce</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplayPierceNegation</b></MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem>
+                        <div class="d-flex">
                             <MudText>Magic Defense / Negation</MudText>
                             <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayMagicDefense / @calculation.DisplayMagicNegation</b></MudText>
                         </div>
@@ -368,25 +415,25 @@
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Immunity</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayImmunity</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayImmunity / @calculation.ImmunityArmor</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Robustness</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayRobustness</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayRobustness / @calculation.RobustnessArmor</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Focus</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayFocus</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayFocus / @calculation.FocusArmor</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Vitality</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayVitality</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayVitality / @calculation.VitalityArmor</b></MudText>
                         </div>
                     </MudListItem>
                 </MudList>
@@ -422,13 +469,88 @@
     private BuildPlannerInput input;
 
     private List<Talisman> talismans { get; set; }
+
     private List<Armor> headArmors { get; set; }
     private List<Armor> chestArmors { get; set; }
     private List<Armor> armsArmors { get; set; }
     private List<Armor> legsArmors { get; set; }
+
+    private IEnumerable<string> headArmorNames = new List<string>();
+    private IEnumerable<string> chestArmorNames = new List<string>();
+    private IEnumerable<string> armsArmorNames = new List<string>();
+    private IEnumerable<string> legsArmorNames = new List<string>();
+
     private List<StartingClass> startingClasses { get; set; }
 
     private bool statUpdatedSinceChangingStartingClass = false;
+
+    private Task<IEnumerable<string>> HeadArmorSearch(string value)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == input.Head?.Name)
+            {
+                return Task.FromResult(headArmorNames);
+            }
+
+            return Task.FromResult(headArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+        }
+        catch
+        {
+            return Task.FromResult(headArmorNames);
+        }
+    }
+
+    private Task<IEnumerable<string>> ChestArmorSearch(string value)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == input.Chest?.Name)
+            {
+                return Task.FromResult(chestArmorNames);
+            }
+
+            return Task.FromResult(chestArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+        }
+        catch
+        {
+            return Task.FromResult(chestArmorNames);
+        }
+    }
+
+    private Task<IEnumerable<string>> ArmsArmorSearch(string value)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == input.Arms?.Name)
+            {
+                return Task.FromResult(armsArmorNames);
+            }
+
+            return Task.FromResult(armsArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+        }
+        catch
+        {
+            return Task.FromResult(armsArmorNames);
+        }
+    }
+
+    private Task<IEnumerable<string>> LegsArmorSearch(string value)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == input.Legs?.Name)
+            {
+                return Task.FromResult(legsArmorNames);
+            }
+
+            return Task.FromResult(legsArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+        }
+        catch
+        {
+            return Task.FromResult(legsArmorNames);
+        }
+    }
 
     private Task<IEnumerable<string>> RightWeapon1Search(string value)
     {
@@ -784,6 +906,11 @@
         armsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Arm").OrderBy(a => a.Name).ToList();
 
         legsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Leg").OrderBy(a => a.Name).ToList();
+
+        headArmorNames = headArmors.Select(a => a.Name);
+        chestArmorNames = chestArmors.Select(a => a.Name);
+        armsArmorNames = armsArmors.Select(a => a.Name);
+        legsArmorNames = legsArmors.Select(a => a.Name);
 
         startingClasses = EquipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
 

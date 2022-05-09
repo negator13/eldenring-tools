@@ -5,16 +5,16 @@
         <MudAutocomplete T="string"
                          Label="Right Weapon 1"
                          Value="@Slot.WeaponName"
-                         ValueChanged="UpdateRightWeapon1"
-                         SearchFunc="RightWeapon1Search"
+                         ValueChanged="parent.UpdateRightWeapon1"
+                         SearchFunc="parent.RightWeapon1Search"
                          MaxItems="1000" />
     </MudItem>
 
     <MudItem xs="4">
         <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
-                   Value="@input.RightWeapon1.Level"
-                   ValueChanged="@UpdateRightWeapon1Level">
-            @foreach (var level in input.RightWeapon1.UpgradeList)
+                   Value="@Slot.Level"
+                   ValueChanged="@parent.UpdateRightWeapon1Level">
+            @foreach (var level in Slot.UpgradeList)
             {
                 <MudSelectItem Value="@level">+ @level</MudSelectItem>
             }
@@ -22,12 +22,12 @@
     </MudItem>
 
     <MudItem xs="8">
-        @if (input.RightWeapon1.AffinityList != null && input.RightWeapon1.AffinityList.Any())
+        @if (Slot.AffinityList != null && Slot.AffinityList.Any())
         {
             <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
-                   Value="@input.RightWeapon1.AffinityId"
-                   ValueChanged="@UpdateRightWeapon1Affinity">
-                @foreach (var affinity in input.RightWeapon1.AffinityList)
+                   Value="@Slot.AffinityId"
+                   ValueChanged="@parent.UpdateRightWeapon1Affinity">
+                @foreach (var affinity in Slot.AffinityList)
                 {
                     <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
                 }
@@ -65,4 +65,11 @@
 @code {
     [Parameter]
     WeaponSlot Slot { get; set; }
+
+    [Parameter]
+    Planner parent { get; set; }
+
+    public WeaponSlotComponent(WeaponSlot slot, Planner parent) {
+
+    }
 }
