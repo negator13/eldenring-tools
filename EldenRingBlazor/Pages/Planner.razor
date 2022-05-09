@@ -8,6 +8,7 @@
 @using EldenRingBlazor.Data.AttackRating
 @using EldenRingBlazor.Data.BuildPlanner
 @using EldenRingBlazor.Data.Equipment
+@using EldenRingBlazor.Components
 @inject BuildPlannerService CalculationService
 @inject EquipmentService EquipmentService
 
@@ -60,14 +61,6 @@
 
                 <MudGrid>
                     <MudItem xs="6">
-                        @*<MudSelect Label="Head" T="string" Variant="Variant.Text"
-                                   Value="@input.Head?.Name"
-                                   ValueChanged="@UpdateHead">
-                            @foreach (var armor in headArmors)
-                            {
-                                <MudSelectItem Value="@armor.Name">@armor.Name</MudSelectItem>
-                            }
-                        </MudSelect>*@
 
                         <MudAutocomplete T="string"
                                          Label="Head"
@@ -78,14 +71,6 @@
 
                     </MudItem>
                     <MudItem xs="6">
-                        @*<MudSelect Label="Chest" T="string" Variant="Variant.Text"
-                                   Value="@input.Chest?.Name"
-                                   ValueChanged="@UpdateChest">
-                            @foreach (var armor in chestArmors)
-                            {
-                                <MudSelectItem Value="@armor.Name">@armor.Name</MudSelectItem>
-                            }
-                        </MudSelect>*@
 
                         <MudAutocomplete T="string"
                                          Label="Chest"
@@ -95,14 +80,6 @@
                                          MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
-                        @*<MudSelect Label="Arms" T="string" Variant="Variant.Text"
-                                   Value="@input.Arms?.Name"
-                                   ValueChanged="@UpdateArms">
-                            @foreach (var armor in armsArmors)
-                            {
-                                <MudSelectItem Value="@armor.Name">@armor.Name</MudSelectItem>
-                            }
-                        </MudSelect>*@
 
                         <MudAutocomplete T="string"
                                          Label="Arms"
@@ -112,14 +89,6 @@
                                          MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
-                        @*<MudSelect Label="Legs" T="string" Variant="Variant.Text"
-                                   Value="@input.Legs?.Name"
-                                   ValueChanged="@UpdateLegs">
-                            @foreach (var armor in legsArmors)
-                            {
-                                <MudSelectItem Value="@armor.Name">@armor.Name</MudSelectItem>
-                            }
-                        </MudSelect>*@
 
                         <MudAutocomplete T="string"
                                          Label="Legs"
@@ -181,58 +150,23 @@
         <MudItem xs="4">
             <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
+                <WeaponSlotComponent Slot=input.RightWeapon1
+                                    SlotName="Right Weapon 1"
+                                     UpdateWeapon=UpdateRightWeapon1
+                                     UpdateWeaponAffinity=UpdateRightWeapon1Affinity
+                                     UpdateWeaponLevel=UpdateRightWeapon1Level>
+                </WeaponSlotComponent>
+               
                 <MudGrid>
-
-                    <MudItem xs="6">
-                        <MudSwitch @bind-Checked="@TwoHand" Label="Two-Hand Weapons" Color="Color.Info" />
-                    </MudItem>
-
-                    <MudItem xs="10">
-                        <MudAutocomplete T="string"
-                                         Label="Right Weapon 1"
-                                         Value="@input.RightWeapon1.WeaponName"
-                                         ValueChanged="UpdateRightWeapon1"
-                                         SearchFunc="RightWeapon1Search"
-                                         MaxItems="1000" />
-
-                        <MudText Inline="true" Class="ml-auto"><b> @calculation.RightWeapon1?.DisplayTotalAttackRating</b></MudText>
-                    </MudItem>
-
-                    <MudItem xs="4">
-                        <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
-                                   Value="@input.RightWeapon1.Level"
-                                   ValueChanged="@UpdateRightWeapon1Level">
-                            @foreach (var level in input.RightWeapon1.UpgradeList)
-                            {
-                                <MudSelectItem Value="@level">+ @level</MudSelectItem>
-                            }
-                        </MudSelect>
-                    </MudItem>
-
-                    <MudItem xs="8">
-                        @if (input.RightWeapon1.AffinityList != null && input.RightWeapon1.AffinityList.Any())
-                        {
-                            <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
-                                   Value="@input.RightWeapon1.AffinityId"
-                                   ValueChanged="@UpdateRightWeapon1Affinity">
-                                @foreach (var affinity in input.RightWeapon1.AffinityList)
-                                {
-                                    <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
-                                }
-                            </MudSelect>
-                        }
-                    </MudItem>
-
-
                     @if (input.RightWeapon1?.Weapon != null)
                     {
                         <MudList Clickable="true">
-                            @*<MudListItem>
+                            <MudListItem>
                                 <div class="d-flex">
                                 <MudText>Total AR</MudText>
                                 <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon1?.DisplayTotalAttackRating</b></MudText>
                                 </div>
-                                </MudListItem>*@
+                                </MudListItem>
                             <MudDivider />
                             @if (input.RightWeapon1.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon1.Weapon?.WeaponType == "Glintstone Staff")
                             {
@@ -250,54 +184,23 @@
 
                 </MudGrid>
 
-                @*TODO: Factor these weapon slots into components*@
+                <WeaponSlotComponent Slot=input.RightWeapon2
+                                     SlotName="Right Weapon 2"
+                                     UpdateWeapon=UpdateRightWeapon2
+                                     UpdateWeaponAffinity=UpdateRightWeapon2Affinity
+                                     UpdateWeaponLevel=UpdateRightWeapon2Level>
+                </WeaponSlotComponent>
 
                 <MudGrid>
-
-                    <MudItem xs="12">
-                        <MudAutocomplete T="string"
-                                         Label="Right Weapon 2"
-                                         Value="@input.RightWeapon2.WeaponName"
-                                         ValueChanged="UpdateRightWeapon2"
-                                         SearchFunc="RightWeapon2Search"
-                                         MaxItems="1000" />
-                    </MudItem>
-
-                    <MudItem xs="4">
-                        <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
-                                   Value="@input.RightWeapon2.Level"
-                                   ValueChanged="@UpdateRightWeapon2Level">
-                            @foreach (var level in input.RightWeapon2.UpgradeList)
-                            {
-                                <MudSelectItem Value="@level">+ @level</MudSelectItem>
-                            }
-                        </MudSelect>
-                    </MudItem>
-
-                    <MudItem xs="8">
-                        @if (input.RightWeapon2.AffinityList != null && input.RightWeapon2.AffinityList.Any())
-                        {
-                            <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
-                                   Value="@input.RightWeapon2.AffinityId"
-                                   ValueChanged="@UpdateRightWeapon2Affinity">
-                                @foreach (var affinity in input.RightWeapon2.AffinityList)
-                                {
-                                    <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
-                                }
-                            </MudSelect>
-                        }
-                    </MudItem>
-
-
                     @if (input.RightWeapon2?.Weapon != null)
                     {
                         <MudList Clickable="true">
-                            @*<MudListItem>
+                            <MudListItem>
                                 <div class="d-flex">
                                 <MudText>Total AR</MudText>
                                 <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon2?.DisplayTotalAttackRating</b></MudText>
                                 </div>
-                                </MudListItem>*@
+                                </MudListItem>
                             <MudDivider />
                             @if (input.RightWeapon2.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon2.Weapon?.WeaponType == "Glintstone Staff")
                             {
@@ -306,6 +209,142 @@
                                         <MudText>Sorc/Incant Scaling</MudText>
                                         <MudText Class="ml-auto">
                                             @string.Format("{0:0.0}", calculation.RightWeapon2?.SorceryIncantation.Total)
+                                        </MudText>
+                                    </div>
+                                </MudListItem>
+                            }
+                        </MudList>
+                    }
+
+                </MudGrid>
+
+                <WeaponSlotComponent Slot=input.RightWeapon3
+                                     SlotName="Right Weapon 3"
+                                     UpdateWeapon=UpdateRightWeapon3
+                                     UpdateWeaponAffinity=UpdateRightWeapon3Affinity
+                                     UpdateWeaponLevel=UpdateRightWeapon3Level>
+                </WeaponSlotComponent>
+
+                <MudGrid>
+                    @if (input.RightWeapon3?.Weapon != null)
+                    {
+                        <MudList Clickable="true">
+                            <MudListItem>
+                                <div class="d-flex">
+                                <MudText>Total AR</MudText>
+                                <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon3?.DisplayTotalAttackRating</b></MudText>
+                                </div>
+                                </MudListItem>
+                            <MudDivider />
+                            @if (input.RightWeapon3.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon3.Weapon?.WeaponType == "Glintstone Staff")
+                            {
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>Sorc/Incant Scaling</MudText>
+                                        <MudText Class="ml-auto">
+                                            @string.Format("{0:0.0}", calculation.RightWeapon3?.SorceryIncantation.Total)
+                                        </MudText>
+                                    </div>
+                                </MudListItem>
+                            }
+                        </MudList>
+                    }
+
+                </MudGrid>
+
+                <WeaponSlotComponent Slot=input.LeftWeapon1
+                                     SlotName="Left Weapon 1"
+                                     UpdateWeapon=UpdateLeftWeapon1
+                                     UpdateWeaponAffinity=UpdateLeftWeapon1Affinity
+                                     UpdateWeaponLevel=UpdateLeftWeapon1Level>
+                </WeaponSlotComponent>
+
+                <MudGrid>
+                    @if (input.LeftWeapon1?.Weapon != null)
+                    {
+                        <MudList Clickable="true">
+                            <MudListItem>
+                                <div class="d-flex">
+                                <MudText>Total AR</MudText>
+                                <MudText Inline="true" Class="ml-auto"><b>@calculation.LeftWeapon1?.DisplayTotalAttackRating</b></MudText>
+                                </div>
+                                </MudListItem>
+                            <MudDivider />
+                            @if (input.LeftWeapon1.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon1.Weapon?.WeaponType == "Glintstone Staff")
+                            {
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>Sorc/Incant Scaling</MudText>
+                                        <MudText Class="ml-auto">
+                                            @string.Format("{0:0.0}", calculation.LeftWeapon1?.SorceryIncantation.Total)
+                                        </MudText>
+                                    </div>
+                                </MudListItem>
+                            }
+                        </MudList>
+                    }
+
+                </MudGrid>
+
+                <WeaponSlotComponent Slot=input.LeftWeapon2
+                                     SlotName="Left Weapon 2"
+                                     UpdateWeapon=UpdateLeftWeapon2
+                                     UpdateWeaponAffinity=UpdateLeftWeapon2Affinity
+                                     UpdateWeaponLevel=UpdateLeftWeapon2Level>
+                </WeaponSlotComponent>
+
+                <MudGrid>
+                    @if (input.LeftWeapon2?.Weapon != null)
+                    {
+                        <MudList Clickable="true">
+                            <MudListItem>
+                                <div class="d-flex">
+                                <MudText>Total AR</MudText>
+                                <MudText Inline="true" Class="ml-auto"><b>@calculation.LeftWeapon2?.DisplayTotalAttackRating</b></MudText>
+                                </div>
+                                </MudListItem>
+                            <MudDivider />
+                            @if (input.LeftWeapon2.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon2.Weapon?.WeaponType == "Glintstone Staff")
+                            {
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>Sorc/Incant Scaling</MudText>
+                                        <MudText Class="ml-auto">
+                                            @string.Format("{0:0.0}", calculation.LeftWeapon2?.SorceryIncantation.Total)
+                                        </MudText>
+                                    </div>
+                                </MudListItem>
+                            }
+                        </MudList>
+                    }
+
+                </MudGrid>
+
+                 <WeaponSlotComponent Slot=input.LeftWeapon3
+                                     SlotName="Left Weapon 3"
+                                     UpdateWeapon=UpdateLeftWeapon3
+                                     UpdateWeaponAffinity=UpdateLeftWeapon3Affinity
+                                     UpdateWeaponLevel=UpdateLeftWeapon3Level>
+                </WeaponSlotComponent>
+
+                <MudGrid>
+                    @if (input.LeftWeapon3?.Weapon != null)
+                    {
+                        <MudList Clickable="true">
+                            <MudListItem>
+                                <div class="d-flex">
+                                <MudText>Total AR</MudText>
+                                <MudText Inline="true" Class="ml-auto"><b>@calculation.LeftWeapon3?.DisplayTotalAttackRating</b></MudText>
+                                </div>
+                                </MudListItem>
+                            <MudDivider />
+                            @if (input.LeftWeapon3.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon3.Weapon?.WeaponType == "Glintstone Staff")
+                            {
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>Sorc/Incant Scaling</MudText>
+                                        <MudText Class="ml-auto">
+                                            @string.Format("{0:0.0}", calculation.LeftWeapon3?.SorceryIncantation.Total)
                                         </MudText>
                                     </div>
                                 </MudListItem>
@@ -562,6 +601,26 @@
         return input.RightWeapon2.SearchWeapons(value);
     }
 
+    private Task<IEnumerable<string>> RightWeapon3Search(string value)
+    {
+        return input.RightWeapon3.SearchWeapons(value);
+    }
+
+     private Task<IEnumerable<string>> LeftWeapon1Search(string value)
+    {
+        return input.LeftWeapon1.SearchWeapons(value);
+    }
+
+    private Task<IEnumerable<string>> LeftWeapon2Search(string value)
+    {
+        return input.LeftWeapon2.SearchWeapons(value);
+    }
+
+    private Task<IEnumerable<string>> LeftWeapon3Search(string value)
+    {
+        return input.LeftWeapon3.SearchWeapons(value);
+    }
+
     private void UpdateRightWeapon1(string name)
     {
         input.RightWeapon1.UpdateWeapon(name);
@@ -571,6 +630,30 @@
     private void UpdateRightWeapon2(string name)
     {
         input.RightWeapon2.UpdateWeapon(name);
+        HandleValidSubmit();
+    }
+
+    private void UpdateRightWeapon3(string name)
+    {
+        input.RightWeapon3.UpdateWeapon(name);
+        HandleValidSubmit();
+    }
+
+    private void UpdateLeftWeapon1(string name)
+    {
+        input.LeftWeapon1.UpdateWeapon(name);
+        HandleValidSubmit();
+    }
+
+    private void UpdateLeftWeapon2(string name)
+    {
+        input.LeftWeapon2.UpdateWeapon(name);
+        HandleValidSubmit();
+    }
+
+    private void UpdateLeftWeapon3(string name)
+    {
+        input.LeftWeapon3.UpdateWeapon(name);
         HandleValidSubmit();
     }
 
