@@ -9,7 +9,6 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         private IEnumerable<Weapon> weaponList = new List<Weapon>();
         private IEnumerable<string> filteredWeaponNames = new List<string>();
-        
 
         private string weaponCategory = "All";
         private List<string> weaponCategoryNames = new List<string>();
@@ -21,8 +20,10 @@ namespace EldenRingBlazor.Data.BuildPlanner
         public IEnumerable<WeaponAffinity> AffinityList = new List<WeaponAffinity>();
         public IEnumerable<int> UpgradeList = new List<int>();
 
-        public WeaponSlot(EquipmentService equipmentService)
+        public WeaponSlot(string slotName, EquipmentService equipmentService)
         {
+            SlotName = slotName;
+
             _equipmentService = equipmentService;
 
             weaponList = _equipmentService.BaseWeapons;
@@ -36,6 +37,8 @@ namespace EldenRingBlazor.Data.BuildPlanner
         }
 
         public Weapon Weapon { get; set; }
+
+        public string SlotName { get; set; }
 
         public string WeaponName { get; set; }
 

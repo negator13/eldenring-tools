@@ -26,6 +26,24 @@ namespace EldenRingBlazor.Data.BuildPlanner
         {
             try
             {
+                // Reset armor and talisman bonuses
+                input.Vigor = input.ActualVigor;
+                input.VigorBonus = 0;
+                input.Mind = input.ActualMind;
+                input.MindBonus = 0;
+                input.Endurance = input.ActualEndurance;
+                input.EnduranceBonus = 0;
+                input.Strength = input.ActualStrength;
+                input.StrengthBonus = 0;
+                input.Dexterity = input.ActualDexterity;
+                input.DexterityBonus = 0;
+                input.Intelligence = input.ActualIntelligence;
+                input.IntelligenceBonus = 0;
+                input.Faith = input.ActualFaith;
+                input.FaithBonus = 0;
+                input.Arcane = input.ActualArcane;
+                input.ArcaneBonus = 0;
+
                 input.Vigor = Math.Min(input.Vigor, 99);
                 input.Mind = Math.Min(input.Mind, 99);
                 input.Endurance = Math.Min(input.Endurance, 99);
@@ -54,8 +72,6 @@ namespace EldenRingBlazor.Data.BuildPlanner
                 calculation.Stamina = (int)Math.Floor(_calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Stamina, input.Endurance));
 
                 calculation.EquipLoad = _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.EquipLoad, input.Endurance);
-
-                //calculation.Discovery = 100 + (int)Math.Floor(_calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Discovery, input.Arcane));
 
                 calculation.Discovery = 100 + input.Arcane;
 

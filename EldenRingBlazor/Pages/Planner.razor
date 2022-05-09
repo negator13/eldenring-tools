@@ -34,34 +34,33 @@
                     </MudItem>
 
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="VIG" Variant="Variant.Outlined" Value="@input.Vigor" ValueChanged="UpdateVigor" Min=@input.StartingClass.Vigor Max=99 />
+                        <MudNumericField T="int" Label="Vigor" Variant="Variant.Outlined" Value="@input.Vigor" ValueChanged="UpdateVigor" Min=@input.StartingClass.Vigor Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="MIN" Variant="Variant.Outlined" Value="@input.Mind" ValueChanged="UpdateMind" Min=@input.StartingClass.Mind Max=99 />
+                        <MudNumericField T="int" Label="Mind" Variant="Variant.Outlined" Value="@input.Mind" ValueChanged="UpdateMind" Min=@input.StartingClass.Mind Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="END" Variant="Variant.Outlined" Value="@input.Endurance" ValueChanged="UpdateEndurance" Min=@input.StartingClass.Endurance Max=99 />
+                        <MudNumericField T="int" Label="Endurance" Variant="Variant.Outlined" Value="@input.Endurance" ValueChanged="UpdateEndurance" Min=@input.StartingClass.Endurance Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="STR" Variant="Variant.Outlined" Value="@input.Strength" ValueChanged="UpdateStrength" Min=@input.StartingClass.Strength Max=99 />
+                        <MudNumericField T="int" Label="Strength" Variant="Variant.Outlined" Value="@input.Strength" ValueChanged="UpdateStrength" Min=@input.StartingClass.Strength Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="DEX" Variant="Variant.Outlined" Value="@input.Dexterity" ValueChanged="UpdateDexterity" Min=@input.StartingClass.Dexterity Max=99 />
+                        <MudNumericField T="int" Label="Dexterity" Variant="Variant.Outlined" Value="@input.Dexterity" ValueChanged="UpdateDexterity" Min=@input.StartingClass.Dexterity Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="INT" Variant="Variant.Outlined" Value="@input.Intelligence" ValueChanged="UpdateIntelligence" Min=@input.StartingClass.Intelligence Max=99 />
+                        <MudNumericField T="int" Label="Intelligence" Variant="Variant.Outlined" Value="@input.Intelligence" ValueChanged="UpdateIntelligence" Min=@input.StartingClass.Intelligence Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="FAI" Variant="Variant.Outlined" Value="@input.Faith" ValueChanged="UpdateFaith" Min=@input.StartingClass.Faith Max=99 />
+                        <MudNumericField T="int" Label="Faith" Variant="Variant.Outlined" Value="@input.Faith" ValueChanged="UpdateFaith" Min=@input.StartingClass.Faith Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="ARC" Variant="Variant.Outlined" Value="@input.Arcane" ValueChanged="UpdateArcane" Min=@input.StartingClass.Arcane Max=99 />
+                        <MudNumericField T="int" Label="Arcane" Variant="Variant.Outlined" Value="@input.Arcane" ValueChanged="UpdateArcane" Min=@input.StartingClass.Arcane Max=99 />
                     </MudItem>
                 </MudGrid>
 
                 <MudGrid>
                     <MudItem xs="6">
-
                         <MudAutocomplete T="string"
                                          Label="Head"
                                          Value="@input.Head?.Name"
@@ -71,7 +70,6 @@
 
                     </MudItem>
                     <MudItem xs="6">
-
                         <MudAutocomplete T="string"
                                          Label="Chest"
                                          Value="@input.Chest?.Name"
@@ -80,7 +78,6 @@
                                          MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
-
                         <MudAutocomplete T="string"
                                          Label="Arms"
                                          Value="@input.Arms?.Name"
@@ -89,7 +86,6 @@
                                          MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
-
                         <MudAutocomplete T="string"
                                          Label="Legs"
                                          Value="@input.Legs?.Name"
@@ -102,44 +98,36 @@
 
                 <MudGrid>
                     <MudItem xs="6">
-                        <MudSelect Label="Talisman 1" T="string" Variant="Variant.Text"
-                                   Value="@input.Talisman1?.Name"
-                                   ValueChanged="@UpdateTalisman1">
-                            @foreach (var talisman in talismans)
-                            {
-                                <MudSelectItem Value="@talisman.Name">@talisman.Name</MudSelectItem>
-                            }
-                        </MudSelect>
+                        <MudAutocomplete T="string"
+                                         Label="Talisman 1"
+                                         Value="@input.Talisman1?.Name"
+                                         ValueChanged="UpdateTalisman1"
+                                         SearchFunc="TalismanSearch"
+                                         MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudSelect Label="Talisman 2" T="string" Variant="Variant.Text"
-                                   Value="@input.Talisman2?.Name"
-                                   ValueChanged="@UpdateTalisman2">
-                            @foreach (var talisman in talismans)
-                            {
-                                <MudSelectItem Value="@talisman.Name">@talisman.Name</MudSelectItem>
-                            }
-                        </MudSelect>
+                        <MudAutocomplete T="string"
+                                         Label="Talisman 2"
+                                         Value="@input.Talisman2?.Name"
+                                         ValueChanged="UpdateTalisman2"
+                                         SearchFunc="TalismanSearch"
+                                         MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudSelect Label="Talisman 3" T="string" Variant="Variant.Text"
-                                   Value="@input.Talisman3?.Name"
-                                   ValueChanged="@UpdateTalisman3">
-                            @foreach (var talisman in talismans)
-                            {
-                                <MudSelectItem Value="@talisman.Name">@talisman.Name</MudSelectItem>
-                            }
-                        </MudSelect>
+                        <MudAutocomplete T="string"
+                                         Label="Talisman 3"
+                                         Value="@input.Talisman3?.Name"
+                                         ValueChanged="UpdateTalisman3"
+                                         SearchFunc="TalismanSearch"
+                                         MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudSelect Label="Talisman 4" T="string" Variant="Variant.Text"
-                                   Value="@input.Talisman4?.Name"
-                                   ValueChanged="@UpdateTalisman4">
-                            @foreach (var talisman in talismans)
-                            {
-                                <MudSelectItem Value="@talisman.Name">@talisman.Name</MudSelectItem>
-                            }
-                        </MudSelect>
+                        <MudAutocomplete T="string"
+                                         Label="Talisman 4"
+                                         Value="@input.Talisman4?.Name"
+                                         ValueChanged="UpdateTalisman4"
+                                         SearchFunc="TalismanSearch"
+                                         MaxItems="1000" />
                     </MudItem>
 
                 </MudGrid>
@@ -151,22 +139,21 @@
             <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
                 <WeaponSlotComponent Slot=input.RightWeapon1
-                                    SlotName="Right Weapon 1"
                                      UpdateWeapon=UpdateRightWeapon1
                                      UpdateWeaponAffinity=UpdateRightWeapon1Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon1Level>
                 </WeaponSlotComponent>
-               
+
                 <MudGrid>
                     @if (input.RightWeapon1?.Weapon != null)
                     {
                         <MudList Clickable="true">
                             <MudListItem>
                                 <div class="d-flex">
-                                <MudText>Total AR</MudText>
-                                <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon1?.DisplayTotalAttackRating</b></MudText>
+                                    <MudText>Total AR </MudText>
+                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.RightWeapon1?.DisplayTotalAttackRating</b></MudText>
                                 </div>
-                                </MudListItem>
+                            </MudListItem>
                             <MudDivider />
                             @if (input.RightWeapon1.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon1.Weapon?.WeaponType == "Glintstone Staff")
                             {
@@ -185,7 +172,6 @@
                 </MudGrid>
 
                 <WeaponSlotComponent Slot=input.RightWeapon2
-                                     SlotName="Right Weapon 2"
                                      UpdateWeapon=UpdateRightWeapon2
                                      UpdateWeaponAffinity=UpdateRightWeapon2Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon2Level>
@@ -197,10 +183,10 @@
                         <MudList Clickable="true">
                             <MudListItem>
                                 <div class="d-flex">
-                                <MudText>Total AR</MudText>
-                                <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon2?.DisplayTotalAttackRating</b></MudText>
+                                    <MudText>Total AR</MudText>
+                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.RightWeapon2?.DisplayTotalAttackRating</b></MudText>
                                 </div>
-                                </MudListItem>
+                            </MudListItem>
                             <MudDivider />
                             @if (input.RightWeapon2.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon2.Weapon?.WeaponType == "Glintstone Staff")
                             {
@@ -219,7 +205,6 @@
                 </MudGrid>
 
                 <WeaponSlotComponent Slot=input.RightWeapon3
-                                     SlotName="Right Weapon 3"
                                      UpdateWeapon=UpdateRightWeapon3
                                      UpdateWeaponAffinity=UpdateRightWeapon3Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon3Level>
@@ -231,10 +216,10 @@
                         <MudList Clickable="true">
                             <MudListItem>
                                 <div class="d-flex">
-                                <MudText>Total AR</MudText>
-                                <MudText Inline="true" Class="ml-auto"><b>@calculation.RightWeapon3?.DisplayTotalAttackRating</b></MudText>
+                                    <MudText>Total AR</MudText>
+                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.RightWeapon3?.DisplayTotalAttackRating</b></MudText>
                                 </div>
-                                </MudListItem>
+                            </MudListItem>
                             <MudDivider />
                             @if (input.RightWeapon3.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon3.Weapon?.WeaponType == "Glintstone Staff")
                             {
@@ -253,7 +238,6 @@
                 </MudGrid>
 
                 <WeaponSlotComponent Slot=input.LeftWeapon1
-                                     SlotName="Left Weapon 1"
                                      UpdateWeapon=UpdateLeftWeapon1
                                      UpdateWeaponAffinity=UpdateLeftWeapon1Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon1Level>
@@ -265,10 +249,10 @@
                         <MudList Clickable="true">
                             <MudListItem>
                                 <div class="d-flex">
-                                <MudText>Total AR</MudText>
-                                <MudText Inline="true" Class="ml-auto"><b>@calculation.LeftWeapon1?.DisplayTotalAttackRating</b></MudText>
+                                    <MudText>Total AR</MudText>
+                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.LeftWeapon1?.DisplayTotalAttackRating</b></MudText>
                                 </div>
-                                </MudListItem>
+                            </MudListItem>
                             <MudDivider />
                             @if (input.LeftWeapon1.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon1.Weapon?.WeaponType == "Glintstone Staff")
                             {
@@ -287,7 +271,6 @@
                 </MudGrid>
 
                 <WeaponSlotComponent Slot=input.LeftWeapon2
-                                     SlotName="Left Weapon 2"
                                      UpdateWeapon=UpdateLeftWeapon2
                                      UpdateWeaponAffinity=UpdateLeftWeapon2Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon2Level>
@@ -299,10 +282,10 @@
                         <MudList Clickable="true">
                             <MudListItem>
                                 <div class="d-flex">
-                                <MudText>Total AR</MudText>
-                                <MudText Inline="true" Class="ml-auto"><b>@calculation.LeftWeapon2?.DisplayTotalAttackRating</b></MudText>
+                                    <MudText>Total AR</MudText>
+                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.LeftWeapon2?.DisplayTotalAttackRating</b></MudText>
                                 </div>
-                                </MudListItem>
+                            </MudListItem>
                             <MudDivider />
                             @if (input.LeftWeapon2.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon2.Weapon?.WeaponType == "Glintstone Staff")
                             {
@@ -320,8 +303,7 @@
 
                 </MudGrid>
 
-                 <WeaponSlotComponent Slot=input.LeftWeapon3
-                                     SlotName="Left Weapon 3"
+                <WeaponSlotComponent Slot=input.LeftWeapon3
                                      UpdateWeapon=UpdateLeftWeapon3
                                      UpdateWeaponAffinity=UpdateLeftWeapon3Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon3Level>
@@ -333,10 +315,10 @@
                         <MudList Clickable="true">
                             <MudListItem>
                                 <div class="d-flex">
-                                <MudText>Total AR</MudText>
-                                <MudText Inline="true" Class="ml-auto"><b>@calculation.LeftWeapon3?.DisplayTotalAttackRating</b></MudText>
+                                    <MudText>Total AR</MudText>
+                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.LeftWeapon3?.DisplayTotalAttackRating</b></MudText>
                                 </div>
-                                </MudListItem>
+                            </MudListItem>
                             <MudDivider />
                             @if (input.LeftWeapon3.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon3.Weapon?.WeaponType == "Glintstone Staff")
                             {
@@ -509,6 +491,8 @@
 
     private List<Talisman> talismans { get; set; }
 
+    private IEnumerable<string> talismanNames = new List<string>();
+
     private List<Armor> headArmors { get; set; }
     private List<Armor> chestArmors { get; set; }
     private List<Armor> armsArmors { get; set; }
@@ -591,6 +575,24 @@
         }
     }
 
+    private Task<IEnumerable<string>> TalismanSearch(string value)
+    {
+        try
+        {
+            //if (string.IsNullOrWhiteSpace(value) || value == input.Talisman1?.Name)
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return Task.FromResult(talismanNames);
+            }
+
+            return Task.FromResult(talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+        }
+        catch
+        {
+            return Task.FromResult(talismanNames);
+        }
+    }
+
     private Task<IEnumerable<string>> RightWeapon1Search(string value)
     {
         return input.RightWeapon1.SearchWeapons(value);
@@ -606,7 +608,7 @@
         return input.RightWeapon3.SearchWeapons(value);
     }
 
-     private Task<IEnumerable<string>> LeftWeapon1Search(string value)
+    private Task<IEnumerable<string>> LeftWeapon1Search(string value)
     {
         return input.LeftWeapon1.SearchWeapons(value);
     }
@@ -980,7 +982,9 @@
     {
 
 
-        talismans = EquipmentService.Talismans.ToList();
+        talismans = EquipmentService.Talismans.OrderBy(a => a.Name).ToList();
+
+        talismanNames = talismans.Select(a => a.Name);
 
         headArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Head").OrderBy(a => a.Name).ToList();
 

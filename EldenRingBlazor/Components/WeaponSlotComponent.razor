@@ -2,7 +2,7 @@
 <MudGrid>
     <MudItem xs="12">
         <MudAutocomplete T="string"
-                         Label="@SlotName"
+                         Label="@Slot.SlotName"
                          Value="@Slot.WeaponName"
                          ValueChanged="UpdateWeapon"
                          SearchFunc="WeaponSearch"
@@ -38,9 +38,6 @@
 @code {
     [Parameter]
     public WeaponSlot Slot { get; set; }
-
-    [Parameter]
-    public string SlotName { get; set; }
 
     [Parameter]
     public EventCallback<string> UpdateWeapon { get; set; }
