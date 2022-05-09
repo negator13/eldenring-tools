@@ -16,7 +16,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public int DisplayLevel => Level - 79;
 
-        public int Level => ActualVigor + ActualMind + ActualEndurance + ActualStrength + ActualDexterity + ActualIntelligence + ActualFaith + ActualArcane;
+        public int Level => Vigor + Mind + Endurance + Strength + Dexterity + Intelligence + Faith + Arcane;
 
         public StartingClass StartingClass { get; set; }
 
@@ -26,49 +26,49 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public int VigorBonus { get; set; }
 
-        public int ActualVigor => Vigor - VigorBonus;
+        public int EffectiveVigor => Vigor + VigorBonus;
 
         public int Mind { get; set; }
 
         public int MindBonus { get; set; }
 
-        public int ActualMind => Mind - MindBonus;
+        public int EffectiveMind => Mind + MindBonus;
 
         public int Endurance { get; set; }
 
         public int EnduranceBonus { get; set; }
 
-        public int ActualEndurance => Endurance - EnduranceBonus;
+        public int EffectiveEndurance => Endurance + EnduranceBonus;
 
         public int Strength { get; set; }
         
         public int StrengthBonus { get; set; }
 
-        public int ActualStrength => Strength - StrengthBonus;
+        public int EffectiveStrength => Strength + StrengthBonus;
 
         public int Dexterity { get; set; }
 
         public int DexterityBonus { get; set; }
 
-        public int ActualDexterity => Dexterity - DexterityBonus;
+        public int EffectiveDexterity => Dexterity + DexterityBonus;
 
         public int Intelligence { get; set; }
 
         public int IntelligenceBonus { get; set; }
 
-        public int ActualIntelligence => Intelligence - IntelligenceBonus;
+        public int EffectiveIntelligence => Intelligence + IntelligenceBonus;
 
         public int Faith { get; set; }
 
         public int FaithBonus { get; set; }
 
-        public int ActualFaith => Faith - FaithBonus;
+        public int EffectiveFaith => Faith + FaithBonus;
 
         public int Arcane { get; set; }
 
         public int ArcaneBonus { get; set; }
 
-        public int ActualArcane => Arcane - ArcaneBonus;
+        public int EffectiveArcane => Arcane + ArcaneBonus;
 
         public WeaponSlot RightWeapon1 { get; set; }
 

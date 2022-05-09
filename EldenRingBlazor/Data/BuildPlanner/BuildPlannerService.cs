@@ -27,21 +27,13 @@ namespace EldenRingBlazor.Data.BuildPlanner
             try
             {
                 // Reset armor and talisman bonuses
-                input.Vigor = input.ActualVigor;
                 input.VigorBonus = 0;
-                input.Mind = input.ActualMind;
                 input.MindBonus = 0;
-                input.Endurance = input.ActualEndurance;
                 input.EnduranceBonus = 0;
-                input.Strength = input.ActualStrength;
                 input.StrengthBonus = 0;
-                input.Dexterity = input.ActualDexterity;
                 input.DexterityBonus = 0;
-                input.Intelligence = input.ActualIntelligence;
                 input.IntelligenceBonus = 0;
-                input.Faith = input.ActualFaith;
                 input.FaithBonus = 0;
-                input.Arcane = input.ActualArcane;
                 input.ArcaneBonus = 0;
 
                 input.Vigor = Math.Min(input.Vigor, 99);
@@ -65,37 +57,37 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 var calculation = new CharacterStatsCalculation();
 
-                calculation.Hp = (int)Math.Floor(_calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Hp, input.Vigor));
+                calculation.Hp = (int)Math.Floor(_calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Hp, input.EffectiveVigor));
 
-                calculation.Fp = (int)Math.Floor(_calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Fp, input.Mind));
+                calculation.Fp = (int)Math.Floor(_calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Fp, input.EffectiveMind));
 
-                calculation.Stamina = (int)Math.Floor(_calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Stamina, input.Endurance));
+                calculation.Stamina = (int)Math.Floor(_calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Stamina, input.EffectiveEndurance));
 
-                calculation.EquipLoad = _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.EquipLoad, input.Endurance);
+                calculation.EquipLoad = _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.EquipLoad, input.EffectiveEndurance);
 
                 calculation.Discovery = 100 + input.Arcane;
 
                 calculation.BaseDefense =  _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Defense_Level, input.Level);
 
-                calculation.PhysicalDefense = calculation.BaseDefense + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.PhysicalDefense_Strength, input.Strength);
+                calculation.PhysicalDefense = calculation.BaseDefense + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.PhysicalDefense_Strength, input.EffectiveStrength);
 
-                calculation.MagicDefense = calculation.BaseDefense + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.MagicDefense_Intelligence, input.Intelligence);
+                calculation.MagicDefense = calculation.BaseDefense + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.MagicDefense_Intelligence, input.EffectiveIntelligence);
 
-                calculation.FireDefense = calculation.BaseDefense + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.FireDefense_Vigor, input.Vigor);
+                calculation.FireDefense = calculation.BaseDefense + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.FireDefense_Vigor, input.EffectiveVigor);
 
                 calculation.LightningDefense = calculation.BaseDefense;
 
-                calculation.HolyDefense = calculation.BaseDefense + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.HolyDefense_Arcane, input.Arcane);
+                calculation.HolyDefense = calculation.BaseDefense + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.HolyDefense_Arcane, input.EffectiveArcane);
 
                 calculation.BaseResistance = _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Resistance_Level, input.Level);
 
-                calculation.Immunity = calculation.BaseResistance + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Immunity_Vigor, input.Vigor);
+                calculation.Immunity = calculation.BaseResistance + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Immunity_Vigor, input.EffectiveVigor);
 
-                calculation.Robustness = calculation.BaseResistance + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Robustness_Endurance, input.Endurance);
+                calculation.Robustness = calculation.BaseResistance + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Robustness_Endurance, input.EffectiveEndurance);
 
-                calculation.Focus = calculation.BaseResistance + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Focus_Mind, input.Mind);
+                calculation.Focus = calculation.BaseResistance + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Focus_Mind, input.EffectiveMind);
 
-                calculation.Vitality = calculation.BaseResistance + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Vitality_Arcane, input.Arcane);
+                calculation.Vitality = calculation.BaseResistance + _calcCorrectService.GetSpecificCalcCorrectOutputRaw(CalcCorrectIds.Vitality_Arcane, input.EffectiveArcane);
 
                 calculation.TotalWeight += input.Head?.Weight ?? 0;
                 calculation.TotalWeight += input.Chest?.Weight ?? 0;
@@ -136,11 +128,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 var rightWeapon1Input = new AttackRatingCalculationInput
                 {
-                    Strength = input.Strength,
-                    Dexterity = input.Dexterity,
-                    Intelligence = input.Intelligence,
-                    Faith = input.Faith,
-                    Arcane = input.Arcane,
+                    Strength = input.EffectiveStrength,
+                    Dexterity = input.EffectiveDexterity,
+                    Intelligence = input.EffectiveIntelligence,
+                    Faith = input.EffectiveFaith,
+                    Arcane = input.EffectiveArcane,
                     TwoHand = input.TwoHand,
                     Weapon = input.RightWeapon1.Weapon,
                     AffinityId = input.RightWeapon1.AffinityId,
@@ -151,11 +143,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 var rightWeapon2Input = new AttackRatingCalculationInput
                 {
-                    Strength = input.Strength,
-                    Dexterity = input.Dexterity,
-                    Intelligence = input.Intelligence,
-                    Faith = input.Faith,
-                    Arcane = input.Arcane,
+                    Strength = input.EffectiveStrength,
+                    Dexterity = input.EffectiveDexterity,
+                    Intelligence = input.EffectiveIntelligence,
+                    Faith = input.EffectiveFaith,
+                    Arcane = input.EffectiveArcane,
                     TwoHand = input.TwoHand,
                     Weapon = input.RightWeapon2.Weapon,
                     AffinityId = input.RightWeapon2.AffinityId,
@@ -166,11 +158,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 var rightWeapon3Input = new AttackRatingCalculationInput
                 {
-                    Strength = input.Strength,
-                    Dexterity = input.Dexterity,
-                    Intelligence = input.Intelligence,
-                    Faith = input.Faith,
-                    Arcane = input.Arcane,
+                    Strength = input.EffectiveStrength,
+                    Dexterity = input.EffectiveDexterity,
+                    Intelligence = input.EffectiveIntelligence,
+                    Faith = input.EffectiveFaith,
+                    Arcane = input.EffectiveArcane,
                     TwoHand = input.TwoHand,
                     Weapon = input.RightWeapon3.Weapon,
                     AffinityId = input.RightWeapon3.AffinityId,
@@ -181,11 +173,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 var leftWeapon1Input = new AttackRatingCalculationInput
                 {
-                    Strength = input.Strength,
-                    Dexterity = input.Dexterity,
-                    Intelligence = input.Intelligence,
-                    Faith = input.Faith,
-                    Arcane = input.Arcane,
+                    Strength = input.EffectiveStrength,
+                    Dexterity = input.EffectiveDexterity,
+                    Intelligence = input.EffectiveIntelligence,
+                    Faith = input.EffectiveFaith,
+                    Arcane = input.EffectiveArcane,
                     TwoHand = input.TwoHand,
                     Weapon = input.LeftWeapon1.Weapon,
                     AffinityId = input.LeftWeapon1.AffinityId,
@@ -196,11 +188,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 var leftWeapon2Input = new AttackRatingCalculationInput
                 {
-                    Strength = input.Strength,
-                    Dexterity = input.Dexterity,
-                    Intelligence = input.Intelligence,
-                    Faith = input.Faith,
-                    Arcane = input.Arcane,
+                    Strength = input.EffectiveStrength,
+                    Dexterity = input.EffectiveDexterity,
+                    Intelligence = input.EffectiveIntelligence,
+                    Faith = input.EffectiveFaith,
+                    Arcane = input.EffectiveArcane,
                     TwoHand = input.TwoHand,
                     Weapon = input.LeftWeapon2.Weapon,
                     AffinityId = input.LeftWeapon2.AffinityId,
@@ -211,11 +203,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 var leftWeapon3Input = new AttackRatingCalculationInput
                 {
-                    Strength = input.Strength,
-                    Dexterity = input.Dexterity,
-                    Intelligence = input.Intelligence,
-                    Faith = input.Faith,
-                    Arcane = input.Arcane,
+                    Strength = input.EffectiveStrength,
+                    Dexterity = input.EffectiveDexterity,
+                    Intelligence = input.EffectiveIntelligence,
+                    Faith = input.EffectiveFaith,
+                    Arcane = input.EffectiveArcane,
                     TwoHand = input.TwoHand,
                     Weapon = input.LeftWeapon3.Weapon,
                     AffinityId = input.LeftWeapon3.AffinityId,
