@@ -1,4 +1,5 @@
 using EldenRingBlazor.Data.AttackRating;
+using EldenRingBlazor.Data.BuildPlanner;
 using EldenRingBlazor.Data.CalcCorrect;
 using EldenRingBlazor.Data.Equipment;
 using MudBlazor.Services;
@@ -16,7 +17,10 @@ builder.Services.AddMudServices();
 
 builder.Services.AddSingleton<EquipmentService>();
 builder.Services.AddSingleton<AttackRatingCalculationService>();
+builder.Services.AddSingleton<BuildPlannerService>();
 builder.Services.AddSingleton<CalcCorrectService>();
+builder.Services.AddSingleton<ArmorEffectsService>();
+builder.Services.AddSingleton<TalismanService>();
 
 var app = builder.Build();
 

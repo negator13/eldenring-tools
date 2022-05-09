@@ -4,7 +4,7 @@
     {
         public CalcCorrectGraphInstance(int inputStat, double statMin, double statMax, double growMin, double growMax, double adjustMin, double adjustMax)
         {
-            InputStat = inputStat <= 0 ? 1 : Math.Min(inputStat, 150);
+            InputStat = inputStat <= 0 ? 1 : inputStat;
             StatMin = statMin;
             StatMax = statMax;
             GrowMin = growMin;
@@ -34,6 +34,19 @@
                 var growth = GetGrowth();
 
                 return (GrowMin + ((GrowMax - GrowMin) * growth)) * .01;
+            }
+        }
+
+        /// <summary>
+        /// Same as Output but not divided by 100
+        /// </summary>
+        public double OutputRaw
+        {
+            get
+            {
+                var growth = GetGrowth();
+
+                return (GrowMin + ((GrowMax - GrowMin) * growth));
             }
         }
 

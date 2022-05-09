@@ -44,6 +44,18 @@ namespace EldenRingBlazor.Data.CalcCorrect
             return _calcCorrectGraphs.SingleOrDefault(c => c.Id == id);
         }
 
+        public double GetSpecificCalcCorrectOutputRaw(int id, int statValue)
+        {
+            var calcCorrectGraph = _calcCorrectGraphs.SingleOrDefault(c => c.Id == id);
+
+            if (calcCorrectGraph is null)
+            {
+                return 0;
+            }
+
+            return GetSpecificCalcCorrect(calcCorrectGraph, statValue).OutputRaw;
+        }
+
         public CalcCorrectGraphInstance GetSpecificCalcCorrect(CalcCorrectGraph graph, int statValue)
         {
             double statMin;
