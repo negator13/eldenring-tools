@@ -1,16 +1,18 @@
-﻿@page "/planner"
-@page "/build"
-@page "/buildplanner"
-@page "/character"
-@page "/characterplanner"
+﻿@page "/build/{buildId?}"
+@page "/builds/{buildId?}"
+@page "/planner/{buildId?}"
+@page "/buildplanner/{buildId?}"
 
 @using EldenRingBlazor.Data
 @using EldenRingBlazor.Data.AttackRating
+@using EldenRingBlazor.Data.BuildPersistence
 @using EldenRingBlazor.Data.BuildPlanner
 @using EldenRingBlazor.Data.Equipment
 @using EldenRingBlazor.Components
 @inject BuildPlannerService CalculationService
 @inject EquipmentService EquipmentService
+@inject SaveBuildService SaveBuildService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Build Planner</PageTitle>
 
@@ -20,7 +22,13 @@
          <MudItem sm="12" md="4">
             <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick=SaveBuild>Save Build</MudButton>
+
                 <MudGrid>
+
+                    <MudItem xs="6">
+                        <MudTextField Label="Name" Variant="Variant.Text" @bind-Value="@input.Name" />
+                    </MudItem>
 
                     <MudItem xs="12">
                         <MudSelect Label="Starting Class" T="string" Variant="Variant.Text"
@@ -488,6 +496,9 @@
 </MudContainer>
 
 @code {
+    [Parameter]
+    public string? BuildId { get; set; }
+
     private EditContext EditContext;
     private CharacterStatsCalculation calculation;
     private BuildPlannerInput input;
@@ -509,6 +520,78 @@
     private List<StartingClass> startingClasses { get; set; }
 
     private bool statUpdatedSinceChangingStartingClass = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        talismans = EquipmentService.Talismans.OrderBy(a => a.Name).ToList();
+
+        talismanNames = talismans.Select(a => a.Name);
+
+        headArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Head").OrderBy(a => a.Name).ToList();
+
+        chestArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Body").OrderBy(a => a.Name).ToList();
+
+        armsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Arm").OrderBy(a => a.Name).ToList();
+
+        legsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Leg").OrderBy(a => a.Name).ToList();
+
+        headArmorNames = headArmors.Select(a => a.Name);
+        chestArmorNames = chestArmors.Select(a => a.Name);
+        armsArmorNames = armsArmors.Select(a => a.Name);
+        legsArmorNames = legsArmors.Select(a => a.Name);
+
+        startingClasses = EquipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
+
+        var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
+        input = new BuildPlannerInput(EquipmentService)
+                {
+                    StartingClass = vagabond,
+                    Vigor = vagabond.Vigor,
+                    Mind = vagabond.Mind,
+                    Endurance = vagabond.Endurance,
+                    Strength = vagabond.Strength,
+                    Dexterity = vagabond.Dexterity,
+                    Intelligence = vagabond.Intelligence,
+                    Faith = vagabond.Faith,
+                    Arcane = vagabond.Arcane,
+                };
+
+        EditContext = new EditContext(input);
+
+        HandleValidSubmit();
+
+        base.OnInitialized();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (BuildId != null)
+        {
+            input = await SaveBuildService.LoadBuild(BuildId);
+        }
+        else
+        {
+            var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
+            input = new BuildPlannerInput(EquipmentService)
+                {
+                    StartingClass = vagabond,
+                    Vigor = vagabond.Vigor,
+                    Mind = vagabond.Mind,
+                    Endurance = vagabond.Endurance,
+                    Strength = vagabond.Strength,
+                    Dexterity = vagabond.Dexterity,
+                    Intelligence = vagabond.Intelligence,
+                    Faith = vagabond.Faith,
+                    Arcane = vagabond.Arcane,
+                };
+        }
+
+        EditContext = new EditContext(input);
+
+        HandleValidSubmit();
+
+        base.OnParametersSet();
+    }
 
     private Task<IEnumerable<string>> HeadArmorSearch(string value)
     {
@@ -951,46 +1034,12 @@
         return burden < 70 ? "" : "font-weight: bold; color:red";
     }
 
-    protected override void OnInitialized()
+    private async Task SaveBuild()
     {
-        talismans = EquipmentService.Talismans.OrderBy(a => a.Name).ToList();
+        var buildId = await SaveBuildService.SaveBuild(input);
 
-        talismanNames = talismans.Select(a => a.Name);
+        //var build = await SaveBuildService.LoadBuild(buildId);
 
-        headArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Head").OrderBy(a => a.Name).ToList();
-
-        chestArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Body").OrderBy(a => a.Name).ToList();
-
-        armsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Arm").OrderBy(a => a.Name).ToList();
-
-        legsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Leg").OrderBy(a => a.Name).ToList();
-
-        headArmorNames = headArmors.Select(a => a.Name);
-        chestArmorNames = chestArmors.Select(a => a.Name);
-        armsArmorNames = armsArmors.Select(a => a.Name);
-        legsArmorNames = legsArmors.Select(a => a.Name);
-
-        startingClasses = EquipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
-
-        var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
-
-        input = new BuildPlannerInput(EquipmentService)
-            {
-                StartingClass = vagabond,
-                Vigor = vagabond.Vigor,
-                Mind = vagabond.Mind,
-                Endurance = vagabond.Endurance,
-                Strength = vagabond.Strength,
-                Dexterity = vagabond.Dexterity,
-                Intelligence = vagabond.Intelligence,
-                Faith = vagabond.Faith,
-                Arcane = vagabond.Arcane,
-            };
-
-        EditContext = new EditContext(input);
-
-        HandleValidSubmit();
-
-        base.OnInitialized();
+        NavigationManager.NavigateTo($"/build/{buildId}");
     }
 }
