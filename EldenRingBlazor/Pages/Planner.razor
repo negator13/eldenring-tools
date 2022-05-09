@@ -74,6 +74,7 @@
                                          Value="@input.Head?.Name"
                                          ValueChanged="UpdateHead"
                                          SearchFunc="HeadArmorSearch"
+                                         ResetValueOnEmptyText=true
                                          MaxItems="1000" />
 
                     </MudItem>
@@ -521,7 +522,7 @@
 
     private bool statUpdatedSinceChangingStartingClass = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         talismans = EquipmentService.Talismans.OrderBy(a => a.Name).ToList();
 
@@ -565,13 +566,14 @@
 
     protected override async Task OnParametersSetAsync()
     {
+        var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
+
         if (BuildId != null)
         {
             input = await SaveBuildService.LoadBuild(BuildId);
         }
         else
         {
-            var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
             input = new BuildPlannerInput(EquipmentService)
                 {
                     StartingClass = vagabond,
@@ -590,7 +592,7 @@
 
         HandleValidSubmit();
 
-        base.OnParametersSet();
+        await base.OnParametersSetAsync();
     }
 
     private Task<IEnumerable<string>> HeadArmorSearch(string value)
@@ -730,49 +732,49 @@
 
     private void UpdateHead(string armor)
     {
-        input.Head = headArmors.Single(a => a.Name == armor);
+        input.Head = headArmors.SingleOrDefault(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateChest(string armor)
     {
-        input.Chest = chestArmors.Single(a => a.Name == armor);
+        input.Chest = chestArmors.SingleOrDefault(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateArms(string armor)
     {
-        input.Arms = armsArmors.Single(a => a.Name == armor);
+        input.Arms = armsArmors.SingleOrDefault(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateLegs(string armor)
     {
-        input.Legs = legsArmors.Single(a => a.Name == armor);
+        input.Legs = legsArmors.SingleOrDefault(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman1(string name)
     {
-        input.Talisman1 = talismans.Single(t => t.Name == name);
+        input.Talisman1 = talismans.SingleOrDefault(t => t.Name == name);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman2(string name)
     {
-        input.Talisman2 = talismans.Single(t => t.Name == name);
+        input.Talisman2 = talismans.SingleOrDefault(t => t.Name == name);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman3(string name)
     {
-        input.Talisman3 = talismans.Single(t => t.Name == name);
+        input.Talisman3 = talismans.SingleOrDefault(t => t.Name == name);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman4(string name)
     {
-        input.Talisman4 = talismans.Single(t => t.Name == name);
+        input.Talisman4 = talismans.SingleOrDefault(t => t.Name == name);
         HandleValidSubmit();
     }
 

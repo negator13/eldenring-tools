@@ -20,17 +20,29 @@ namespace EldenRingBlazor.Data.BuildPersistence
 
         public async Task<string> SaveBuild(BuildPlannerInput input)
         {
-            var buildId = Guid.NewGuid().ToString();
+            if (input.BuildId != null)
+            {
+                var existingBuild = await LoadBuild(input.BuildId);
+
+                if (existingBuild != null && existingBuild.Name != input.Name)
+                {
+                    input.BuildId = Guid.NewGuid().ToString();
+                }
+            }
+            else
+            {
+                input.BuildId = Guid.NewGuid().ToString();
+            }
 
             // Serialize input
-            var serializedBuild = input.Serialize(buildId);
+            var serializedBuild = input.Serialize();
 
             // Save to blob storage
             await Upload(serializedBuild);
 
             //var deserializedInput = Deserialize(serializedBuild);
 
-            return buildId;
+            return input.BuildId;
         }
 
         private async Task Upload(SerializedBuildInput input)
@@ -80,7 +92,7 @@ namespace EldenRingBlazor.Data.BuildPersistence
 
             data.BuildId = input.BuildId;
             data.Name = input.Name;
-            data.StartingClass = _equipmentService.StartingClasses.FirstOrDefault(c => c.Name == input.Name);
+            data.StartingClass = _equipmentService.StartingClasses.FirstOrDefault(c => c.Name == input.Name) ?? _equipmentService.StartingClasses.Single(c => c.Name == "Vagabond");
 
             data.Vigor = input.Vigor;
             data.Mind = input.Mind;

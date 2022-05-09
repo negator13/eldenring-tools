@@ -4,11 +4,14 @@ namespace EldenRingBlazor.Data.BuildPersistence
 {
     public static class BuildPlannerInputExtensions
     {
-        public static SerializedBuildInput Serialize(this BuildPlannerInput input, string buildId)
+        public static SerializedBuildInput Serialize(this BuildPlannerInput input)
         {
             var data = new SerializedBuildInput();
 
-            data.BuildId = buildId;
+            data.BuildId = input.BuildId;
+
+            data.Name = input.Name;
+            data.StartingClass = input.StartingClass.Name;
 
             data.Vigor = input.Vigor;
             data.Mind = input.Mind;
