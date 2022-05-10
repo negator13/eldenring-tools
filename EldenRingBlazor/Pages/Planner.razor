@@ -1,16 +1,18 @@
-﻿@page "/planner"
-@page "/build"
-@page "/buildplanner"
-@page "/character"
-@page "/characterplanner"
+﻿@page "/build/{buildId?}"
+@page "/builds/{buildId?}"
+@page "/planner/{buildId?}"
+@page "/buildplanner/{buildId?}"
 
 @using EldenRingBlazor.Data
 @using EldenRingBlazor.Data.AttackRating
+@using EldenRingBlazor.Data.BuildPersistence
 @using EldenRingBlazor.Data.BuildPlanner
 @using EldenRingBlazor.Data.Equipment
 @using EldenRingBlazor.Components
 @inject BuildPlannerService CalculationService
 @inject EquipmentService EquipmentService
+@inject SaveBuildService SaveBuildService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Build Planner</PageTitle>
 
@@ -20,7 +22,13 @@
          <MudItem sm="12" md="4">
             <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick=SaveBuild>Save Build</MudButton>
+
                 <MudGrid>
+
+                    <MudItem xs="6">
+                        <MudTextField Label="Name" Variant="Variant.Text" @bind-Value="@input.Name" />
+                    </MudItem>
 
                     <MudItem xs="12">
                         <MudSelect Label="Starting Class" T="string" Variant="Variant.Text"
@@ -66,6 +74,7 @@
                                          Value="@input.Head?.Name"
                                          ValueChanged="UpdateHead"
                                          SearchFunc="HeadArmorSearch"
+                                         ResetValueOnEmptyText=true
                                          MaxItems="1000" />
 
                     </MudItem>
@@ -143,171 +152,48 @@
                 </MudItem>
 
                 <WeaponSlotComponent Slot=input.RightWeapon1
+                                     DisplayTotalAttackRating=calculation.RightWeapon1?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.RightWeapon1?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateRightWeapon1
                                      UpdateWeaponAffinity=UpdateRightWeapon1Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon1Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (input.RightWeapon1?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR </MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.RightWeapon1?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (input.RightWeapon1.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon1.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.RightWeapon1?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
                 <WeaponSlotComponent Slot=input.RightWeapon2
+                                     DisplayTotalAttackRating=calculation.RightWeapon2?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.RightWeapon2?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateRightWeapon2
                                      UpdateWeaponAffinity=UpdateRightWeapon2Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon2Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (input.RightWeapon2?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.RightWeapon2?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (input.RightWeapon2.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon2.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.RightWeapon2?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
                 <WeaponSlotComponent Slot=input.RightWeapon3
+                                     DisplayTotalAttackRating=calculation.RightWeapon3?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.RightWeapon3?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateRightWeapon3
                                      UpdateWeaponAffinity=UpdateRightWeapon3Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon3Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (input.RightWeapon3?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.RightWeapon3?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (input.RightWeapon3.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon3.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.RightWeapon3?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
                 <WeaponSlotComponent Slot=input.LeftWeapon1
+                                     DisplayTotalAttackRating=calculation.LeftWeapon1?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.LeftWeapon1?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateLeftWeapon1
                                      UpdateWeaponAffinity=UpdateLeftWeapon1Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon1Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (input.LeftWeapon1?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.LeftWeapon1?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (input.LeftWeapon1.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon1.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.LeftWeapon1?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
                 <WeaponSlotComponent Slot=input.LeftWeapon2
+                                     DisplayTotalAttackRating=calculation.LeftWeapon2?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.LeftWeapon2?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateLeftWeapon2
                                      UpdateWeaponAffinity=UpdateLeftWeapon2Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon2Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (input.LeftWeapon2?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.LeftWeapon2?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (input.LeftWeapon2.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon2.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.LeftWeapon2?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
                 <WeaponSlotComponent Slot=input.LeftWeapon3
+                                     DisplayTotalAttackRating=calculation.LeftWeapon3?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.LeftWeapon3?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateLeftWeapon3
                                      UpdateWeaponAffinity=UpdateLeftWeapon3Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon3Level>
@@ -488,6 +374,9 @@
 </MudContainer>
 
 @code {
+    [Parameter]
+    public string? BuildId { get; set; }
+
     private EditContext EditContext;
     private CharacterStatsCalculation calculation;
     private BuildPlannerInput input;
@@ -509,6 +398,79 @@
     private List<StartingClass> startingClasses { get; set; }
 
     private bool statUpdatedSinceChangingStartingClass = false;
+
+    protected override void OnInitialized()
+    {
+        talismans = EquipmentService.Talismans.OrderBy(a => a.Name).ToList();
+
+        talismanNames = talismans.Select(a => a.Name);
+
+        headArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Head").OrderBy(a => a.Name).ToList();
+
+        chestArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Body").OrderBy(a => a.Name).ToList();
+
+        armsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Arm").OrderBy(a => a.Name).ToList();
+
+        legsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Leg").OrderBy(a => a.Name).ToList();
+
+        headArmorNames = headArmors.Select(a => a.Name);
+        chestArmorNames = chestArmors.Select(a => a.Name);
+        armsArmorNames = armsArmors.Select(a => a.Name);
+        legsArmorNames = legsArmors.Select(a => a.Name);
+
+        startingClasses = EquipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
+
+        var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
+        input = new BuildPlannerInput(EquipmentService)
+                {
+                    StartingClass = vagabond,
+                    Vigor = vagabond.Vigor,
+                    Mind = vagabond.Mind,
+                    Endurance = vagabond.Endurance,
+                    Strength = vagabond.Strength,
+                    Dexterity = vagabond.Dexterity,
+                    Intelligence = vagabond.Intelligence,
+                    Faith = vagabond.Faith,
+                    Arcane = vagabond.Arcane,
+                };
+
+        EditContext = new EditContext(input);
+
+        HandleValidSubmit();
+
+        base.OnInitialized();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
+
+        if (BuildId != null)
+        {
+            input = await SaveBuildService.LoadBuild(BuildId);
+        }
+        else
+        {
+            input = new BuildPlannerInput(EquipmentService)
+                {
+                    StartingClass = vagabond,
+                    Vigor = vagabond.Vigor,
+                    Mind = vagabond.Mind,
+                    Endurance = vagabond.Endurance,
+                    Strength = vagabond.Strength,
+                    Dexterity = vagabond.Dexterity,
+                    Intelligence = vagabond.Intelligence,
+                    Faith = vagabond.Faith,
+                    Arcane = vagabond.Arcane,
+                };
+        }
+
+        EditContext = new EditContext(input);
+
+        HandleValidSubmit();
+
+        await base.OnParametersSetAsync();
+    }
 
     private Task<IEnumerable<string>> HeadArmorSearch(string value)
     {
@@ -647,49 +609,49 @@
 
     private void UpdateHead(string armor)
     {
-        input.Head = headArmors.Single(a => a.Name == armor);
+        input.Head = headArmors.SingleOrDefault(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateChest(string armor)
     {
-        input.Chest = chestArmors.Single(a => a.Name == armor);
+        input.Chest = chestArmors.SingleOrDefault(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateArms(string armor)
     {
-        input.Arms = armsArmors.Single(a => a.Name == armor);
+        input.Arms = armsArmors.SingleOrDefault(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateLegs(string armor)
     {
-        input.Legs = legsArmors.Single(a => a.Name == armor);
+        input.Legs = legsArmors.SingleOrDefault(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman1(string name)
     {
-        input.Talisman1 = talismans.Single(t => t.Name == name);
+        input.Talisman1 = talismans.SingleOrDefault(t => t.Name == name);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman2(string name)
     {
-        input.Talisman2 = talismans.Single(t => t.Name == name);
+        input.Talisman2 = talismans.SingleOrDefault(t => t.Name == name);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman3(string name)
     {
-        input.Talisman3 = talismans.Single(t => t.Name == name);
+        input.Talisman3 = talismans.SingleOrDefault(t => t.Name == name);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman4(string name)
     {
-        input.Talisman4 = talismans.Single(t => t.Name == name);
+        input.Talisman4 = talismans.SingleOrDefault(t => t.Name == name);
         HandleValidSubmit();
     }
 
@@ -951,46 +913,12 @@
         return burden < 70 ? "" : "font-weight: bold; color:red";
     }
 
-    protected override void OnInitialized()
+    private async Task SaveBuild()
     {
-        talismans = EquipmentService.Talismans.OrderBy(a => a.Name).ToList();
+        var buildId = await SaveBuildService.SaveBuild(input);
 
-        talismanNames = talismans.Select(a => a.Name);
+        //var build = await SaveBuildService.LoadBuild(buildId);
 
-        headArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Head").OrderBy(a => a.Name).ToList();
-
-        chestArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Body").OrderBy(a => a.Name).ToList();
-
-        armsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Arm").OrderBy(a => a.Name).ToList();
-
-        legsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Leg").OrderBy(a => a.Name).ToList();
-
-        headArmorNames = headArmors.Select(a => a.Name);
-        chestArmorNames = chestArmors.Select(a => a.Name);
-        armsArmorNames = armsArmors.Select(a => a.Name);
-        legsArmorNames = legsArmors.Select(a => a.Name);
-
-        startingClasses = EquipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
-
-        var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
-
-        input = new BuildPlannerInput(EquipmentService)
-            {
-                StartingClass = vagabond,
-                Vigor = vagabond.Vigor,
-                Mind = vagabond.Mind,
-                Endurance = vagabond.Endurance,
-                Strength = vagabond.Strength,
-                Dexterity = vagabond.Dexterity,
-                Intelligence = vagabond.Intelligence,
-                Faith = vagabond.Faith,
-                Arcane = vagabond.Arcane,
-            };
-
-        EditContext = new EditContext(input);
-
-        HandleValidSubmit();
-
-        base.OnInitialized();
+        NavigationManager.NavigateTo($"/build/{buildId}");
     }
 }

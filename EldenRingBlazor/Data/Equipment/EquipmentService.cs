@@ -21,7 +21,6 @@ namespace EldenRingBlazor.Data.Equipment
         public readonly IEnumerable<StartingClass> StartingClasses;
 
         public IEnumerable<Weapon> BaseWeapons { get; }
-        public IEnumerable<Weapon> WeaponCategories { get; }
 
         public EquipmentService(IWebHostEnvironment hostingEnvironment)
         {
@@ -35,10 +34,6 @@ namespace EldenRingBlazor.Data.Equipment
 
             _weaponUpgrades = ReadWeaponUpgradesFromCsv();
             _attackElements = ReadAttackElementsFromCsv();
-
-            WeaponCategories = _allWeapons
-                .Where(w => w.ReinforceTypeId == Affinities.Standard || w.ReinforceTypeId == Affinities.Somber || w.ReinforceTypeId == Affinities.StaffOrSeal1 || w.ReinforceTypeId == Affinities.StaffOrSeal2)
-                .OrderBy(w => w.Name);
 
             _passiveEffects = ReadPassiveEffectsFromCsv();
 

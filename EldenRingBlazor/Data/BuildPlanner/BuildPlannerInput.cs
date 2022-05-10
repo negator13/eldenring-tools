@@ -14,6 +14,10 @@ namespace EldenRingBlazor.Data.BuildPlanner
             LeftWeapon3 = new WeaponSlot("Left Weapon 3", equipmentService);
         }
 
+        public string BuildId { get; set; }
+
+        public string Name { get; set; }
+
         public int DisplayLevel => Level - 79;
 
         public int Level => Vigor + Mind + Endurance + Strength + Dexterity + Intelligence + Faith + Arcane;
@@ -91,8 +95,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
         public Armor Legs { get; set; }
 
         public Talisman Talisman1 { get; set; }
+
         public Talisman Talisman2 { get; set; }
+
         public Talisman Talisman3 { get; set; }
+
         public Talisman Talisman4 { get; set; }
     }
 }

@@ -89,6 +89,10 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 if (selectedWeapon == null)
                 {
+                    Weapon = null;
+                    WeaponName = null;
+                    AffinityId = 0;
+                    Level = 0;
                     return;
                 }
 

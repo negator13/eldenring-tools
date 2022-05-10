@@ -8,17 +8,20 @@ namespace EldenRingBlazor.Data.BuildPlanner
         private CalcCorrectService _calcCorrectService;
         private AttackRatingCalculationService _attackRatingCalculationService;
         private ArmorEffectsService _armorEffectsService;
+        private WeaponEffectsService _weaponEffectsService;
         private TalismanService _talismanService;
 
         public BuildPlannerService(
             CalcCorrectService calcCorrectService,
             AttackRatingCalculationService attackRatingCalculationService,
              ArmorEffectsService armorEffectsService,
+              WeaponEffectsService weaponEffectsService,
              TalismanService talismanService)
         {
             _calcCorrectService = calcCorrectService;
             _attackRatingCalculationService = attackRatingCalculationService;
             _armorEffectsService = armorEffectsService;
+            _weaponEffectsService = weaponEffectsService;
             _talismanService = talismanService;
         }
 
@@ -49,6 +52,13 @@ namespace EldenRingBlazor.Data.BuildPlanner
                 _armorEffectsService.ApplyPreCalculationArmorEffects(input, input.Chest?.Name);
                 _armorEffectsService.ApplyPreCalculationArmorEffects(input, input.Arms?.Name);
                 _armorEffectsService.ApplyPreCalculationArmorEffects(input, input.Legs?.Name);
+
+                _weaponEffectsService.ApplyPreCalculationWeaponEffects(input, input.RightWeapon1?.WeaponName);
+                _weaponEffectsService.ApplyPreCalculationWeaponEffects(input, input.RightWeapon2?.WeaponName);
+                _weaponEffectsService.ApplyPreCalculationWeaponEffects(input, input.RightWeapon3?.WeaponName);
+                _weaponEffectsService.ApplyPreCalculationWeaponEffects(input, input.LeftWeapon1?.WeaponName);
+                _weaponEffectsService.ApplyPreCalculationWeaponEffects(input, input.LeftWeapon2?.WeaponName);
+                _weaponEffectsService.ApplyPreCalculationWeaponEffects(input, input.LeftWeapon3?.WeaponName);
 
                 _talismanService.ApplyPreCalculationTalismanEffects(input, input.Talisman1?.Name);
                 _talismanService.ApplyPreCalculationTalismanEffects(input, input.Talisman2?.Name);
@@ -120,6 +130,13 @@ namespace EldenRingBlazor.Data.BuildPlanner
                 _armorEffectsService.ApplyPostCalculationArmorEffects(calculation, input.Chest?.Name);
                 _armorEffectsService.ApplyPostCalculationArmorEffects(calculation, input.Arms?.Name);
                 _armorEffectsService.ApplyPostCalculationArmorEffects(calculation, input.Legs?.Name);
+
+                _weaponEffectsService.ApplyPostCalculationWeaponEffects(calculation, input.RightWeapon1?.WeaponName);
+                _weaponEffectsService.ApplyPostCalculationWeaponEffects(calculation, input.RightWeapon2?.WeaponName);
+                _weaponEffectsService.ApplyPostCalculationWeaponEffects(calculation, input.RightWeapon3?.WeaponName);
+                _weaponEffectsService.ApplyPostCalculationWeaponEffects(calculation, input.LeftWeapon1?.WeaponName);
+                _weaponEffectsService.ApplyPostCalculationWeaponEffects(calculation, input.LeftWeapon2?.WeaponName);
+                _weaponEffectsService.ApplyPostCalculationWeaponEffects(calculation, input.LeftWeapon3?.WeaponName);
 
                 _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman1?.Name);
                 _talismanService.ApplyPostCalculationTalismanEffects(calculation, input.Talisman2?.Name);
