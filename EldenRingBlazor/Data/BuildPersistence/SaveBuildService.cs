@@ -92,7 +92,7 @@ namespace EldenRingBlazor.Data.BuildPersistence
 
             data.BuildId = input.BuildId;
             data.Name = input.Name;
-            data.StartingClass = _equipmentService.StartingClasses.FirstOrDefault(c => c.Name == input.Name) ?? _equipmentService.StartingClasses.Single(c => c.Name == "Vagabond");
+            data.StartingClass = _equipmentService.StartingClasses.FirstOrDefault(c => c.Name == input.StartingClass) ?? _equipmentService.StartingClasses.Single(c => c.Name == "Vagabond");
 
             data.Vigor = input.Vigor;
             data.Mind = input.Mind;

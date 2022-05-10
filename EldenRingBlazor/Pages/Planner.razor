@@ -283,19 +283,19 @@
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
-                            <MudText>VS Strike</MudText>
+                            <MudText Class="pl-4">VS Strike</MudText>
                             <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplayStrikeNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
-                            <MudText>VS Slash</MudText>
+                            <MudText Class="pl-4">VS Slash</MudText>
                             <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplaySlashNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
-                            <MudText>VS Pierce</MudText>
+                            <MudText Class="pl-4">VS Pierce</MudText>
                             <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplayPierceNegation</b></MudText>
                         </div>
                     </MudListItem>
@@ -348,25 +348,6 @@
                         </div>
                     </MudListItem>
                 </MudList>
-
-                @*<MudTable Items=@scalingRequirements>
-                    <HeaderContent>
-                    <MudTh>@calculation.Name</MudTh>
-                    <MudTh>STR</MudTh>
-                    <MudTh>DEX</MudTh>
-                    <MudTh>INT</MudTh>
-                    <MudTh>FAI</MudTh>
-                    <MudTh>ARC</MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
-                    <MudTd><strong>@context.Label</strong></MudTd>
-                    <MudTd DataLabel="STR" style="@StyleStatRequirement(@input.Strength, @input.Weapon.StrRequirement)">@context.Strength</MudTd>
-                    <MudTd DataLabel="DEX" style="@StyleStatRequirement(@input.Dexterity, @input.Weapon.DexRequirement)">@context.Dexterity</MudTd>
-                    <MudTd DataLabel="INT" style="@StyleStatRequirement(@input.Intelligence, @input.Weapon.IntRequirement)">@context.Intelligence</MudTd>
-                    <MudTd DataLabel="FAI" style="@StyleStatRequirement(@input.Faith, @input.Weapon.FthRequirement)">@context.Faith</MudTd>
-                    <MudTd DataLabel="ARC" style="@StyleStatRequirement(@input.Arcane, @input.Weapon.ArcRequirement)">@context.Arcane</MudTd>
-                    </RowTemplate>
-                    </MudTable>*@
 
             </MudPaper>
         </MudItem>
@@ -917,8 +898,6 @@
     private async Task SaveBuild()
     {
         var buildId = await SaveBuildService.SaveBuild(input);
-
-        //var build = await SaveBuildService.LoadBuild(buildId);
 
         NavigationManager.NavigateTo($"/build/{buildId}");
     }

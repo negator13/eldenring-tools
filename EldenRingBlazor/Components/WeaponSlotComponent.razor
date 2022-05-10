@@ -25,49 +25,41 @@
                 @if (Slot.Weapon?.WeaponType == "Sacred Seal" || Slot.Weapon?.WeaponType == "Glintstone Staff")
                 {
                     <MudListItem>
-                        <div class="d-flex">
-                            <MudText>Sorc/Incant Scaling</MudText>
-                            <MudText Class="ml-auto">
-                                @string.Format("{0:0.0}", @Calculation?.SorceryIncantation.DisplayTotal)
-                            </MudText>
-                        </div>
+                        <MudText>Sorc/Incant Scaling</MudText>
+                        <MudText Class="ml-auto">
+                            @string.Format("{0:0.0}", @Calculation?.SorceryIncantation.DisplayTotal)
+                        </MudText>
+                    </MudListItem>
+                }
+                @if (Slot.Weapon != null && Input != null)
+                {
+                    <MudListItem>
+                        <MudText>
+                            <span style="@StyleStatRequirement(Input.Strength, Slot.Weapon.StrRequirement)">@Slot.Weapon.StrRequirement</span>/
+                            <span style="@StyleStatRequirement(Input.Dexterity, Slot.Weapon.DexRequirement)">@Slot.Weapon.DexRequirement</span>/
+                            <span style="@StyleStatRequirement(Input.Intelligence, Slot.Weapon.IntRequirement)">@Slot.Weapon.IntRequirement</span>/
+                            <span style="@StyleStatRequirement(Input.Faith, Slot.Weapon.FthRequirement)">@Slot.Weapon.FthRequirement</span>/
+                            <span style="@StyleStatRequirement(Input.Arcane, Slot.Weapon.ArcRequirement)">@Slot.Weapon.ArcRequirement</span>
+                        </MudText>
                     </MudListItem>
                 }
             </MudList>
         }
     </MudItem>
 
-    @if (Slot.Weapon != null && Input != null)
+    @*@if (Slot.Weapon != null && Input != null)
     {
         <MudItem xs="12">
             <MudText>
-                Requirements: 
-                <span style="@StyleStatRequirement(Input.Strength, Slot.Weapon.StrRequirement)">@Slot.Weapon.StrRequirement</span> / 
+                Requirements:
+                <span style="@StyleStatRequirement(Input.Strength, Slot.Weapon.StrRequirement)">@Slot.Weapon.StrRequirement</span> /
                 <span style="@StyleStatRequirement(Input.Dexterity, Slot.Weapon.DexRequirement)">@Slot.Weapon.DexRequirement</span> /
                 <span style="@StyleStatRequirement(Input.Intelligence, Slot.Weapon.IntRequirement)">@Slot.Weapon.IntRequirement</span> /
                 <span style="@StyleStatRequirement(Input.Faith, Slot.Weapon.FthRequirement)">@Slot.Weapon.FthRequirement</span> /
                 <span style="@StyleStatRequirement(Input.Arcane, Slot.Weapon.ArcRequirement)">@Slot.Weapon.ArcRequirement</span>
             </MudText>
-            @*<MudTable Items=@Slot?.ScalingRequirements>
-                <HeaderContent>
-                    <MudTh></MudTh>
-                    <MudTh>STR</MudTh>
-                    <MudTh>DEX</MudTh>
-                    <MudTh>INT</MudTh>
-                    <MudTh>FAI</MudTh>
-                    <MudTh>ARC</MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd><strong>@context.Label</strong></MudTd>
-                    <MudTd DataLabel="STR" style="@StyleStatRequirement(@Input.Strength, @Slot.Weapon.StrRequirement)">@context.Strength</MudTd>
-                    <MudTd DataLabel="DEX" style="@StyleStatRequirement(@Input.Dexterity, @Slot.Weapon.DexRequirement)">@context.Dexterity</MudTd>
-                    <MudTd DataLabel="INT" style="@StyleStatRequirement(@Input.Intelligence, @Slot.Weapon.IntRequirement)">@context.Intelligence</MudTd>
-                    <MudTd DataLabel="FAI" style="@StyleStatRequirement(@Input.Faith, @Slot.Weapon.FthRequirement)">@context.Faith</MudTd>
-                    <MudTd DataLabel="ARC" style="@StyleStatRequirement(@Input.Arcane, @Slot.Weapon.ArcRequirement)">@context.Arcane</MudTd>
-                </RowTemplate>
-            </MudTable>*@
         </MudItem>
-    }
+    }*@
 
     @if (Slot.Weapon != null)
     {
