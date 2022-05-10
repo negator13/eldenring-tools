@@ -21,6 +21,7 @@ builder.Services.AddSingleton<AttackRatingCalculationService>();
 builder.Services.AddSingleton<BuildPlannerService>();
 builder.Services.AddSingleton<CalcCorrectService>();
 builder.Services.AddSingleton<ArmorEffectsService>();
+builder.Services.AddSingleton<WeaponEffectsService>();
 builder.Services.AddSingleton<TalismanService>();
 builder.Services.AddSingleton<SaveBuildService>();
 

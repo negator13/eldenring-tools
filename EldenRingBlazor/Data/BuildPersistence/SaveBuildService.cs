@@ -123,9 +123,9 @@ namespace EldenRingBlazor.Data.BuildPersistence
 
             data.LeftWeapon1 = DeserializeWeapon("Left Weapon 1", input.LeftWeapon1, input.LeftWeapon1Affinity, input.LeftWeapon1Level);
 
-            data.LeftWeapon2 = DeserializeWeapon("Left Weapon 1", input.LeftWeapon2, input.LeftWeapon2Affinity, input.LeftWeapon2Level);
+            data.LeftWeapon2 = DeserializeWeapon("Left Weapon 2", input.LeftWeapon2, input.LeftWeapon2Affinity, input.LeftWeapon2Level);
 
-            data.LeftWeapon3 = DeserializeWeapon("Left Weapon 1", input.LeftWeapon3, input.LeftWeapon3Affinity, input.LeftWeapon3Level);
+            data.LeftWeapon3 = DeserializeWeapon("Left Weapon 3", input.LeftWeapon3, input.LeftWeapon3Affinity, input.LeftWeapon3Level);
 
             return data;
         }

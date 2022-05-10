@@ -1,6 +1,6 @@
 ﻿@using EldenRingBlazor.Data.BuildPlanner
 <MudGrid>
-    <MudItem xs="12">
+    <MudItem xs="8">
         <MudAutocomplete T="string"
                          Label="@Slot.SlotName"
                          Value="@Slot.WeaponName"
@@ -9,36 +9,70 @@
                          ResetValueOnEmptyText=true
                          MaxItems="1000" />
     </MudItem>
-
     <MudItem xs="4">
-        <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
+        @if (Slot.Weapon != null)
+                    {
+                        <MudList Clickable="true">
+                            <MudListItem>
+                                <div class="d-flex">
+                                    <MudText>Total AR</MudText>
+                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@DisplayTotalAttackRating</b></MudText>
+                                </div>
+                            </MudListItem>
+                            <MudDivider />
+                            @if (Slot.Weapon?.WeaponType == "Sacred Seal" || Slot.Weapon?.WeaponType == "Glintstone Staff")
+                            {
+                                <MudListItem>
+                                    <div class="d-flex">
+                                        <MudText>Sorc/Incant Scaling</MudText>
+                                        <MudText Class="ml-auto">
+                                            @string.Format("{0:0.0}", SorceryIncantationScaling)
+                                        </MudText>
+                                    </div>
+                                </MudListItem>
+                            }
+                        </MudList>
+                    }
+    </MudItem>
+
+    @if (Slot.Weapon != null)
+    {
+        <MudItem xs="4">
+            <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
                    Value="@Slot.Level"
                    ValueChanged="@UpdateWeaponLevel">
-            @foreach (var level in Slot.UpgradeList)
-            {
-                <MudSelectItem Value="@level">+ @level</MudSelectItem>
-            }
-        </MudSelect>
-    </MudItem>
-
-    <MudItem xs="8">
-        @if (Slot.AffinityList != null && Slot.AffinityList.Any())
-        {
-            <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
-                   Value="@Slot.AffinityId"
-                   ValueChanged="@UpdateWeaponAffinity">
-                @foreach (var affinity in Slot.AffinityList)
+                @foreach (var level in Slot.UpgradeList)
                 {
-                    <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
+                    <MudSelectItem Value="@level">+ @level</MudSelectItem>
                 }
             </MudSelect>
-        }
-    </MudItem>
+        </MudItem>
+
+        <MudItem xs="8">
+            @if (Slot.AffinityList != null && Slot.AffinityList.Any())
+            {
+                <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
+                   Value="@Slot.AffinityId"
+                   ValueChanged="@UpdateWeaponAffinity">
+                    @foreach (var affinity in Slot.AffinityList)
+                    {
+                        <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            }
+        </MudItem>
+    }
 </MudGrid>
 
 @code {
     [Parameter]
     public WeaponSlot Slot { get; set; }
+
+    [Parameter]
+    public int? DisplayTotalAttackRating { get; set; }
+
+    [Parameter]
+    public double? SorceryIncantationScaling { get; set; }
 
     [Parameter]
     public EventCallback<string> UpdateWeapon { get; set; }

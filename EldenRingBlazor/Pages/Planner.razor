@@ -152,171 +152,48 @@
                 </MudItem>
 
                 <WeaponSlotComponent Slot=input.RightWeapon1
+                                     DisplayTotalAttackRating=calculation.RightWeapon1?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.RightWeapon1?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateRightWeapon1
                                      UpdateWeaponAffinity=UpdateRightWeapon1Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon1Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (input.RightWeapon1?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR </MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.RightWeapon1?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (input.RightWeapon1.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon1.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.RightWeapon1?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
                 <WeaponSlotComponent Slot=input.RightWeapon2
+                                     DisplayTotalAttackRating=calculation.RightWeapon2?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.RightWeapon2?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateRightWeapon2
                                      UpdateWeaponAffinity=UpdateRightWeapon2Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon2Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (input.RightWeapon2?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.RightWeapon2?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (input.RightWeapon2.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon2.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.RightWeapon2?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
                 <WeaponSlotComponent Slot=input.RightWeapon3
+                                     DisplayTotalAttackRating=calculation.RightWeapon3?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.RightWeapon3?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateRightWeapon3
                                      UpdateWeaponAffinity=UpdateRightWeapon3Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon3Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (input.RightWeapon3?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.RightWeapon3?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (input.RightWeapon3.Weapon?.WeaponType == "Sacred Seal" || input.RightWeapon3.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.RightWeapon3?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
                 <WeaponSlotComponent Slot=input.LeftWeapon1
+                                     DisplayTotalAttackRating=calculation.LeftWeapon1?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.LeftWeapon1?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateLeftWeapon1
                                      UpdateWeaponAffinity=UpdateLeftWeapon1Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon1Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (input.LeftWeapon1?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.LeftWeapon1?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (input.LeftWeapon1.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon1.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.LeftWeapon1?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
                 <WeaponSlotComponent Slot=input.LeftWeapon2
+                                     DisplayTotalAttackRating=calculation.LeftWeapon2?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.LeftWeapon2?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateLeftWeapon2
                                      UpdateWeaponAffinity=UpdateLeftWeapon2Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon2Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (input.LeftWeapon2?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.LeftWeapon2?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (input.LeftWeapon2.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon2.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.LeftWeapon2?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
                 <WeaponSlotComponent Slot=input.LeftWeapon3
+                                     DisplayTotalAttackRating=calculation.LeftWeapon3?.DisplayTotalAttackRating
+                                     SorceryIncantationScaling=calculation.LeftWeapon3?.SorceryIncantation?.Total
                                      UpdateWeapon=UpdateLeftWeapon3
                                      UpdateWeaponAffinity=UpdateLeftWeapon3Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon3Level>
