@@ -168,7 +168,7 @@ namespace EldenRingBlazor.Data.Equipment
 
         public ModifiedWeapon GetModifiedWeapon(Weapon weapon, SearchWeaponsRequest request)
         {
-            var weaponUpgrade = GetWeaponUpgrade(weapon, weapon.IsInfusable ? request.UpgradeLevel : request.SomberUpgradeLevel);
+            var weaponUpgrade = GetWeaponUpgrade(weapon, weapon.MaxUpgrade > 10 ? request.UpgradeLevel : request.SomberUpgradeLevel);
             var modifiedWeapon = new ModifiedWeapon(weapon, weaponUpgrade);
             var baseWeaponId = weapon.Id - weapon.ReinforceTypeId;
             modifiedWeapon.BaseName = GetWeapon(baseWeaponId)?.Name ?? modifiedWeapon.Name;
