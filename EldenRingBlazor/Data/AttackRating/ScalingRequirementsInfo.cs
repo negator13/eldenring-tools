@@ -14,4 +14,17 @@
 
         public string Arcane { get; set; }
     }
+
+    public class ScalingRequirements
+    {
+        public int Strength { get; set; }
+
+        public int Dexterity { get; set; }
+
+        public int Intelligence { get; set; }
+
+        public int Faith { get; set; }
+
+        public int Arcane { get; set; }
+    }
 }

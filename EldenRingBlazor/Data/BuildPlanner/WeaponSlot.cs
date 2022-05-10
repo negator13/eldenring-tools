@@ -33,7 +33,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
             weaponCategoryNames = new List<string>() { "All" };
             weaponCategoryNames.AddRange(weaponList.Select(c => c.WeaponType).Distinct().OrderBy(c => c));
 
-            ScalingRequirements = new List<ScalingRequirementsInfo>();
+            ScalingInfo = new List<ScalingRequirementsInfo>();
         }
 
         public Weapon Weapon { get; set; }
@@ -46,7 +46,9 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public int Level { get; set; }
 
-        public List<ScalingRequirementsInfo> ScalingRequirements { get; set; }
+        public ScalingRequirements ScalingRequirements { get; set; }
+
+        public List<ScalingRequirementsInfo> ScalingInfo { get; set; }
 
         public Task<IEnumerable<string>> SearchWeapons(string value)
         {
@@ -136,6 +138,51 @@ namespace EldenRingBlazor.Data.BuildPlanner
             {
 
             }
+        }
+
+        public void GetScalingRequirements(AttackRatingCalculation Calculation)
+        {
+            var info = new List<ScalingRequirementsInfo>();
+
+            if (Weapon == null || Calculation == null)
+            {
+                return;
+            }
+
+            var reqs = new ScalingRequirementsInfo
+            {
+                Label = "Reqs.",
+                Strength = $"{Weapon.StrRequirement}",
+                Dexterity = $"{Weapon.DexRequirement}",
+                Intelligence = $"{Weapon.IntRequirement}",
+                Faith = $"{Weapon.FthRequirement}",
+                Arcane = $"{Weapon.ArcRequirement}",
+            };
+
+            info.Add(reqs);
+
+            info.Add(new ScalingRequirementsInfo
+            {
+                Label = "Scaling",
+                Strength = $"{Calculation.StrScaling:0.#}",
+                Dexterity = $"{Calculation.DexScaling:0.#}",
+                Intelligence = $"{Calculation.IntScaling:0.#}",
+                Faith = $"{Calculation.FthScaling:0.#}",
+                Arcane = $"{Calculation.ArcScaling:0.#}",
+            });
+
+            info.Add(new ScalingRequirementsInfo
+            {
+                Label = "",
+                Strength = $"{Calculation.StrScaling.GetScalingGrade()}",
+                Dexterity = $"{Calculation.DexScaling.GetScalingGrade()}",
+                Intelligence = $"{Calculation.IntScaling.GetScalingGrade()}",
+                Faith = $"{Calculation.FthScaling.GetScalingGrade()}",
+                Arcane = $"{Calculation.ArcScaling.GetScalingGrade()}",
+            });
+
+            //ScalingRequirements = reqs;
+            ScalingInfo = info;
         }
     }
 }

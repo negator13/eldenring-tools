@@ -19,7 +19,7 @@
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <MudText Typo="Typo.h4" GutterBottom="true">Build Planner</MudText>
     <MudGrid Spacing="6">
-         <MudItem sm="12" md="4">
+        <MudItem sm="12" md="4">
             <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
                 <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick=SaveBuild>Save Build</MudButton>
@@ -30,7 +30,7 @@
                         <MudTextField Label="Name" Variant="Variant.Text" @bind-Value="@input.Name" />
                     </MudItem>
 
-                    <MudItem xs="12">
+                    <MudItem xs="6">
                         <MudSelect Label="Starting Class" T="string" Variant="Variant.Text"
                                    Value="@input.StartingClass?.Name"
                                    ValueChanged="@UpdateStartingClass">
@@ -111,7 +111,7 @@
                                          Label="Talisman 1"
                                          Value="@input.Talisman1?.Name"
                                          ValueChanged="UpdateTalisman1"
-                                         SearchFunc="TalismanSearch"
+                                         SearchFunc="Talisman1Search"
                                          MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
@@ -119,7 +119,7 @@
                                          Label="Talisman 2"
                                          Value="@input.Talisman2?.Name"
                                          ValueChanged="UpdateTalisman2"
-                                         SearchFunc="TalismanSearch"
+                                         SearchFunc="Talisman2Search"
                                          MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
@@ -127,7 +127,7 @@
                                          Label="Talisman 3"
                                          Value="@input.Talisman3?.Name"
                                          ValueChanged="UpdateTalisman3"
-                                         SearchFunc="TalismanSearch"
+                                         SearchFunc="Talisman3Search"
                                          MaxItems="1000" />
                     </MudItem>
                     <MudItem xs="6">
@@ -135,7 +135,7 @@
                                          Label="Talisman 4"
                                          Value="@input.Talisman4?.Name"
                                          ValueChanged="UpdateTalisman4"
-                                         SearchFunc="TalismanSearch"
+                                         SearchFunc="Talisman4Search"
                                          MaxItems="1000" />
                     </MudItem>
 
@@ -152,48 +152,48 @@
                 </MudItem>
 
                 <WeaponSlotComponent Slot=input.RightWeapon1
-                                     DisplayTotalAttackRating=calculation.RightWeapon1?.DisplayTotalAttackRating
-                                     SorceryIncantationScaling=calculation.RightWeapon1?.SorceryIncantation?.Total
+                                     Input=input
+                                     Calculation=calculation.RightWeapon1
                                      UpdateWeapon=UpdateRightWeapon1
                                      UpdateWeaponAffinity=UpdateRightWeapon1Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon1Level>
                 </WeaponSlotComponent>
 
                 <WeaponSlotComponent Slot=input.RightWeapon2
-                                     DisplayTotalAttackRating=calculation.RightWeapon2?.DisplayTotalAttackRating
-                                     SorceryIncantationScaling=calculation.RightWeapon2?.SorceryIncantation?.Total
+                                     Input=input
+                                     Calculation=calculation.RightWeapon2
                                      UpdateWeapon=UpdateRightWeapon2
                                      UpdateWeaponAffinity=UpdateRightWeapon2Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon2Level>
                 </WeaponSlotComponent>
 
                 <WeaponSlotComponent Slot=input.RightWeapon3
-                                     DisplayTotalAttackRating=calculation.RightWeapon3?.DisplayTotalAttackRating
-                                     SorceryIncantationScaling=calculation.RightWeapon3?.SorceryIncantation?.Total
+                                     Input=input
+                                     Calculation=calculation.RightWeapon3
                                      UpdateWeapon=UpdateRightWeapon3
                                      UpdateWeaponAffinity=UpdateRightWeapon3Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon3Level>
                 </WeaponSlotComponent>
 
                 <WeaponSlotComponent Slot=input.LeftWeapon1
-                                     DisplayTotalAttackRating=calculation.LeftWeapon1?.DisplayTotalAttackRating
-                                     SorceryIncantationScaling=calculation.LeftWeapon1?.SorceryIncantation?.Total
+                                     Input=input
+                                     Calculation=calculation.LeftWeapon1
                                      UpdateWeapon=UpdateLeftWeapon1
                                      UpdateWeaponAffinity=UpdateLeftWeapon1Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon1Level>
                 </WeaponSlotComponent>
 
                 <WeaponSlotComponent Slot=input.LeftWeapon2
-                                     DisplayTotalAttackRating=calculation.LeftWeapon2?.DisplayTotalAttackRating
-                                     SorceryIncantationScaling=calculation.LeftWeapon2?.SorceryIncantation?.Total
+                                     Input=input
+                                     Calculation=calculation.LeftWeapon2
                                      UpdateWeapon=UpdateLeftWeapon2
                                      UpdateWeaponAffinity=UpdateLeftWeapon2Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon2Level>
                 </WeaponSlotComponent>
 
                 <WeaponSlotComponent Slot=input.LeftWeapon3
-                                     DisplayTotalAttackRating=calculation.LeftWeapon3?.DisplayTotalAttackRating
-                                     SorceryIncantationScaling=calculation.LeftWeapon3?.SorceryIncantation?.Total
+                                     Input=input
+                                     Calculation=calculation.LeftWeapon3
                                      UpdateWeapon=UpdateLeftWeapon3
                                      UpdateWeaponAffinity=UpdateLeftWeapon3Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon3Level>
@@ -229,7 +229,7 @@
             </EditForm>
         </MudItem>
 
-         <MudItem sm="12" md="4">
+        <MudItem sm="12" md="4">
 
             <MudPaper Class="d-flex flex-column" Outlined="true">
                 <MudList Clickable="true">
@@ -422,17 +422,17 @@
 
         var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
         input = new BuildPlannerInput(EquipmentService)
-                {
-                    StartingClass = vagabond,
-                    Vigor = vagabond.Vigor,
-                    Mind = vagabond.Mind,
-                    Endurance = vagabond.Endurance,
-                    Strength = vagabond.Strength,
-                    Dexterity = vagabond.Dexterity,
-                    Intelligence = vagabond.Intelligence,
-                    Faith = vagabond.Faith,
-                    Arcane = vagabond.Arcane,
-                };
+            {
+                StartingClass = vagabond,
+                Vigor = vagabond.Vigor,
+                Mind = vagabond.Mind,
+                Endurance = vagabond.Endurance,
+                Strength = vagabond.Strength,
+                Dexterity = vagabond.Dexterity,
+                Intelligence = vagabond.Intelligence,
+                Faith = vagabond.Faith,
+                Arcane = vagabond.Arcane,
+            };
 
         EditContext = new EditContext(input);
 
@@ -540,12 +540,62 @@
         }
     }
 
-    private Task<IEnumerable<string>> TalismanSearch(string value)
+    private Task<IEnumerable<string>> Talisman1Search(string value)
     {
         try
         {
-            //if (string.IsNullOrWhiteSpace(value) || value == input.Talisman1?.Name)
-            if (string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(value) || value == input.Talisman1?.Name)
+            {
+                return Task.FromResult(talismanNames);
+            }
+
+            return Task.FromResult(talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+        }
+        catch
+        {
+            return Task.FromResult(talismanNames);
+        }
+    }
+
+    private Task<IEnumerable<string>> Talisman2Search(string value)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == input.Talisman2?.Name)
+            {
+                return Task.FromResult(talismanNames);
+            }
+
+            return Task.FromResult(talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+        }
+        catch
+        {
+            return Task.FromResult(talismanNames);
+        }
+    }
+
+    private Task<IEnumerable<string>> Talisman3Search(string value)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == input.Talisman3?.Name)
+            {
+                return Task.FromResult(talismanNames);
+            }
+
+            return Task.FromResult(talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+        }
+        catch
+        {
+            return Task.FromResult(talismanNames);
+        }
+    }
+
+    private Task<IEnumerable<string>> Talisman4Search(string value)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == input.Talisman4?.Name)
             {
                 return Task.FromResult(talismanNames);
             }
@@ -838,70 +888,21 @@
         if (newCalc != null)
         {
             calculation = newCalc;
-            GetScalingRequirements(input.RightWeapon1, calculation.RightWeapon1);
-            GetScalingRequirements(input.RightWeapon2, calculation.RightWeapon2);
-            GetScalingRequirements(input.RightWeapon3, calculation.RightWeapon3);
-            GetScalingRequirements(input.LeftWeapon1, calculation.LeftWeapon1);
-            GetScalingRequirements(input.LeftWeapon2, calculation.LeftWeapon2);
-            GetScalingRequirements(input.LeftWeapon3, calculation.LeftWeapon3);
         }
+
+        UpdateWeaponRequirements();
     }
 
-    private void GetScalingRequirements(WeaponSlot slot, AttackRatingCalculation calculation)
+    private void UpdateWeaponRequirements()
     {
-        var info = new List<ScalingRequirementsInfo>();
-
-        if (slot?.Weapon == null)
-        {
-            return;
-        }
-
-        var weapon = slot.Weapon;
-
-        info.Add(new ScalingRequirementsInfo
-            {
-                Label = "Reqs.",
-                Strength = $"{weapon.StrRequirement}",
-                Dexterity = $"{weapon.DexRequirement}",
-                Intelligence = $"{weapon.IntRequirement}",
-                Faith = $"{weapon.FthRequirement}",
-                Arcane = $"{weapon.ArcRequirement}",
-            });
-
-        info.Add(new ScalingRequirementsInfo
-            {
-                Label = "Scaling",
-                Strength = $"{calculation.StrScaling:0.#}",
-                Dexterity = $"{calculation.DexScaling:0.#}",
-                Intelligence = $"{calculation.IntScaling:0.#}",
-                Faith = $"{calculation.FthScaling:0.#}",
-                Arcane = $"{calculation.ArcScaling:0.#}",
-            });
-
-        info.Add(new ScalingRequirementsInfo
-            {
-                Label = "",
-                Strength = $"{calculation.StrScaling.GetScalingGrade()}",
-                Dexterity = $"{calculation.DexScaling.GetScalingGrade()}",
-                Intelligence = $"{calculation.IntScaling.GetScalingGrade()}",
-                Faith = $"{calculation.FthScaling.GetScalingGrade()}",
-                Arcane = $"{calculation.ArcScaling.GetScalingGrade()}",
-            });
-
-        slot.ScalingRequirements = info;
+        input.RightWeapon1.GetScalingRequirements(calculation.RightWeapon1);
+        input.RightWeapon2.GetScalingRequirements(calculation.RightWeapon2);
+        input.RightWeapon3.GetScalingRequirements(calculation.RightWeapon3);
+        input.LeftWeapon1.GetScalingRequirements(calculation.LeftWeapon1);
+        input.LeftWeapon2.GetScalingRequirements(calculation.LeftWeapon2);
+        input.LeftWeapon3.GetScalingRequirements(calculation.LeftWeapon3);
     }
 
-    private string StyleStatRequirement(int stat, int req)
-    {
-        if (stat >= req)
-        {
-            return "font-weight: bold;";
-        }
-        else
-        {
-            return "font-weight: bold; color:red";
-        }
-    }
 
     private string StyleNumber(int num)
     {

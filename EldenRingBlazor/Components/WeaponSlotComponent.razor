@@ -1,4 +1,6 @@
 ﻿@using EldenRingBlazor.Data.BuildPlanner
+@using EldenRingBlazor.Data.AttackRating
+@using EldenRingBlazor.Data.Equipment
 <MudGrid>
     <MudItem xs="8">
         <MudAutocomplete T="string"
@@ -11,29 +13,61 @@
     </MudItem>
     <MudItem xs="4">
         @if (Slot.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (Slot.Weapon?.WeaponType == "Sacred Seal" || Slot.Weapon?.WeaponType == "Glintstone Staff")
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", SorceryIncantationScaling)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
+        {
+            <MudList Clickable="true">
+                <MudListItem>
+                    <div class="d-flex">
+                        <MudText>Total AR</MudText>
+                        <MudText Inline="true" Class="ml-auto"><b>&nbsp;@Calculation?.DisplayTotalAttackRating</b></MudText>
+                    </div>
+                </MudListItem>
+                <MudDivider />
+                @if (Slot.Weapon?.WeaponType == "Sacred Seal" || Slot.Weapon?.WeaponType == "Glintstone Staff")
+                {
+                    <MudListItem>
+                        <div class="d-flex">
+                            <MudText>Sorc/Incant Scaling</MudText>
+                            <MudText Class="ml-auto">
+                                @string.Format("{0:0.0}", @Calculation?.SorceryIncantation.DisplayTotal)
+                            </MudText>
+                        </div>
+                    </MudListItem>
+                }
+            </MudList>
+        }
     </MudItem>
+
+    @if (Slot.Weapon != null && Input != null)
+    {
+        <MudItem xs="12">
+            <MudText>
+                Requirements: 
+                <span style="@StyleStatRequirement(Input.Strength, Slot.Weapon.StrRequirement)">@Slot.Weapon.StrRequirement</span> / 
+                <span style="@StyleStatRequirement(Input.Dexterity, Slot.Weapon.DexRequirement)">@Slot.Weapon.DexRequirement</span> /
+                <span style="@StyleStatRequirement(Input.Intelligence, Slot.Weapon.IntRequirement)">@Slot.Weapon.IntRequirement</span> /
+                <span style="@StyleStatRequirement(Input.Faith, Slot.Weapon.FthRequirement)">@Slot.Weapon.FthRequirement</span> /
+                <span style="@StyleStatRequirement(Input.Arcane, Slot.Weapon.ArcRequirement)">@Slot.Weapon.ArcRequirement</span>
+            </MudText>
+            @*<MudTable Items=@Slot?.ScalingRequirements>
+                <HeaderContent>
+                    <MudTh></MudTh>
+                    <MudTh>STR</MudTh>
+                    <MudTh>DEX</MudTh>
+                    <MudTh>INT</MudTh>
+                    <MudTh>FAI</MudTh>
+                    <MudTh>ARC</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd><strong>@context.Label</strong></MudTd>
+                    <MudTd DataLabel="STR" style="@StyleStatRequirement(@Input.Strength, @Slot.Weapon.StrRequirement)">@context.Strength</MudTd>
+                    <MudTd DataLabel="DEX" style="@StyleStatRequirement(@Input.Dexterity, @Slot.Weapon.DexRequirement)">@context.Dexterity</MudTd>
+                    <MudTd DataLabel="INT" style="@StyleStatRequirement(@Input.Intelligence, @Slot.Weapon.IntRequirement)">@context.Intelligence</MudTd>
+                    <MudTd DataLabel="FAI" style="@StyleStatRequirement(@Input.Faith, @Slot.Weapon.FthRequirement)">@context.Faith</MudTd>
+                    <MudTd DataLabel="ARC" style="@StyleStatRequirement(@Input.Arcane, @Slot.Weapon.ArcRequirement)">@context.Arcane</MudTd>
+                </RowTemplate>
+            </MudTable>*@
+        </MudItem>
+    }
 
     @if (Slot.Weapon != null)
     {
@@ -69,10 +103,10 @@
     public WeaponSlot Slot { get; set; }
 
     [Parameter]
-    public int? DisplayTotalAttackRating { get; set; }
+    public BuildPlannerInput Input { get; set; }
 
     [Parameter]
-    public double? SorceryIncantationScaling { get; set; }
+    public AttackRatingCalculation? Calculation { get; set; }
 
     [Parameter]
     public EventCallback<string> UpdateWeapon { get; set; }
@@ -86,5 +120,17 @@
     private Task<IEnumerable<string>> WeaponSearch(string value)
     {
         return Slot.SearchWeapons(value);
+    }
+
+    private string StyleStatRequirement(int stat, int req)
+    {
+        if (stat >= req)
+        {
+            return "font-weight: bold;";
+        }
+        else
+        {
+            return "font-weight: bold; color:red";
+        }
     }
 }
