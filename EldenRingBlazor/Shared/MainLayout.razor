@@ -7,14 +7,14 @@
 
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        @*<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />*@
         <MudSpacer />
         <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool" Label="Dark Mode" />
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" OnClick=DrawerToggle />
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="0">
         <MudDrawerHeader>
-            <MudLink Href="/"><MudImage Src="/eldenring-logo.png" Height="63" Width="190" />Elden Ring Web Tools</MudLink>
+            <MudLink Href="/"><MudImage Src="/eldenring-logo.png" Height="63" Width="190" /></MudLink>
         </MudDrawerHeader>
         <NavMenu />
     </MudDrawer>
