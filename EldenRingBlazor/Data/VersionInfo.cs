@@ -4,7 +4,9 @@
     {
         public static class PatchVersion
         {
-            public static string Latest => v1_04;
+            public static string Latest => v1_05;
+
+            public static readonly string v1_05 = "1.05";
 
             public static readonly string v1_04 = "1.04";
 
@@ -15,7 +17,9 @@
 
         public static class AppVersion
         {
-            public static string Latest => v1_4_0;
+            public static string Latest => v1_5_0;
+
+            public static readonly string v1_5_0 = "1.5.0";
 
             public static readonly string v1_4_0 = "1.4.0";
 
