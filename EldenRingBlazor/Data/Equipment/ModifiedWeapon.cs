@@ -51,7 +51,7 @@
             Weight = weapon.Weight;
 
             Infusable = weapon.Infusable;
-            TwoHandDualWield = weapon.TwoHandDualWield;
+            TwoHandStrengthBonus = weapon.TwoHandStrengthBonus;
         }
 
         public string BaseName { get; set; }
