@@ -72,9 +72,9 @@
 
         public bool IsInfusable => Infusable == "Yes";
 
-        public string? TwoHandDualWield { get; set; }
+        public string? TwoHandStrengthBonus { get; set; }
 
-        public bool IsTwoHandDualWield => TwoHandDualWield == "Yes";
+        public bool IsTwoHandDualWield => TwoHandStrengthBonus == "No";
 
         public bool IsBaseWeapon()
         {

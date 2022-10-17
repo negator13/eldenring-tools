@@ -43,7 +43,7 @@ namespace EldenRingBlazor.CsvMappings
             Map(m => m.StaminaDamage).Name("Stamina Attack");
             Map(m => m.Critical).Name("Attack Power (Critical)");
             Map(m => m.Weight).Name("Weight");
-            Map(m => m.TwoHandDualWield).Name("2H Dual-Wield");
+            Map(m => m.TwoHandStrengthBonus).Name("2H Str Bonus");
         }
     }
 }
