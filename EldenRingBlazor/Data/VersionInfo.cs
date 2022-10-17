@@ -19,7 +19,9 @@
 
         public static class AppVersion
         {
-            public static string Latest => v1_6_0;
+            public static string Latest => v1_6_1;
+
+            public static readonly string v1_6_1 = "1.6.1";
 
             public static readonly string v1_6_0 = "1.6.0";
 

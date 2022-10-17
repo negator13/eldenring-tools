@@ -43,19 +43,19 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public double Immunity { get; set; }
 
-        public int DisplayImmunity => (int)Math.Floor(Immunity + ImmunityArmor);
+        public int DisplayImmunity => (int)Math.Floor(Immunity);
 
         public double Robustness { get; set; }
 
-        public int DisplayRobustness => (int)Math.Floor(Robustness + RobustnessArmor);
+        public int DisplayRobustness => (int)Math.Floor(Robustness);
 
         public double Focus { get; set; }
 
-        public int DisplayFocus => (int)Math.Floor(Focus + FocusArmor);
+        public int DisplayFocus => (int)Math.Floor(Focus);
 
         public double Vitality { get; set; }
 
-        public int DisplayVitality => (int)Math.Floor(Vitality + VitalityArmor);
+        public int DisplayVitality => (int)Math.Floor(Vitality);
 
         public double BaseDefense { get; set; }
 

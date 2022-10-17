@@ -22,6 +22,8 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public int Level => Vigor + Mind + Endurance + Strength + Dexterity + Intelligence + Faith + Arcane;
 
+        public int EffectiveLevel => EffectiveVigor + EffectiveMind + EffectiveEndurance + EffectiveStrength + EffectiveDexterity + EffectiveIntelligence + EffectiveFaith + EffectiveArcane;
+
         public StartingClass StartingClass { get; set; }
 
         public bool TwoHand { get; set; }
