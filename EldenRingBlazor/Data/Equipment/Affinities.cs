@@ -88,6 +88,10 @@
 
         public static readonly int StaffOrSeal3 = 3000;
 
+        public static readonly int NormalCrossbow = 3100;
+
+        public static readonly int SomberCrosbow = 3200;
+
         public static readonly int SmallShield = 8000;
 
         public static readonly int Shield = 8100;
