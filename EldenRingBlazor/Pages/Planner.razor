@@ -24,8 +24,6 @@
 
                 <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick=SaveBuild>Save Build</MudButton>
 
-                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick=Optimize>Optimize</MudButton>
-
                 <MudGrid>
 
                     <MudItem xs="6">
@@ -41,6 +39,10 @@
                                 <MudSelectItem Value="@startingClass.Name">@startingClass.Name</MudSelectItem>
                             }
                         </MudSelect>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudText>Level: <b>@input.DisplayLevel</b></MudText>
                     </MudItem>
 
                     <MudItem xs="6">
@@ -449,6 +451,7 @@
         }
 
         EditContext = new EditContext(input);
+
 
         HandleValidSubmit();
 
@@ -902,18 +905,5 @@
         var buildId = await SaveBuildService.SaveBuild(input);
 
         NavigationManager.NavigateTo($"/build/{buildId}");
-    }
-
-    private void Optimize()
-    {
-        var newCalc = CalculationService.Optimize(input);
-
-        if (newCalc.Item2 != null)
-        {
-            input = newCalc.Item1;
-            calculation = newCalc.Item2;
-        }
-
-        UpdateWeaponRequirements();
     }
 }

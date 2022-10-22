@@ -252,7 +252,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
             CharacterStatsCalculation? bestCalc = CalculateStats(input);
             BuildPlannerInput bestInput = input;
-            int lowestLevelFound = input.Level;
+            int lowestLevelFound = 0;
             BuildPlannerInput tempInput;
 
             foreach (var startingClass in startingClasses)
@@ -279,6 +279,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
                 tempInput.Intelligence = input.Intelligence < startingClass.Intelligence ? startingClass.Intelligence : input.Intelligence;
                 tempInput.Faith = input.Faith < startingClass.Faith ? startingClass.Faith : input.Faith;
                 tempInput.Arcane = input.Arcane < startingClass.Arcane ? startingClass.Arcane : input.Arcane;
+
+                if (lowestLevelFound == 0)
+                {
+                    lowestLevelFound = tempInput.Level;
+                }
 
                 var newCalc = CalculateStats(tempInput);
 

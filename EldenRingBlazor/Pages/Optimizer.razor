@@ -1,0 +1,244 @@
+﻿@page "/optimizer"
+@page "/optimize"
+
+@using EldenRingBlazor.Data
+@using EldenRingBlazor.Data.AttackRating
+@using EldenRingBlazor.Data.BuildPersistence
+@using EldenRingBlazor.Data.BuildPlanner
+@using EldenRingBlazor.Data.Equipment
+@using EldenRingBlazor.Components
+@inject BuildPlannerService CalculationService
+@inject EquipmentService EquipmentService
+@inject SaveBuildService SaveBuildService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Starting Class Optimizer</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <MudText Typo="Typo.h4" GutterBottom="true">Starting Class Optimizer</MudText>
+    <MudText Typo="Typo.body1">
+        Choose the minimum values for the stats you care about, and leave the rest set to 0. Then press Optimize to calculate the most efficient Starting Class.
+    </MudText>
+    <br/>
+    <MudGrid Spacing="6">
+        <MudItem sm="12" md="4">
+            <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
+
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick=Optimize>Optimize</MudButton>
+
+                <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick=Reset>Reset</MudButton>
+
+                <MudGrid>
+
+                    <MudItem xs="12">
+                        <MudSelect Label="Starting Class" T="string" Variant="Variant.Text"
+                                   Value="@input.StartingClass?.Name">
+                        </MudSelect>
+                    </MudItem>
+
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="Vigor" Variant="Variant.Outlined" Value="@input.EffectiveVigor" ValueChanged="UpdateVigor" Min=0 Max=99 />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="Mind" Variant="Variant.Outlined" Value="@input.EffectiveMind" ValueChanged="UpdateMind" Min=0 Max=99 />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="Endurance" Variant="Variant.Outlined" Value="@input.EffectiveEndurance" ValueChanged="UpdateEndurance" Min=0 Max=99 />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="Strength" Variant="Variant.Outlined" Value="@input.EffectiveStrength" ValueChanged="UpdateStrength" Min=0 Max=99 />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="Dexterity" Variant="Variant.Outlined" Value="@input.EffectiveDexterity" ValueChanged="UpdateDexterity" Min=0 Max=99 />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="Intelligence" Variant="Variant.Outlined" Value="@input.EffectiveIntelligence" ValueChanged="UpdateIntelligence" Min=0 Max=99 />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="Faith" Variant="Variant.Outlined" Value="@input.EffectiveFaith" ValueChanged="UpdateFaith" Min=0 Max=99 />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="Arcane" Variant="Variant.Outlined" Value="@input.EffectiveArcane" ValueChanged="UpdateArcane" Min=0 Max=99 />
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
+        </MudItem>
+
+        <MudItem sm="12" md="4">
+
+            <MudPaper Class="d-flex flex-column" Outlined="true">
+                <MudList Clickable="true">
+                    <MudListItem>
+                        <div class="d-flex">
+                            <MudText>Level</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@(input.DisplayLevel < 0 ? 0: input.DisplayLevel)</b></MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem>
+                        <div class="d-flex">
+                            <MudText>HP</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayHp</b></MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem>
+                        <div class="d-flex">
+                            <MudText>FP</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayFp</b></MudText>
+                        </div>
+                    </MudListItem>
+                    <MudListItem>
+                        <div class="d-flex">
+                            <MudText>Stamina</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayStamina</b></MudText>
+                        </div>
+                    </MudListItem>
+                </MudList>
+
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public string? BuildId { get; set; }
+
+    private EditContext EditContext;
+    private CharacterStatsCalculation calculation;
+    private BuildPlannerInput input;
+
+    protected override void OnInitialized()
+    {
+        input = new BuildPlannerInput(EquipmentService);
+        EditContext = new EditContext(input);
+        HandleValidSubmit();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        input = new BuildPlannerInput(EquipmentService)
+            {
+                Vigor = 0,
+                Mind = 0,
+                Endurance = 0,
+                Strength = 0,
+                Dexterity = 0,
+                Intelligence = 0,
+                Faith = 0,
+                Arcane = 0,
+            };
+
+        EditContext = new EditContext(input);
+
+        await base.OnParametersSetAsync();
+    }
+
+    private void UpdateVigor(int vig)
+    {
+        input.Vigor = vig - input.VigorBonus;
+        HandleValidSubmit();
+    }
+
+    private void UpdateMind(int mind)
+    {
+        input.Mind = mind - input.MindBonus;
+        HandleValidSubmit();
+    }
+
+    private void UpdateEndurance(int end)
+    {
+        input.Endurance = end - input.EnduranceBonus;
+        HandleValidSubmit();
+    }
+
+    private void UpdateStrength(int str)
+    {
+        input.Strength = str - input.StrengthBonus;
+        HandleValidSubmit();
+    }
+
+    private void UpdateDexterity(int dex)
+    {
+        input.Dexterity = dex - input.DexterityBonus;
+        HandleValidSubmit();
+    }
+
+    private void UpdateIntelligence(int inte)
+    {
+        input.Intelligence = inte - input.IntelligenceBonus;
+        HandleValidSubmit();
+    }
+
+    private void UpdateFaith(int fth)
+    {
+        input.Faith = fth - input.FaithBonus;
+        HandleValidSubmit();
+    }
+
+    private void UpdateArcane(int arc)
+    {
+        input.Arcane = arc - input.ArcaneBonus;
+        HandleValidSubmit();
+    }
+
+    private void HandleValidSubmit()
+    {
+        CharacterStatsCalculation? newCalc = null;
+
+        try
+        {
+            newCalc = CalculationService.CalculateStats(input);
+        }
+        catch
+        {
+
+        }
+
+        if (newCalc != null)
+        {
+            calculation = newCalc;
+        }
+    }
+
+    private void Reset()
+    {
+        input = new BuildPlannerInput(EquipmentService)
+            {
+                Vigor = 0,
+                Mind = 0,
+                Endurance = 0,
+                Strength = 0,
+                Dexterity = 0,
+                Intelligence = 0,
+                Faith = 0,
+                Arcane = 0,
+            };
+
+        CharacterStatsCalculation? newCalc = null;
+
+        try
+        {
+            newCalc = CalculationService.CalculateStats(input);
+        }
+        catch
+        {
+
+        }
+
+        if (newCalc != null)
+        {
+            calculation = newCalc;
+        }
+    }
+
+    private void Optimize()
+    {
+        var newCalc = CalculationService.Optimize(input);
+
+        if (newCalc.Item2 != null)
+        {
+            input = newCalc.Item1;
+            calculation = newCalc.Item2;
+        }
+    }
+}
