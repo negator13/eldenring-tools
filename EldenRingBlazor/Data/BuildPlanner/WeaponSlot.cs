@@ -14,8 +14,8 @@ namespace EldenRingBlazor.Data.BuildPlanner
         private List<string> weaponCategoryNames = new List<string>();
 
         private int lastSelectedAffinity;
-        private int lastSelectedNormalUpgrade;
-        private int lastSelectedSpecialUpgrade;
+        private int? lastSelectedNormalUpgrade;
+        private int? lastSelectedSpecialUpgrade;
 
         public IEnumerable<WeaponAffinity> AffinityList = new List<WeaponAffinity>();
         public IEnumerable<int> UpgradeList = new List<int>();
@@ -45,6 +45,8 @@ namespace EldenRingBlazor.Data.BuildPlanner
         public int AffinityId { get; set; }
 
         public int Level { get; set; }
+
+        public bool MeetsRequirements { get; set; }
 
         public ScalingRequirements ScalingRequirements { get; set; }
 
@@ -94,7 +96,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
                     Weapon = null;
                     WeaponName = null;
                     AffinityId = 0;
-                    Level = 0;
+                    Level = 25;
                     return;
                 }
 
@@ -112,18 +114,18 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
                 if (weapon.MaxUpgrade > 10)
                 {
-                    lastSelectedNormalUpgrade = Level;
+                    lastSelectedNormalUpgrade = lastSelectedNormalUpgrade == null ? weapon.MaxUpgrade : Level;
                 }
                 else
                 {
-                    lastSelectedSpecialUpgrade = Level;
+                    lastSelectedSpecialUpgrade = lastSelectedSpecialUpgrade == null ? weapon.MaxUpgrade : Level;
                 }
 
 
                 Weapon = weapon;
                 WeaponName = weapon.Name;
                 AffinityId = weapon.IsInfusable ? lastSelectedAffinity : 0;
-                Level = weapon.MaxUpgrade > 10 ? lastSelectedNormalUpgrade : lastSelectedSpecialUpgrade;
+                Level = weapon.MaxUpgrade > 10 ? lastSelectedNormalUpgrade.GetValueOrDefault() : lastSelectedSpecialUpgrade.GetValueOrDefault();
 
                 AffinityList = weapon.IsInfusable ? Affinities.StandardAffinities : new List<WeaponAffinity>();
 

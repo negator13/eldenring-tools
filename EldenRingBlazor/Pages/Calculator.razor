@@ -1,8 +1,10 @@
 ﻿@page "/calculator"
 @page "/calculatear"
+@page "/arcalculator"
 
 @using EldenRingBlazor.Data
 @using EldenRingBlazor.Data.AttackRating
+@using EldenRingBlazor.Data.BuildPlanner
 @using EldenRingBlazor.Data.Equipment
 @inject AttackRatingCalculationService CalculationService
 @inject EquipmentService EquipmentService
@@ -17,6 +19,18 @@
 
                 <MudText Typo="Typo.h5" GutterBottom="true">Character</MudText>
                 <MudGrid>
+
+                    <MudItem xs="12">
+                        <MudSelect Label="Starting Class" T="string" Variant="Variant.Text"
+                                   Value="@selectedClass"
+                                   ValueChanged="@UpdateStartingClass">
+                            @foreach (var startingClass in startingClasses)
+                            {
+                                <MudSelectItem Value="@startingClass.Name">@startingClass.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+
                     <MudItem xs="6">
                         <MudNumericField T="int" Label="STR" Variant="Variant.Outlined" Value="@input.Strength" ValueChanged="UpdateStrength" />
                     </MudItem>
@@ -268,6 +282,10 @@
     private AttackRatingCalculation attackRatingCalculation;
     private AttackRatingCalculationInput input = new AttackRatingCalculationInput();
 
+    private bool statUpdatedSinceChangingStartingClass = false;
+    string selectedClass;
+    private List<StartingClass> startingClasses { get; set; }
+
     private IEnumerable<Weapon> weaponList = new List<Weapon>();
 
     private string weaponCategory = "All";
@@ -283,6 +301,38 @@
     private IEnumerable<int> upgradeList = new List<int>();
 
     private IEnumerable<ScalingRequirementsInfo> scalingRequirements = new List<ScalingRequirementsInfo>();
+
+    private void UpdateStartingClass(string name)
+    {
+        var startingClass = startingClasses.SingleOrDefault(c => c.Name == name);
+        if (startingClass == null)
+        {
+            return;
+        }
+
+        // TODO: Scope this flag to each specific stat, refactor to use Math.Max for each
+        if (statUpdatedSinceChangingStartingClass)
+        {
+            input.Strength = input.Strength < startingClass.Strength ? startingClass.Strength : input.Strength;
+            input.Dexterity = input.Dexterity < startingClass.Dexterity ? startingClass.Dexterity : input.Dexterity;
+            input.Intelligence = input.Intelligence < startingClass.Intelligence ? startingClass.Intelligence : input.Intelligence;
+            input.Faith = input.Faith < startingClass.Faith ? startingClass.Faith : input.Faith;
+            input.Arcane = input.Arcane < startingClass.Arcane ? startingClass.Arcane : input.Arcane;
+        }
+        else
+        {
+            input.Strength = startingClass.Strength;
+            input.Dexterity = startingClass.Dexterity;
+            input.Intelligence = startingClass.Intelligence;
+            input.Faith = startingClass.Faith;
+            input.Arcane = startingClass.Arcane;
+        }
+
+        selectedClass = startingClass.Name;
+        statUpdatedSinceChangingStartingClass = false;
+
+        HandleValidSubmit();
+    }
 
     private Task<IEnumerable<string>> SearchWeapons(string value)
     {
@@ -388,30 +438,35 @@
     private void UpdateStrength(int str)
     {
         input.Strength = str;
+        statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateDexterity(int dex)
     {
         input.Dexterity = dex;
+        statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateIntelligence(int inte)
     {
         input.Intelligence = inte;
+        statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateFaith(int fth)
     {
         input.Faith = fth;
+        statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateArcane(int arc)
     {
         input.Arcane = arc;
+        statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
@@ -512,15 +567,20 @@
 
         var weapon = weaponList.Single(w => w.Id == 10080000);
 
-        input = new AttackRatingCalculationInput
+        startingClasses = EquipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
+
+        var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
+        selectedClass = "Vagabond";
+
+        input = new AttackRatingCalculationInput()
             {
-                Strength = 25,
-                Dexterity = 35,
-                Intelligence = 9,
-                Faith = 9,
-                Arcane = 7,
+                Strength = vagabond.Strength,
+                Dexterity = vagabond.Dexterity,
+                Intelligence = vagabond.Intelligence,
+                Faith = vagabond.Faith,
+                Arcane = vagabond.Arcane,
                 Weapon = weapon,
-                WeaponLevel = 25,
+                WeaponLevel = 25
             };
 
         EditContext = new EditContext(input);
