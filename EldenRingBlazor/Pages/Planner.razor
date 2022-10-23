@@ -41,6 +41,10 @@
                         </MudSelect>
                     </MudItem>
 
+                    <MudItem xs="12">
+                        <MudText>Level: <b>@input.DisplayLevel</b></MudText>
+                    </MudItem>
+
                     <MudItem xs="6">
                         <MudNumericField T="int" Label="Vigor" Variant="Variant.Outlined" Value="@input.EffectiveVigor" ValueChanged="UpdateVigor" Min=@input.StartingClass.Vigor Max=99 />
                     </MudItem>
@@ -447,6 +451,7 @@
         }
 
         EditContext = new EditContext(input);
+
 
         HandleValidSubmit();
 

@@ -1,5 +1,6 @@
 ﻿using EldenRingBlazor.Data.AttackRating;
 using EldenRingBlazor.Data.CalcCorrect;
+using EldenRingBlazor.Data.Equipment;
 
 namespace EldenRingBlazor.Data.BuildPlanner
 {
@@ -8,6 +9,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
         private CalcCorrectService _calcCorrectService;
         private AttackRatingCalculationService _attackRatingCalculationService;
         private ArmorEffectsService _armorEffectsService;
+        private EquipmentService _equipmentService;
         private WeaponEffectsService _weaponEffectsService;
         private TalismanService _talismanService;
 
@@ -15,12 +17,14 @@ namespace EldenRingBlazor.Data.BuildPlanner
             CalcCorrectService calcCorrectService,
             AttackRatingCalculationService attackRatingCalculationService,
              ArmorEffectsService armorEffectsService,
+             EquipmentService equipmentService,
               WeaponEffectsService weaponEffectsService,
              TalismanService talismanService)
         {
             _calcCorrectService = calcCorrectService;
             _attackRatingCalculationService = attackRatingCalculationService;
             _armorEffectsService = armorEffectsService;
+            _equipmentService = equipmentService;
             _weaponEffectsService = weaponEffectsService;
             _talismanService = talismanService;
         }
@@ -239,6 +243,59 @@ namespace EldenRingBlazor.Data.BuildPlanner
             {
                 return null;
             }
+        }
+
+        // TODO: Needs to function by choosing which stats are relevant and only count those toward "optimization level"
+        public (BuildPlannerInput, CharacterStatsCalculation?) Optimize(BuildPlannerInput input)
+        {
+            var startingClasses = _equipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
+
+            CharacterStatsCalculation? bestCalc = CalculateStats(input);
+            BuildPlannerInput bestInput = input;
+            int lowestLevelFound = 0;
+            BuildPlannerInput tempInput;
+
+            foreach (var startingClass in startingClasses)
+            {
+                tempInput = new BuildPlannerInput(_equipmentService);
+
+                tempInput.StartingClass = startingClass;
+
+                tempInput.Head = input.Head;
+                tempInput.Arms = input.Arms;
+                tempInput.Chest = input.Chest;
+                tempInput.Legs = input.Legs;
+
+                tempInput.Talisman1 = input.Talisman1;
+                tempInput.Talisman2 = input.Talisman2;
+                tempInput.Talisman3 = input.Talisman3;
+                tempInput.Talisman4 = input.Talisman4;
+
+                tempInput.Vigor = input.Vigor < startingClass.Vigor ? startingClass.Vigor : input.Vigor;
+                tempInput.Mind = input.Mind < startingClass.Mind ? startingClass.Mind : input.Mind;
+                tempInput.Endurance = input.Endurance < startingClass.Endurance ? startingClass.Endurance : input.Endurance;
+                tempInput.Strength = input.Strength < startingClass.Strength ? startingClass.Strength : input.Strength;
+                tempInput.Dexterity = input.Dexterity < startingClass.Dexterity ? startingClass.Dexterity : input.Dexterity;
+                tempInput.Intelligence = input.Intelligence < startingClass.Intelligence ? startingClass.Intelligence : input.Intelligence;
+                tempInput.Faith = input.Faith < startingClass.Faith ? startingClass.Faith : input.Faith;
+                tempInput.Arcane = input.Arcane < startingClass.Arcane ? startingClass.Arcane : input.Arcane;
+
+                if (lowestLevelFound == 0)
+                {
+                    lowestLevelFound = tempInput.Level;
+                }
+
+                var newCalc = CalculateStats(tempInput);
+
+                if (tempInput.Level <= lowestLevelFound)
+                {
+                    bestInput = tempInput;
+                    lowestLevelFound = tempInput.Level;
+                    bestCalc = newCalc;
+                }
+            }
+
+            return (bestInput, bestCalc);
         }
 
         private void ApplyDamageNegation(CharacterStatsCalculation calculation, BuildPlannerInput input)
