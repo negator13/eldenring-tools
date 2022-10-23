@@ -2,7 +2,7 @@
 @using EldenRingBlazor.Data.AttackRating
 @using EldenRingBlazor.Data.Equipment
 <MudGrid>
-    <MudItem xs="8">
+    <MudItem xs="6">
         <MudAutocomplete T="string"
                          Label="@Slot.SlotName"
                          Value="@Slot.WeaponName"
@@ -11,47 +11,11 @@
                          ResetValueOnEmptyText=true
                          MaxItems="1000" />
     </MudItem>
-    <MudItem xs="4">
-        @if (Slot.Weapon != null)
-        {
-            <MudList Clickable="true">
-                <MudListItem>
-                    <div class="d-flex">
-                        <MudText>Total AR</MudText>
-                        <MudText Inline="true" Class="ml-auto"><b>&nbsp;@Calculation?.DisplayTotalAttackRating</b></MudText>
-                    </div>
-                </MudListItem>
-                <MudDivider />
-                @if (Slot.Weapon?.WeaponType == "Sacred Seal" || Slot.Weapon?.WeaponType == "Glintstone Staff")
-                {
-                    var label = Slot.Weapon?.WeaponType == "Sacred Seal" ? "Incantation" : "Sorcery";
-                    <MudListItem>
-                        <MudText>@($"{label} Scaling")</MudText>
-                            <MudText Class="ml-auto">
-                                @string.Format("{0:0.0}", @Calculation?.SorceryIncantation.DisplayTotal)
-                            </MudText>
-                        </MudListItem>
-                }
-                @if (Slot.Weapon != null && Input != null)
-                {
-                    <MudListItem>
-                        <MudText>
-                            <span style="@StyleStatRequirement(Input.Strength, Slot.Weapon.StrRequirement)">@Slot.Weapon.StrRequirement</span>/
-                            <span style="@StyleStatRequirement(Input.Dexterity, Slot.Weapon.DexRequirement)">@Slot.Weapon.DexRequirement</span>/
-                            <span style="@StyleStatRequirement(Input.Intelligence, Slot.Weapon.IntRequirement)">@Slot.Weapon.IntRequirement</span>/
-                            <span style="@StyleStatRequirement(Input.Faith, Slot.Weapon.FthRequirement)">@Slot.Weapon.FthRequirement</span>/
-                            <span style="@StyleStatRequirement(Input.Arcane, Slot.Weapon.ArcRequirement)">@Slot.Weapon.ArcRequirement</span>
-                        </MudText>
-                    </MudListItem>
-                }
-            </MudList>
-        }
-    </MudItem>
 
     @if (Slot.Weapon != null)
     {
-        <MudItem xs="4">
-            <MudSelect Label="Upgrade Level" T="int" Variant="Variant.Text"
+        <MudItem xs="3">
+            <MudSelect T="int" Variant="Variant.Text"
                    Value="@Slot.Level"
                    ValueChanged="@UpdateWeaponLevel">
                 @foreach (var level in Slot.UpgradeList)
@@ -61,10 +25,10 @@
             </MudSelect>
         </MudItem>
 
-        <MudItem xs="8">
+        <MudItem xs="3">
             @if (Slot.AffinityList != null && Slot.AffinityList.Any())
             {
-                <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
+                <MudSelect T="int" Variant="Variant.Text"
                    Value="@Slot.AffinityId"
                    ValueChanged="@UpdateWeaponAffinity">
                     @foreach (var affinity in Slot.AffinityList)
@@ -74,6 +38,31 @@
                 </MudSelect>
             }
         </MudItem>
+
+        <MudItem xs="6">
+            @if (Slot.Weapon?.WeaponType == "Sacred Seal" || Slot.Weapon?.WeaponType == "Glintstone Staff")
+            {
+                var label = Slot.Weapon?.WeaponType == "Sacred Seal" ? "Incantation" : "Sorcery";
+                <MudText>@($"{label} Scaling: ")<span style="@(MeetsRequirements ? "" : "color:red")"><b>@string.Format("{0:0.0}", @Calculation?.SorceryIncantation.DisplayTotal)</b></span></MudText>
+            }
+            else
+            {
+                <MudText>Total AR: <span style="@(MeetsRequirements ? "" : "color:red")"><b>@Calculation?.DisplayTotalAttackRating</b></span></MudText>
+            }
+        </MudItem>
+
+        @if (Slot.Weapon != null && Input != null && !MeetsRequirements)
+        {
+            <MudItem xs="12">
+                <MudText>
+                    Requirements: <span style="@StyleStatRequirement(Input.Strength, Slot.Weapon.StrRequirement)">@Slot.Weapon.StrRequirement</span>/
+                    <span style="@StyleStatRequirement(Input.Dexterity, Slot.Weapon.DexRequirement)">@Slot.Weapon.DexRequirement</span>/
+                    <span style="@StyleStatRequirement(Input.Intelligence, Slot.Weapon.IntRequirement)">@Slot.Weapon.IntRequirement</span>/
+                    <span style="@StyleStatRequirement(Input.Faith, Slot.Weapon.FthRequirement)">@Slot.Weapon.FthRequirement</span>/
+                    <span style="@StyleStatRequirement(Input.Arcane, Slot.Weapon.ArcRequirement)">@Slot.Weapon.ArcRequirement</span>
+                </MudText>
+            </MudItem>
+        }
     }
 </MudGrid>
 
@@ -95,6 +84,14 @@
 
     [Parameter]
     public EventCallback<int> UpdateWeaponAffinity { get; set; }
+
+    private bool MeetsRequirements => Slot?.Weapon == null ?
+        true :
+        Input.Strength >= Slot.Weapon.StrRequirement
+        && Input.Dexterity >= Slot.Weapon.DexRequirement
+        && Input.Intelligence >= Slot.Weapon.IntRequirement
+        && Input.Faith >= Slot.Weapon.FthRequirement
+        && Input.Arcane >= Slot.Weapon.ArcRequirement;
 
     private Task<IEnumerable<string>> WeaponSearch(string value)
     {

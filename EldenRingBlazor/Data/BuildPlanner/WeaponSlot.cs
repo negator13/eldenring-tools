@@ -46,6 +46,8 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public int Level { get; set; }
 
+        public bool MeetsRequirements { get; set; }
+
         public ScalingRequirements ScalingRequirements { get; set; }
 
         public List<ScalingRequirementsInfo> ScalingInfo { get; set; }

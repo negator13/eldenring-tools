@@ -49,6 +49,8 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public double ArcScaling { get; set; }
 
+        public bool MeetsRequirements { get; set; }
+
         public AttackRatingComponent Physical { get; set; }
 
         public AttackRatingComponent Magic { get; set; }
