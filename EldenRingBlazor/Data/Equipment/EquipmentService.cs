@@ -146,12 +146,11 @@ namespace EldenRingBlazor.Data.Equipment
             var filteredWeapons = _allWeapons
                 .Where(w =>
                     (request.WeaponCategory == null || request.WeaponCategory == "All" || w.WeaponType == request.WeaponCategory)
-                    && (request.MaxStrength == 0 || (w.IsTwoHandDualWield ? w.StrRequirement <= request.MaxStrength : w.StrRequirement <= request.EffectiveStrength))
-                    && (request.MaxDexterity == 0 || w.DexRequirement <= request.MaxDexterity)
-                    && (request.MaxIntelligence == 0 || w.IntRequirement <= request.MaxIntelligence)
-                    && (request.MaxFaith == 0 || w.FthRequirement <= request.MaxFaith)
-                    && (request.MaxArcane == 0 || w.ArcRequirement <= request.MaxArcane)
-                    && (request.MaxWeight == 0 || w.Weight <= request.MaxWeight))
+                    && (w.IsTwoHandDualWield ? w.StrRequirement <= request.MaxStrength : w.StrRequirement <= request.EffectiveStrength)
+                    && (w.DexRequirement <= request.MaxDexterity)
+                    && (w.IntRequirement <= request.MaxIntelligence)
+                    && (w.FthRequirement <= request.MaxFaith)
+                    && (w.ArcRequirement <= request.MaxArcane))
                 .ToList();
 
             var modifiedWeapons = filteredWeapons.Select(w => GetModifiedWeapon(w, request));
