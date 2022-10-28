@@ -115,7 +115,7 @@ namespace EldenRingBlazor.Data.Equipment
         }
 
         // ReinforceWeaponParam lookup
-        public WeaponUpgrade? GetWeaponUpgrade(Weapon weapon, int upgradeLevel)
+        public WeaponUpgrade GetWeaponUpgrade(Weapon weapon, int upgradeLevel)
         {
             int id = weapon.ReinforceTypeId + upgradeLevel;
 
@@ -126,7 +126,7 @@ namespace EldenRingBlazor.Data.Equipment
                 weaponUpgrade.WeaponLevel = upgradeLevel;
             }
 
-            return weaponUpgrade;
+            return weaponUpgrade ?? new WeaponUpgrade(weapon, 0);
         }
 
         // AttackElementCorrect lookup

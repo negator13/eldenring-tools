@@ -10,7 +10,6 @@ namespace EldenRingBlazor.Data.BuildPlanner
         private IEnumerable<Weapon> weaponList = new List<Weapon>();
         private IEnumerable<string> filteredWeaponNames = new List<string>();
 
-        private string weaponCategory = "All";
         private List<string> weaponCategoryNames = new List<string>();
 
         private int lastSelectedAffinity;
@@ -28,7 +27,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
             weaponList = _equipmentService.BaseWeapons;
 
-            filteredWeaponNames = weaponList.Select(w => w.Name);
+            filteredWeaponNames = weaponList.Where(w => w.Name != null).Select(w => w.Name).ToList();
 
             weaponCategoryNames = new List<string>() { "All" };
             weaponCategoryNames.AddRange(weaponList.Select(c => c.WeaponType).Distinct().OrderBy(c => c));
@@ -36,11 +35,11 @@ namespace EldenRingBlazor.Data.BuildPlanner
             ScalingInfo = new List<ScalingRequirementsInfo>();
         }
 
-        public Weapon Weapon { get; set; }
+        public Weapon? Weapon { get; set; }
 
         public string SlotName { get; set; }
 
-        public string WeaponName { get; set; }
+        public string? WeaponName { get; set; }
 
         public int AffinityId { get; set; }
 
@@ -48,7 +47,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
 
         public bool MeetsRequirements { get; set; }
 
-        public ScalingRequirements ScalingRequirements { get; set; }
+        public ScalingRequirements? ScalingRequirements { get; set; }
 
         public List<ScalingRequirementsInfo> ScalingInfo { get; set; }
 
@@ -69,76 +68,53 @@ namespace EldenRingBlazor.Data.BuildPlanner
             }
         }
 
-        private void UpdateWeaponCategory(string category)
-        {
-            try
-            {
-                weaponCategory = category;
-
-                var matchingWeapons = category == "All" ? weaponList : weaponList.Where(c => c.WeaponType == category);
-
-                filteredWeaponNames = matchingWeapons.Select(c => c.Name).OrderBy(c => c);
-            }
-            catch
-            {
-
-            }
-        }
-
         public void UpdateWeapon(string name)
         {
-            try
+            var selectedWeapon = weaponList.FirstOrDefault(w => w.Name == name);
+
+            if (selectedWeapon == null)
             {
-                var selectedWeapon = weaponList.FirstOrDefault(w => w.Name == name);
-
-                if (selectedWeapon == null)
-                {
-                    Weapon = null;
-                    WeaponName = null;
-                    AffinityId = 0;
-                    Level = 25;
-                    return;
-                }
-
-                var weapon = _equipmentService.GetWeapon(selectedWeapon.Id);
-
-                if (weapon == null)
-                {
-                    return;
-                }
-
-                if (weapon.Infusable == "Yes")
-                {
-                    lastSelectedAffinity = AffinityId;
-                }
-
-                if (weapon.MaxUpgrade > 10)
-                {
-                    lastSelectedNormalUpgrade = lastSelectedNormalUpgrade == null ? weapon.MaxUpgrade : Level;
-                }
-                else
-                {
-                    lastSelectedSpecialUpgrade = lastSelectedSpecialUpgrade == null ? weapon.MaxUpgrade : Level;
-                }
-
-
-                Weapon = weapon;
-                WeaponName = weapon.Name;
-                AffinityId = weapon.IsInfusable ? lastSelectedAffinity : 0;
-                Level = weapon.MaxUpgrade > 10 ? lastSelectedNormalUpgrade.GetValueOrDefault() : lastSelectedSpecialUpgrade.GetValueOrDefault();
-
-                AffinityList = weapon.IsInfusable ? Affinities.StandardAffinities : new List<WeaponAffinity>();
-
-                UpgradeList = Enumerable.Range(0, weapon.MaxUpgrade + 1).AsQueryable();
-
-                if (Level > weapon.MaxUpgrade)
-                {
-                    Level = weapon.MaxUpgrade;
-                }
+                Weapon = null;
+                WeaponName = null;
+                AffinityId = 0;
+                Level = 25;
+                return;
             }
-            catch
-            {
 
+            var weapon = _equipmentService.GetWeapon(selectedWeapon.Id);
+
+            if (weapon == null)
+            {
+                return;
+            }
+
+            if (weapon.Infusable == "Yes")
+            {
+                lastSelectedAffinity = AffinityId;
+            }
+
+            if (weapon.MaxUpgrade > 10)
+            {
+                lastSelectedNormalUpgrade = lastSelectedNormalUpgrade == null ? weapon.MaxUpgrade : Level;
+            }
+            else
+            {
+                lastSelectedSpecialUpgrade = lastSelectedSpecialUpgrade == null ? weapon.MaxUpgrade : Level;
+            }
+
+
+            Weapon = weapon;
+            WeaponName = weapon.Name;
+            AffinityId = weapon.IsInfusable ? lastSelectedAffinity : 0;
+            Level = weapon.MaxUpgrade > 10 ? lastSelectedNormalUpgrade.GetValueOrDefault() : lastSelectedSpecialUpgrade.GetValueOrDefault();
+
+            AffinityList = weapon.IsInfusable ? Affinities.StandardAffinities : new List<WeaponAffinity>();
+
+            UpgradeList = Enumerable.Range(0, weapon.MaxUpgrade + 1).AsQueryable();
+
+            if (Level > weapon.MaxUpgrade)
+            {
+                Level = weapon.MaxUpgrade;
             }
         }
 
@@ -151,39 +127,14 @@ namespace EldenRingBlazor.Data.BuildPlanner
                 return;
             }
 
-            var reqs = new ScalingRequirementsInfo
-            {
-                Label = "Reqs.",
-                Strength = $"{Weapon.StrRequirement}",
-                Dexterity = $"{Weapon.DexRequirement}",
-                Intelligence = $"{Weapon.IntRequirement}",
-                Faith = $"{Weapon.FthRequirement}",
-                Arcane = $"{Weapon.ArcRequirement}",
-            };
+            var reqs = new ScalingRequirementsInfo(Weapon);
 
             info.Add(reqs);
 
-            info.Add(new ScalingRequirementsInfo
-            {
-                Label = "Scaling",
-                Strength = $"{Calculation.StrScaling:0.#}",
-                Dexterity = $"{Calculation.DexScaling:0.#}",
-                Intelligence = $"{Calculation.IntScaling:0.#}",
-                Faith = $"{Calculation.FthScaling:0.#}",
-                Arcane = $"{Calculation.ArcScaling:0.#}",
-            });
+            info.Add(new ScalingRequirementsInfo(RequirementsLabel.Scaling, Calculation));
 
-            info.Add(new ScalingRequirementsInfo
-            {
-                Label = "",
-                Strength = $"{Calculation.StrScaling.GetScalingGrade()}",
-                Dexterity = $"{Calculation.DexScaling.GetScalingGrade()}",
-                Intelligence = $"{Calculation.IntScaling.GetScalingGrade()}",
-                Faith = $"{Calculation.FthScaling.GetScalingGrade()}",
-                Arcane = $"{Calculation.ArcScaling.GetScalingGrade()}",
-            });
+            info.Add(new ScalingRequirementsInfo(RequirementsLabel.Grade, Calculation));
 
-            //ScalingRequirements = reqs;
             ScalingInfo = info;
         }
     }

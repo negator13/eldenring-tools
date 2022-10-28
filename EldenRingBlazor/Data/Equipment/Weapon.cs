@@ -2,11 +2,25 @@
 {
     public class Weapon
     {
+        public Weapon()
+        {
+            Name = string.Empty;
+            WeaponType = string.Empty;
+            Infusable = string.Empty;
+        }
+
+        public Weapon(string name, string weaponType, string infusable)
+        {
+            Name = name;
+            WeaponType = weaponType;
+            Infusable = infusable;
+        }
+
         public int Id { get; set; }
 
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
-        public string? WeaponType { get; set; }
+        public string WeaponType { get; set; }
 
         public int AttackElementCorrectId { get; set; }
 

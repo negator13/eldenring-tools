@@ -101,9 +101,7 @@
             </ToolBarContent>
             <HeaderContent>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.BaseName)">Name</MudTableSortLabel></MudTh>
-                @*<MudTh>Affinity</MudTh>*@
                 <MudTh>Category</MudTh>
-                @*<MudTh>Type</MudTh>*@
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.PhysicalAttack)">Physical</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.MagicAttack)">Magic</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FireAttack)">Fire</MudTableSortLabel></MudTh>
@@ -124,9 +122,7 @@
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Name">@context.Name</MudTd>
-                @*<MudTd DataLabel="Affinity">@context.AffinityName</MudTd>*@
                 <MudTd DataLabel="Category">@context.WeaponType</MudTd>
-                @*<MudTd DataLabel="Type">@(context.IsInfusable ? "Normal" : "Special")</MudTd>*@
                 <MudTd DataLabel="Phy">@Math.Round(@context.PhysicalAttack, 2)</MudTd>
                 <MudTd DataLabel="Mag">@Math.Round(@context.MagicAttack, 2)</MudTd>
                 <MudTd DataLabel="Fir">@Math.Round(@context.FireAttack, 2)</MudTd>
@@ -154,7 +150,7 @@
 </MudContainer>
 
 @code {
-    private EditContext EditContext;
+    private EditContext? EditContext;
     private SearchWeaponsRequest input = new SearchWeaponsRequest();
 
     private List<string> weaponCategoryNames = new List<string>();
@@ -164,7 +160,7 @@
 
     private List<ModifiedWeapon> searchResults = new List<ModifiedWeapon>();
 
-    private ModifiedWeapon selectedWeapon;
+    private ModifiedWeapon? selectedWeapon;
     private string searchString = "";
 
     protected override void OnInitialized()

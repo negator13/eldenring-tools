@@ -2,25 +2,6 @@
 {
     public static class Affinities
     {
-        //public static readonly Dictionary<int, string> ReinforceTypeIdMap = new Dictionary<int, string>
-        //{
-        //    { Standard, "" },
-        //    { Heavy, "Heavy" },
-        //    { Heavy2, "Heavy" },
-        //    { Keen, "Keen" },
-        //    { Keen2, "Keen" },
-        //    { Quality, "Quality" },
-        //    { Fire, "Fire" },
-        //    { FlameArt, "Flame Art" },
-        //    { Lightning, "Lightning" },
-        //    { Sacred, "Sacred" },
-        //    { Magic, "Magic" },
-        //    { Cold, "Cold" },
-        //    { Poison, "Poison" },
-        //    { Blood, "Blood" },
-        //    { Occult, "Occult" },
-        //};
-
         public static string FromReinforceTypeId(this int reinforceTypeId)
         {
            var ReinforceTypeIdMap = new Dictionary<int, string>
