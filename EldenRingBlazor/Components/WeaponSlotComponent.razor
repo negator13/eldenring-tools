@@ -68,10 +68,10 @@
 
 @code {
     [Parameter]
-    public WeaponSlot Slot { get; set; }
+    public WeaponSlot? Slot { get; set; }
 
     [Parameter]
-    public BuildPlannerInput Input { get; set; }
+    public BuildPlannerInput? Input { get; set; }
 
     [Parameter]
     public AttackRatingCalculation? Calculation { get; set; }
@@ -85,7 +85,7 @@
     [Parameter]
     public EventCallback<int> UpdateWeaponAffinity { get; set; }
 
-    private bool MeetsRequirements => Slot?.Weapon == null ?
+    private bool MeetsRequirements => Slot?.Weapon == null || Input == null ?
         true :
         Input.Strength >= Slot.Weapon.StrRequirement
         && Input.Dexterity >= Slot.Weapon.DexRequirement

@@ -66,7 +66,7 @@
      <MudItem sm="12" md="6">
         <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
-            <MudText Typo="Typo.h5" GutterBottom="true">Requirements (Optional)</MudText>
+            <MudText Typo="Typo.h5" GutterBottom="true">Max Requirements (Optional)</MudText>
             <MudGrid>
                 <MudItem xs="6">
                     <MudNumericField T="int" Label="STR" Variant="Variant.Outlined" @bind-Value="input.MaxStrength" />
@@ -95,15 +95,14 @@
     </MudItem>
 
     <MudItem>
-        <MudTable Items=@searchResults Filter="new Func<ModifiedWeapon,bool>(FilterFunc1)" @bind-SelectedItem="selectedWeapon" FixedFooter=true FixedHeader=true HorizontalScrollbar>
+        <MudTable Items=@searchResults Filter="new Func<ModifiedWeapon,bool>(FilterFunc1)" 
+            FixedFooter=true FixedHeader=true HorizontalScrollbar>
             <ToolBarContent>
                 <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
             </ToolBarContent>
             <HeaderContent>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.BaseName)">Name</MudTableSortLabel></MudTh>
-                @*<MudTh>Affinity</MudTh>*@
                 <MudTh>Category</MudTh>
-                @*<MudTh>Type</MudTh>*@
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.PhysicalAttack)">Physical</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.MagicAttack)">Magic</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FireAttack)">Fire</MudTableSortLabel></MudTh>
@@ -124,9 +123,7 @@
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Name">@context.Name</MudTd>
-                @*<MudTd DataLabel="Affinity">@context.AffinityName</MudTd>*@
                 <MudTd DataLabel="Category">@context.WeaponType</MudTd>
-                @*<MudTd DataLabel="Type">@(context.IsInfusable ? "Normal" : "Special")</MudTd>*@
                 <MudTd DataLabel="Phy">@Math.Round(@context.PhysicalAttack, 2)</MudTd>
                 <MudTd DataLabel="Mag">@Math.Round(@context.MagicAttack, 2)</MudTd>
                 <MudTd DataLabel="Fir">@Math.Round(@context.FireAttack, 2)</MudTd>
@@ -154,7 +151,7 @@
 </MudContainer>
 
 @code {
-    private EditContext EditContext;
+    private EditContext? EditContext;
     private SearchWeaponsRequest input = new SearchWeaponsRequest();
 
     private List<string> weaponCategoryNames = new List<string>();
@@ -163,8 +160,6 @@
     private IEnumerable<int> somberUpgradeList = new List<int>();
 
     private List<ModifiedWeapon> searchResults = new List<ModifiedWeapon>();
-
-    private ModifiedWeapon selectedWeapon;
     private string searchString = "";
 
     protected override void OnInitialized()

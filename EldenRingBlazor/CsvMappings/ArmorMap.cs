@@ -23,9 +23,7 @@ namespace EldenRingBlazor.CsvMappings
             Map(m => m.HolyNegation).Name("Damage Negation (Holy)");
             Map(m => m.Immunity).Name("Immunity (Poison and Rot)");
             Map(m => m.Robustness).Name("Robustness (Blood)");
-            //Map(m => m.Frost).Name("Frost");
             Map(m => m.Focus).Name("Focus (Madness)");
-            //Map(m => m.Sleep).Name("Sleep");
             Map(m => m.Vitality).Name("Vitality (Death Blight)");
             Map(m => m.Poise).Name("Poise");
             Map(m => m.Weight).Name("Weight");

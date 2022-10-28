@@ -17,44 +17,51 @@ namespace EldenRingBlazor.Data.AttackRating
 
         public AttackRatingCalculation? CalculateAttackRating(AttackRatingCalculationInput input)
         {
-            try
-            {
-                if (input.Weapon == null)
-                {
-                    return null;
-                }
-
-                input.Strength = Math.Min(input.Strength, 99);
-                input.Dexterity = Math.Min(input.Dexterity, 99);
-                input.Intelligence = Math.Min(input.Intelligence, 99);
-                input.Faith = Math.Min(input.Faith, 99);
-                input.Arcane = Math.Min(input.Arcane, 99);
-
-                var weaponId = input.Weapon.Id;
-                var affinityId = input.AffinityId;
-
-                var affinitizedId = weaponId + affinityId;
-
-                var baseWeapon = _equipmentService.GetWeapon(affinitizedId);
-
-                _calcCorrectService.GetCalcCorrectGraphIds(baseWeapon);
-
-                var weaponUpgrade = _equipmentService.GetWeaponUpgrade(baseWeapon, input.WeaponLevel);
-
-                var modifiedWeapon = ApplyWeaponUpgradeModifiers(baseWeapon, weaponUpgrade);
-
-                var attackElement = _equipmentService.GetAttackElementCorrect(baseWeapon.AttackElementCorrectId);
-
-                var attackRating = GetCorrections(input, modifiedWeapon, attackElement);
- 
-                return attackRating;
-            }
-            catch
+            if (input.Weapon == null)
             {
                 return null;
             }
-        }
 
+            input.Strength = Math.Min(input.Strength, 99);
+            input.Dexterity = Math.Min(input.Dexterity, 99);
+            input.Intelligence = Math.Min(input.Intelligence, 99);
+            input.Faith = Math.Min(input.Faith, 99);
+            input.Arcane = Math.Min(input.Arcane, 99);
+
+            var weaponId = input.Weapon.Id;
+            var affinityId = input.AffinityId;
+
+            var affinitizedId = weaponId + affinityId;
+
+            var baseWeapon = _equipmentService.GetWeapon(affinitizedId);
+
+            if (baseWeapon == null)
+            {
+                return null;
+            }
+
+            _calcCorrectService.GetCalcCorrectGraphIds(baseWeapon);
+
+            var weaponUpgrade = _equipmentService.GetWeaponUpgrade(baseWeapon, input.WeaponLevel);
+
+            if (weaponUpgrade == null)
+            {
+                return null;
+            }
+
+            var modifiedWeapon = ApplyWeaponUpgradeModifiers(baseWeapon, weaponUpgrade);
+
+            var attackElement = _equipmentService.GetAttackElementCorrect(baseWeapon.AttackElementCorrectId);
+
+            if (attackElement == null)
+            {
+                return null;
+            }
+
+            var attackRating = GetCorrections(input, modifiedWeapon, attackElement);
+
+            return attackRating;
+        }
 
         private ModifiedWeapon ApplyWeaponUpgradeModifiers(Weapon weapon, WeaponUpgrade weaponUpgrade)
         {
@@ -222,7 +229,7 @@ namespace EldenRingBlazor.Data.AttackRating
 
             var upgradedEffectId = effectId;
             if (effectId >= 10000)
-            { 
+            {
                 // 4-digit IDs don't scale with upgrades
                 upgradedEffectId = effectId + weapon.WeaponLevel;
             }

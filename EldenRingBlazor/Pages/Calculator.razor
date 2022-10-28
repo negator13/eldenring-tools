@@ -278,13 +278,13 @@
 </MudContainer>
 
 @code {
-    private EditContext EditContext;
     private AttackRatingCalculation attackRatingCalculation;
     private AttackRatingCalculationInput input = new AttackRatingCalculationInput();
+    private EditContext? EditContext;
 
     private bool statUpdatedSinceChangingStartingClass = false;
-    string selectedClass;
-    private List<StartingClass> startingClasses { get; set; }
+    string selectedClass = "Vagabond";
+    private List<StartingClass> startingClasses = new List<StartingClass>();
 
     private IEnumerable<Weapon> weaponList = new List<Weapon>();
 
@@ -506,35 +506,11 @@
     {
         var info = new List<ScalingRequirementsInfo>();
 
-        info.Add(new ScalingRequirementsInfo
-            {
-                Label = "Reqs.",
-                Strength = $"{input.Weapon.StrRequirement}",
-                Dexterity = $"{input.Weapon.DexRequirement}",
-                Intelligence = $"{input.Weapon.IntRequirement}",
-                Faith = $"{input.Weapon.FthRequirement}",
-                Arcane = $"{input.Weapon.ArcRequirement}",
-            });
+        info.Add(new ScalingRequirementsInfo(input.Weapon));
 
-        info.Add(new ScalingRequirementsInfo
-            {
-                Label = "Scaling",
-                Strength = $"{attackRatingCalculation.StrScaling:0.#}",
-                Dexterity = $"{attackRatingCalculation.DexScaling:0.#}",
-                Intelligence = $"{attackRatingCalculation.IntScaling:0.#}",
-                Faith = $"{attackRatingCalculation.FthScaling:0.#}",
-                Arcane = $"{attackRatingCalculation.ArcScaling:0.#}",
-            });
+        info.Add(new ScalingRequirementsInfo(RequirementsLabel.Scaling, attackRatingCalculation));
 
-        info.Add(new ScalingRequirementsInfo
-            {
-                Label = "",
-                Strength = $"{attackRatingCalculation.StrScaling.GetScalingGrade()}",
-                Dexterity = $"{attackRatingCalculation.DexScaling.GetScalingGrade()}",
-                Intelligence = $"{attackRatingCalculation.IntScaling.GetScalingGrade()}",
-                Faith = $"{attackRatingCalculation.FthScaling.GetScalingGrade()}",
-                Arcane = $"{attackRatingCalculation.ArcScaling.GetScalingGrade()}",
-            });
+        info.Add(new ScalingRequirementsInfo(RequirementsLabel.Grade, attackRatingCalculation));
 
         scalingRequirements = info;
     }

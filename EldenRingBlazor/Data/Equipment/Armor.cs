@@ -2,15 +2,14 @@
 {
     public class Armor
     {
+        public Armor()
+        {
+            Name = string.Empty;
+        }
+
         public int Id { get; set; }
 
-        //public int ArmorId { get; set; }
-
-        //public int ArmorSetId { get; set; }
-
-        //public int Category { get; set; }
-
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public string? EquipSlot { get; set; }
 
@@ -52,11 +51,7 @@
 
         public double EffectiveRobustness => 1 - Robustness / 100;
 
-        //public int Frost { get; set; }
-
         public double Focus { get; set; }
-
-        //public int Sleep { get; set; }
 
         public double Vitality { get; set; }
 
