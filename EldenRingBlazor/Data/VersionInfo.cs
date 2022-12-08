@@ -25,6 +25,8 @@
 
             public static readonly string v1_8_0 = "1.8.0";
 
+            public static readonly string v1_7_2 = "1.7.2";
+
             public static readonly string v1_7_1 = "1.7.1";
 
             public static readonly string v1_7_0 = "1.7.0";

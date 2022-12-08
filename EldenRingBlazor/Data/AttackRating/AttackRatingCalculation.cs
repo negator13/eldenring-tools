@@ -13,7 +13,7 @@ namespace EldenRingBlazor.Data.AttackRating
             AttackRatingComponent holy,
             AttackRatingComponent sorceryIncantation)
         {
-            Name = weapon.Name;
+            Name = weapon.Name ?? string.Empty;
 
             StrScaling = Math.Round(weapon.StrScaling, 2);
             DexScaling = Math.Round(weapon.DexScaling, 2);

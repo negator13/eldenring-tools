@@ -1,13 +1,13 @@
 ﻿namespace EldenRingBlazor.Data.Equipment
 {
-    public class WeaponUpgrade: Weapon
+    public class WeaponUpgrade : Weapon
     {
-        public WeaponUpgrade() :base()
+        public WeaponUpgrade() : base()
         {
 
         }
 
-        public WeaponUpgrade(int weaponLevel) : base()
+        public WeaponUpgrade(Weapon weapon, int weaponLevel) : base(weapon.Name, weapon.WeaponType, weapon.Infusable)
         {
             WeaponLevel = weaponLevel;
         }

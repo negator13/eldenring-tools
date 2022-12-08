@@ -7,7 +7,6 @@
 
 <MudLayout>
     <MudAppBar Elevation="1">
-        @*<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />*@
         <MudSpacer />
         <MudSwitch @bind-Checked="@_isDarkMode" Color="Color.Primary" Class="ma-4" T="bool" Label="Dark Mode" />
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" OnClick=DrawerToggle />
@@ -37,27 +36,18 @@
 
 @code {
     private MudTheme _theme = new MudTheme()
-    {
-        Typography = new Typography()
         {
-            Default = new Default()
+            Typography = new Typography()
             {
-                FontFamily = new[] { "Cambria" }
+                Default = new Default()
+                {
+                    FontFamily = new[] { "Cambria" }
+                }
             }
-        }
-    };
+        };
 
     private bool _isDarkMode = true;
-    private MudThemeProvider _mudThemeProvider;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            //_isDarkMode = await _mudThemeProvider.GetSystemPreference();
-            //StateHasChanged();
-        }
-    }
+    private MudThemeProvider? _mudThemeProvider;
 
     bool _drawerOpen = true;
 
@@ -65,4 +55,4 @@
     {
         _drawerOpen = !_drawerOpen;
     }
-    }
+}

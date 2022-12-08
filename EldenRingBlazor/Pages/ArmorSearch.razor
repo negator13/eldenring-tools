@@ -67,8 +67,6 @@
                     <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.HolyNegation)">Holy</MudTableSortLabel></MudTh>
                     <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Immunity)">Immunity</MudTableSortLabel></MudTh>
                     <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Robustness)">Robustness</MudTableSortLabel></MudTh>
-                    @*<MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Frost)">Frost</MudTableSortLabel></MudTh>
-                        <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Sleep)">Sleep</MudTableSortLabel></MudTh>*@
                     <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Focus)">Focus</MudTableSortLabel></MudTh>
                     <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Vitality)">Vitality</MudTableSortLabel></MudTh>
 
@@ -90,8 +88,6 @@
                     <MudTd DataLabel="Hol">@Math.Round(@context.HolyNegation, 2)</MudTd>
                     <MudTd DataLabel="Imm">@context.Immunity</MudTd>
                     <MudTd DataLabel="Rob">@context.Robustness</MudTd>
-                    @*<MudTd DataLabel="Fro">@context.Frost</MudTd>
-                        <MudTd DataLabel="Sle">@context.Sleep</MudTd>*@
                     <MudTd DataLabel="Foc">@context.Focus</MudTd>
                     <MudTd DataLabel="Vit">@context.Vitality</MudTd>
                 </RowTemplate>
