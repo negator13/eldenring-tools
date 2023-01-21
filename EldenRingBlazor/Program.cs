@@ -3,6 +3,7 @@ using EldenRingBlazor.Data.BuildPersistence;
 using EldenRingBlazor.Data.BuildPlanner;
 using EldenRingBlazor.Data.CalcCorrect;
 using EldenRingBlazor.Data.Equipment;
+using EldenRingBlazor.Data.ItemDrops;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,7 @@ builder.Services.AddSingleton<ArmorEffectsService>();
 builder.Services.AddSingleton<WeaponEffectsService>();
 builder.Services.AddSingleton<TalismanService>();
 builder.Services.AddSingleton<SaveBuildService>();
+builder.Services.AddSingleton<NpcItemDropService>();
 
 var app = builder.Build();
 

@@ -1,0 +1,138 @@
+﻿@page "/drops"
+@page "/item-drops"
+
+@using EldenRingBlazor.Data
+@using EldenRingBlazor.Data.ItemDrops
+@using EldenRingBlazor.Components
+@inject NpcItemDropService NpcItemDropService
+
+<PageTitle>Item Drop Calculator</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <MudText Typo="Typo.h4" GutterBottom="true">Item Drop Calculator</MudText>
+    <MudText Typo="Typo.body1">
+    </MudText>
+    <br />
+    <MudGrid Spacing="6">
+        <MudItem sm="12" md="4">
+            <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudAutocomplete T="string"
+                                         Label="Item"
+                                         Value="@input.Item"
+                                         ValueChanged="UpdateItem"
+                                         SearchFunc="SearchItems"
+                                         MaxItems="1000" />
+                    </MudItem>
+
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="Discovery" Variant="Variant.Outlined" Value="@input.Discovery" ValueChanged="UpdateDiscovery" Min=0 Max=999 />
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
+        </MudItem>
+
+        <MudItem sm="12" md="4">
+
+            <MudPaper Class="d-flex flex-column" Outlined="true">
+                <MudList Clickable="true">
+                    <MudListItem>
+                        <div class="d-flex">
+                            <MudText>Drop Chance</MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@(calculation?.PercentChance)%</b></MudText>
+                        </div>
+                    </MudListItem>
+                </MudList>
+
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public string? BuildId { get; set; }
+
+    private EditContext? EditContext;
+    private ItemDropCalculation calculation;
+    private ItemDropCalculationInput input;
+
+    private List<ItemDropData> itemDrops = new List<ItemDropData>();
+    private IEnumerable<string> filteredItemNames = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        input = new ItemDropCalculationInput();
+        EditContext = new EditContext(input);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        input = new ItemDropCalculationInput { Discovery = 100 };
+
+        itemDrops = NpcItemDropService._allItemDrops.OrderBy(i => i.Item).ToList();
+
+        filteredItemNames = itemDrops.Select(w => w.Item).ToList();
+
+        EditContext = new EditContext(input);
+
+        await base.OnParametersSetAsync();
+    }
+
+    private void UpdateDiscovery(int discovery)
+    {
+        input.Discovery = discovery;
+        HandleValidSubmit();
+    }
+
+    private void UpdateItem(string name)
+    {
+        var itemData = itemDrops.SingleOrDefault(c => c.Item == name);
+        if (itemData == null)
+        {
+            return;
+        }
+
+        input.Item = itemData.Item;
+        input.ItemChance = itemData.BaseWeight;
+
+        HandleValidSubmit();
+    }
+
+    private Task<IEnumerable<string>> SearchItems(string value)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(value) || value == input.Item)
+            {
+                return Task.FromResult(filteredItemNames);
+            }
+
+            return Task.FromResult(filteredItemNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+        }
+        catch
+        {
+            return Task.FromResult(filteredItemNames);
+        }
+    }
+
+    private void HandleValidSubmit()
+    {
+        ItemDropCalculation? newCalc = null;
+
+        try
+        {
+            newCalc = NpcItemDropService.Calculate(input);
+        }
+        catch
+        {
+
+        }
+
+        if (newCalc != null)
+        {
+            calculation = newCalc;
+        }
+    }
+}
