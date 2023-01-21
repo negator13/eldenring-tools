@@ -1,6 +1,7 @@
 ﻿using EldenRingBlazor.Data.AttackRating;
 using EldenRingBlazor.Data.CalcCorrect;
 using EldenRingBlazor.Data.Equipment;
+using EldenRingBlazor.Data.ItemDrops;
 
 namespace EldenRingBlazor.Data.BuildPlanner
 {
@@ -12,6 +13,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
         private EquipmentService _equipmentService;
         private WeaponEffectsService _weaponEffectsService;
         private TalismanService _talismanService;
+        private NpcItemDropService _npcItemDropService;
 
         public BuildPlannerService(
             CalcCorrectService calcCorrectService,
@@ -19,7 +21,8 @@ namespace EldenRingBlazor.Data.BuildPlanner
              ArmorEffectsService armorEffectsService,
              EquipmentService equipmentService,
               WeaponEffectsService weaponEffectsService,
-             TalismanService talismanService)
+             TalismanService talismanService,
+             NpcItemDropService npcItemDropService)
         {
             _calcCorrectService = calcCorrectService;
             _attackRatingCalculationService = attackRatingCalculationService;
@@ -27,6 +30,7 @@ namespace EldenRingBlazor.Data.BuildPlanner
             _equipmentService = equipmentService;
             _weaponEffectsService = weaponEffectsService;
             _talismanService = talismanService;
+            _npcItemDropService = npcItemDropService;
         }
 
         public CharacterStatsCalculation? CalculateStats(BuildPlannerInput input)
