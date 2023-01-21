@@ -9,31 +9,44 @@ namespace EldenRingBlazor.Data.ItemDrops
     {
         private readonly string _webRootPath;
 
-        private readonly IEnumerable<ItemDropData> _allItemDrops;
+        public readonly IEnumerable<ItemDropData> _allItemDrops;
+
+        private readonly IEnumerable<NpcItemDropData> _allNpcItemDrops;
 
         public NpcItemDropService(IWebHostEnvironment hostingEnvironment)
         {
             _webRootPath = hostingEnvironment.WebRootPath;
 
-            var itemDrops = ReadItemDropsFromCsv();
+            var npcItemDrops = ReadNpcItemDropsFromCsv();
 
-            _allItemDrops = itemDrops.Where(i => i.ItemLotEnemyId > 0).ToList();
+            _allNpcItemDrops = npcItemDrops.Where(i => i.ItemLotEnemyId > 0).ToList();
 
-            var randomDrop = _allItemDrops.First(i => i.Name == "Oracle Envoy");
+            var randomDrop = _allNpcItemDrops.First(i => i.Name == "Oracle Envoy");
 
             var calc = CalculateItemDrops(new CharacterStatsCalculation { Discovery = 274 }, randomDrop);
+
+            _allItemDrops = ReadItemDropsFromCsv();
+        }
+
+        private IEnumerable<NpcItemDropData> ReadNpcItemDropsFromCsv()
+        {
+            string itemDropsCsvPath = Path.Combine(_webRootPath, VersionInfo.PatchVersion.Latest, "Item_Drop_Data.csv");
+            using var itemDropsReader = new StreamReader(itemDropsCsvPath);
+            using var itemDropsCsv = new CsvReader(itemDropsReader, CultureInfo.InvariantCulture);
+            itemDropsCsv.Context.RegisterClassMap<NpcItemDropDataMap>();
+            return itemDropsCsv.GetRecords<NpcItemDropData>().ToList();
         }
 
         private IEnumerable<ItemDropData> ReadItemDropsFromCsv()
         {
-            string itemDropsCsvPath = Path.Combine(_webRootPath, VersionInfo.PatchVersion.Latest, "Item_Drop_Data.csv");
+            string itemDropsCsvPath = Path.Combine(_webRootPath, VersionInfo.PatchVersion.Latest, "Drops.csv");
             using var itemDropsReader = new StreamReader(itemDropsCsvPath);
             using var itemDropsCsv = new CsvReader(itemDropsReader, CultureInfo.InvariantCulture);
             itemDropsCsv.Context.RegisterClassMap<ItemDropDataMap>();
             return itemDropsCsv.GetRecords<ItemDropData>().ToList();
         }
 
-        public ItemDropsCalculation CalculateItemDrops(CharacterStatsCalculation characterStats, ItemDropData itemDropData)
+        public ItemDropsCalculation CalculateItemDrops(CharacterStatsCalculation characterStats, NpcItemDropData itemDropData)
         {
             var itemDropsCalculation = new ItemDropsCalculation();
 
@@ -103,7 +116,19 @@ namespace EldenRingBlazor.Data.ItemDrops
             return new ItemDropCalculation
             {
                 Name = name,
-                PercentChance = Math.Round(percentChance * 100, 2, MidpointRounding.AwayFromZero),
+                PercentChance = Math.Round(percentChance * 100, 2, MidpointRounding.ToZero),
+            };
+        }
+
+        public ItemDropCalculation Calculate(ItemDropCalculationInput input)
+        {
+            double adjustedDiscovery = (double)input.Discovery / 100;
+            var adjustedWeight = Math.Floor(adjustedDiscovery * input.ItemChance);
+            var percentChance = adjustedWeight / (1000+ (adjustedWeight - input.ItemChance));
+
+            return new ItemDropCalculation
+            {
+                PercentChance = Math.Round(percentChance * 100, 2, MidpointRounding.ToZero),
             };
         }
     }

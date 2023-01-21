@@ -19,7 +19,7 @@
     <MudText Align="Align.Left" Typo="Typo.body1">
         Updated for Patch <strong>@VersionInfo.PatchVersion.Latest</strong>.
         <br />
-        1.8.0: Updated weapon damage values for patch 1.08 (notably, Axe weapon class buffs)
+        1.9.0: Added the <MudLink Href="/item-drops">Item Drop Calculator</MudLink> tool.
         <br />
     </MudText>
     <MudGrid Class="mt-8">
@@ -90,6 +90,20 @@
                 </MudLink>
                 <MudCardContent>
                     <MudText Align="Align.Center">Search and filter armor by equip slot, minimum Poise or maximum Weight, and sort by attributes as well as Poise:Weight and Defense:Weight ratios.</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="25" Class="rounded-lg pb-4">
+                <MudLink Href="/item-drops">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5" Align="Align.Center">Item Drop Calculator</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                </MudLink>
+                <MudCardContent>
+                    <MudText Align="Align.Center">Calculate the exact chances of getting a particular item drop, given your Character's Discovery stat.</MudText>
                 </MudCardContent>
             </MudCard>
         </MudItem>
