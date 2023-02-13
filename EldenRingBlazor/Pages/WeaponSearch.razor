@@ -4,150 +4,171 @@
 @using EldenRingBlazor.Data.Equipment
 @inject EquipmentService EquipmentService
 
+<style type="text/css">
+    .mud-table-head .header-centered th {
+        text-align: center;
+        font-size: 1.2em;
+    }
+
+    .mud-table-foot .bold-text .mud-table-cell {
+        font-weight: 500;
+    }
+</style>
+
 <PageTitle>Armaments</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
     <MudText Typo="Typo.h4" GutterBottom="true">Weapons</MudText>
-<MudGrid>
+    <MudGrid>
 
-    <MudItem sm="12" md="6">
-        <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
+        <MudItem sm="12" md="6">
+            <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
-            <MudGrid>
+                <MudGrid>
 
-                <MudItem xs="6">
-                    <MudSelect Label="Weapon Category" T="string" Variant="Variant.Text"
-                               Value="input.WeaponCategory"
-                               ValueChanged="@UpdateWeaponCategory">
-                        @foreach (var category in weaponCategoryNames)
-                        {
-                            <MudSelectItem Value="@category" />
-                        }
-                    </MudSelect>
-                </MudItem>
+                    <MudItem xs="6">
+                        <MudSelect Label="Weapon Category" T="string" Variant="Variant.Text"
+                                   Value="input.WeaponCategory"
+                                   ValueChanged="@UpdateWeaponCategory">
+                            @foreach (var category in weaponCategoryNames)
+                            {
+                                <MudSelectItem Value="@category" />
+                            }
+                        </MudSelect>
+                    </MudItem>
 
-                <MudItem xs="6">
-                    <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
-                               Value="@input.Affinity"
-                               ValueChanged="@UpdateWeaponAffinity">
-                        @foreach (var affinity in affinityList)
-                        {
-                            <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
+                    <MudItem xs="6">
+                        <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
+                                   Value="@input.Affinity"
+                                   ValueChanged="@UpdateWeaponAffinity">
+                            @foreach (var affinity in affinityList)
+                            {
+                                <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
 
-                <MudItem xs="6">
-                    <MudSelect Label="Upgrade Level (Normal)" T="int" Variant="Variant.Text"
-                               Value="@input.UpgradeLevel"
-                               ValueChanged="@UpdateWeaponLevel">
-                        @foreach (var level in upgradeList)
-                        {
-                            <MudSelectItem Value="@level">+ @level</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
+                    <MudItem xs="6">
+                        <MudSelect Label="Upgrade Level (Normal)" T="int" Variant="Variant.Text"
+                                   Value="@input.UpgradeLevel"
+                                   ValueChanged="@UpdateWeaponLevel">
+                            @foreach (var level in upgradeList)
+                            {
+                                <MudSelectItem Value="@level">+ @level</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
 
-                <MudItem xs="6">
-                    <MudSelect Label="Upgrade Level (Special)" T="int" Variant="Variant.Text"
-                               Value="@input.SomberUpgradeLevel"
-                               ValueChanged="@UpdateSomberWeaponLevel">
-                        @foreach (var level in somberUpgradeList)
-                        {
-                            <MudSelectItem Value="@level">+ @level</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
-            </MudGrid>
+                    <MudItem xs="6">
+                        <MudSelect Label="Upgrade Level (Special)" T="int" Variant="Variant.Text"
+                                   Value="@input.SomberUpgradeLevel"
+                                   ValueChanged="@UpdateSomberWeaponLevel">
+                            @foreach (var level in somberUpgradeList)
+                            {
+                                <MudSelectItem Value="@level">+ @level</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid>
 
-        </EditForm>
-    </MudItem>
+            </EditForm>
+        </MudItem>
 
-     <MudItem sm="12" md="6">
-        <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
+        <MudItem sm="12" md="6">
+            <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
-            <MudText Typo="Typo.h5" GutterBottom="true">Max Requirements (Optional)</MudText>
-            <MudGrid>
-                <MudItem xs="6">
-                    <MudNumericField T="int" Label="STR" Variant="Variant.Outlined" @bind-Value="input.MaxStrength" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudSwitch @bind-Checked="@input.TwoHand" Label="Two-Hand" Color="Color.Info" /> (@(input.EffectiveStrength))
-                </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField T="int" Label="DEX" Variant="Variant.Outlined" @bind-Value="input.MaxDexterity" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField T="int" Label="INT" Variant="Variant.Outlined" @bind-Value="input.MaxIntelligence" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField T="int" Label="FAI" Variant="Variant.Outlined" @bind-Value="input.MaxFaith" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField T="int" Label="ARC" Variant="Variant.Outlined" @bind-Value="input.MaxArcane" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Apply</MudButton>
-                </MudItem>
-            </MudGrid>
+                <MudText Typo="Typo.h5" GutterBottom="true">Max Requirements (Optional)</MudText>
+                <MudGrid>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="STR" Variant="Variant.Outlined" @bind-Value="input.MaxStrength" />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudSwitch @bind-Checked="@input.TwoHand" Label="Two-Hand" Color="Color.Info" /> (@(input.EffectiveStrength))
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="DEX" Variant="Variant.Outlined" @bind-Value="input.MaxDexterity" />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="INT" Variant="Variant.Outlined" @bind-Value="input.MaxIntelligence" />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="FAI" Variant="Variant.Outlined" @bind-Value="input.MaxFaith" />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudNumericField T="int" Label="ARC" Variant="Variant.Outlined" @bind-Value="input.MaxArcane" />
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Apply</MudButton>
+                    </MudItem>
+                </MudGrid>
 
-        </EditForm>
-    </MudItem>
+            </EditForm>
+        </MudItem>
 
-    <MudItem>
-        <MudTable Items=@searchResults Filter="new Func<ModifiedWeapon,bool>(FilterFunc1)" 
-            FixedFooter=true FixedHeader=true HorizontalScrollbar>
-            <ToolBarContent>
-                <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-            </ToolBarContent>
-            <HeaderContent>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.BaseName)">Name</MudTableSortLabel></MudTh>
-                <MudTh>Category</MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.PhysicalAttack)">Physical</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.MagicAttack)">Magic</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FireAttack)">Fire</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.LightningAttack)">Lightning</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.HolyAttack)">Holy</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.StrScaling)">STR Scaling</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.DexScaling)">DEX Scaling</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.IntScaling)">INT Scaling</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FthScaling)">FAI Scaling</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.ArcScaling)">ARC Scaling</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.Critical)">Critical</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.Weight)">Weight</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.StrRequirement)">STR Req</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.DexRequirement)">DEX Req</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.IntRequirement)">INT Req</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FthRequirement)">FAI Req</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.ArcRequirement)">ARC Req</MudTableSortLabel></MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="Name">@context.Name</MudTd>
-                <MudTd DataLabel="Category">@context.WeaponType</MudTd>
-                <MudTd DataLabel="Phy">@Math.Round(@context.PhysicalAttack, 2)</MudTd>
-                <MudTd DataLabel="Mag">@Math.Round(@context.MagicAttack, 2)</MudTd>
-                <MudTd DataLabel="Fir">@Math.Round(@context.FireAttack, 2)</MudTd>
-                <MudTd DataLabel="Lig">@Math.Round(@context.LightningAttack, 2)</MudTd>
-                <MudTd DataLabel="Hol">@Math.Round(@context.HolyAttack, 2)</MudTd>
-                <MudTd DataLabel="STR Scl">@Math.Round(context.StrScaling, 2) (@context.StrScaling.GetScalingGrade())</MudTd>
-                <MudTd DataLabel="DEX Scl">@Math.Round(context.DexScaling, 2) (@context.DexScaling.GetScalingGrade())</MudTd>
-                <MudTd DataLabel="INT Scl">@Math.Round(context.IntScaling, 2) (@context.IntScaling.GetScalingGrade())</MudTd>
-                <MudTd DataLabel="FAI Scl">@Math.Round(context.FthScaling, 2) (@context.FthScaling.GetScalingGrade())</MudTd>
-                <MudTd DataLabel="ARC Scl">@Math.Round(context.ArcScaling, 2) (@context.ArcScaling.GetScalingGrade())</MudTd>
-                <MudTd DataLabel="Critical">@context.Critical</MudTd>
-                <MudTd DataLabel="Weight">@context.Weight</MudTd>
-                <MudTd DataLabel="STR Req">@context.StrRequirement</MudTd>
-                <MudTd DataLabel="DEX Req">@context.DexRequirement</MudTd>
-                <MudTd DataLabel="INT Req">@context.IntRequirement</MudTd>
-                <MudTd DataLabel="FAI Req">@context.FthRequirement</MudTd>
-                <MudTd DataLabel="ARC Req">@context.ArcRequirement</MudTd>
-            </RowTemplate>
-            <PagerContent>
-                <MudTablePager HorizontalAlignment="HorizontalAlignment.Left" />
-            </PagerContent>
-        </MudTable>
-    </MudItem>
-</MudGrid>
+        <MudItem>
+            <MudTable Items=@searchResults Filter="new Func<ModifiedWeapon,bool>(FilterFunc1)"
+                      FixedFooter=true FixedHeader=true HorizontalScrollbar Striped="true" Bordered="true" AllowUnsorted="false"
+                      CustomHeader="true" CustomFooter="true" HeaderClass="table-head-bordered" FooterClass="table-foot-bordered">
+                <ToolBarContent>
+                    <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTHeadRow>
+                        <MudTh colspan="2"></MudTh>
+                        <MudTh colspan="5">Base Damage</MudTh>
+                        <MudTh colspan="5">Scaling</MudTh>
+                        <MudTh colspan="2"></MudTh>
+                        <MudTh colspan="5">Requirements</MudTh>
+                    </MudTHeadRow>
+                    <MudTHeadRow>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.BaseName)">Name</MudTableSortLabel></MudTh>
+                        <MudTh>Category</MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.PhysicalAttack)">Physical</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.MagicAttack)">Magic</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FireAttack)">Fire</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.LightningAttack)">Lightning</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.HolyAttack)">Holy</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.StrScaling)">STR</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.DexScaling)">DEX</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.IntScaling)">INT</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FthScaling)">FAI</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.ArcScaling)">ARC</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.Critical)">Critical</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.Weight)">Weight</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.StrRequirement)">STR</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.DexRequirement)">DEX</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.IntRequirement)">INT</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.FthRequirement)">FAI</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<ModifiedWeapon, object>(x=>x.ArcRequirement)">ARC</MudTableSortLabel></MudTh>
+                    </MudTHeadRow>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Name">@context.Name</MudTd>
+                    <MudTd DataLabel="Category">@context.WeaponType</MudTd>
+                    <MudTd DataLabel="Phy">@Math.Round(@context.PhysicalAttack, 2)</MudTd>
+                    <MudTd DataLabel="Mag">@Math.Round(@context.MagicAttack, 2)</MudTd>
+                    <MudTd DataLabel="Fir">@Math.Round(@context.FireAttack, 2)</MudTd>
+                    <MudTd DataLabel="Lig">@Math.Round(@context.LightningAttack, 2)</MudTd>
+                    <MudTd DataLabel="Hol">@Math.Round(@context.HolyAttack, 2)</MudTd>
+                    <MudTd DataLabel="STR Scl">@Math.Round(context.StrScaling, 2)% (@context.StrScaling.GetScalingGrade())</MudTd>
+                    <MudTd DataLabel="DEX Scl">@Math.Round(context.DexScaling, 2)% (@context.DexScaling.GetScalingGrade())</MudTd>
+                    <MudTd DataLabel="INT Scl">@Math.Round(context.IntScaling, 2)% (@context.IntScaling.GetScalingGrade())</MudTd>
+                    <MudTd DataLabel="FAI Scl">@Math.Round(context.FthScaling, 2)% (@context.FthScaling.GetScalingGrade())</MudTd>
+                    <MudTd DataLabel="ARC Scl">@Math.Round(context.ArcScaling, 2)% (@context.ArcScaling.GetScalingGrade())</MudTd>
+                    <MudTd DataLabel="Critical">@context.Critical</MudTd>
+                    <MudTd DataLabel="Weight">@context.Weight</MudTd>
+                    <MudTd DataLabel="STR Req">@context.StrRequirement</MudTd>
+                    <MudTd DataLabel="DEX Req">@context.DexRequirement</MudTd>
+                    <MudTd DataLabel="INT Req">@context.IntRequirement</MudTd>
+                    <MudTd DataLabel="FAI Req">@context.FthRequirement</MudTd>
+                    <MudTd DataLabel="ARC Req">@context.ArcRequirement</MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager HorizontalAlignment="HorizontalAlignment.Left" />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+    </MudGrid>
 </MudContainer>
 
 @code {
