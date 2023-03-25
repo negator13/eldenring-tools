@@ -247,7 +247,7 @@ namespace EldenRingBlazor.Data.AttackRating
                 return passiveEffect;
             }
 
-            double scaling = 1;
+            double scaling = 0;
 
             if (effect.Type == "None")
             {
