@@ -247,15 +247,16 @@ namespace EldenRingBlazor.Data.AttackRating
                 return passiveEffect;
             }
 
-            double scaling = 1;
+            double scaling = 0;
 
             if (effect.Type == "None")
             {
                 return passiveEffect;
             }
 
-            if (effect.Type == "Blood" || effect.Type == "Poison")
+            if (effect.Type == "Blood" || effect.Type == "Poison" || effect.Type == "Madness" || effect.Type == "Sleep")
             {
+                // ARC scaling does not apply to Rot
                 scaling  = GetPassiveEffectCorrection(input, weapon, effect);
             }
 
