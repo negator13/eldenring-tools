@@ -140,10 +140,10 @@ namespace EldenRingBlazor.Data.BuildPersistence
             }
 
             slot.WeaponName = weaponName;
+            slot.UpdateWeapon(weaponName);
+
             slot.AffinityId = affinityId;
             slot.Level = level;
-
-            slot.UpdateWeapon(weaponName);
 
             return slot;
         }
