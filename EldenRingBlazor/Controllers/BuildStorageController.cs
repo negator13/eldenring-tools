@@ -1,6 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using EldenRingBlazor.Data.BuildPersistence;
+using EldenRingBlazor.Services.BuildPersistence;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EldenRingBlazor.Controllers

@@ -1,7 +1,7 @@
 ﻿@page "/armor"
 @page "/armorsearch"
-@using EldenRingBlazor.Data
-@using EldenRingBlazor.Data.Equipment
+@using EldenRingBlazor.Services
+@using EldenRingBlazor.Services.Equipment
 @inject EquipmentService EquipmentService
 
 <PageTitle>Armor</PageTitle>
@@ -100,9 +100,8 @@
 </MudContainer>
 
 @code {
-    private EditContext EditContext;
+    private EditContext? EditContext;
     private SearchArmorRequest input = new SearchArmorRequest();
-
     private List<Armor> searchResults = new List<Armor>();
     private string searchString = "";
 

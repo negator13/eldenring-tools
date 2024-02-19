@@ -1,23 +1,23 @@
-﻿@using EldenRingBlazor.Data.BuildPlanner
-@using EldenRingBlazor.Data.AttackRating
-@using EldenRingBlazor.Data.Equipment
+﻿@using EldenRingBlazor.Services.BuildPlanner
+@using EldenRingBlazor.Services.AttackRating
+@using EldenRingBlazor.Services.Equipment
 <MudGrid>
     <MudItem xs="6">
         <MudAutocomplete T="string"
-                         Label="@Slot.SlotName"
-                         Value="@Slot.WeaponName"
+                         Label="@Slot?.SlotName"
+                         Value="@Slot?.WeaponName"
                          ValueChanged="UpdateWeapon"
                          SearchFunc="WeaponSearch"
                          ResetValueOnEmptyText=true
                          MaxItems="1000" />
     </MudItem>
 
-    @if (Slot.Weapon != null)
+    @if (Slot?.Weapon != null)
     {
         <MudItem xs="3">
             <MudSelect T="int" Variant="Variant.Text"
-                   Value="@Slot.Level"
-                   ValueChanged="@UpdateWeaponLevel">
+                       Value="@Slot.Level"
+                       ValueChanged="@UpdateWeaponLevel">
                 @foreach (var level in Slot.UpgradeList)
                 {
                     <MudSelectItem Value="@level">+ @level</MudSelectItem>
@@ -29,8 +29,8 @@
             @if (Slot.AffinityList != null && Slot.AffinityList.Any())
             {
                 <MudSelect T="int" Variant="Variant.Text"
-                   Value="@Slot.AffinityId"
-                   ValueChanged="@UpdateWeaponAffinity">
+                           Value="@Slot.AffinityId"
+                           ValueChanged="@UpdateWeaponAffinity">
                     @foreach (var affinity in Slot.AffinityList)
                     {
                         <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
@@ -87,15 +87,20 @@
 
     private bool MeetsRequirements => Slot?.Weapon == null || Input == null ?
         true :
-        Input.Strength >= Slot.Weapon.StrRequirement
-        && Input.Dexterity >= Slot.Weapon.DexRequirement
-        && Input.Intelligence >= Slot.Weapon.IntRequirement
-        && Input.Faith >= Slot.Weapon.FthRequirement
-        && Input.Arcane >= Slot.Weapon.ArcRequirement;
+        Input.EffectiveStrength >= Slot.Weapon.StrRequirement
+        && Input.EffectiveDexterity >= Slot.Weapon.DexRequirement
+        && Input.EffectiveIntelligence >= Slot.Weapon.IntRequirement
+        && Input.EffectiveFaith >= Slot.Weapon.FthRequirement
+        && Input.EffectiveArcane >= Slot.Weapon.ArcRequirement;
 
     private Task<IEnumerable<string>> WeaponSearch(string value)
     {
-        return Slot.SearchWeapons(value);
+        if (Slot == null)
+        {
+            return Task.FromResult(Enumerable.Empty<string>());
+        }
+
+        return Task.FromResult(Slot.SearchWeapons(value));
     }
 
     private string StyleStatRequirement(int stat, int req)

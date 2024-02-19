@@ -1,9 +1,9 @@
-using EldenRingBlazor.Data.AttackRating;
-using EldenRingBlazor.Data.BuildPersistence;
-using EldenRingBlazor.Data.BuildPlanner;
-using EldenRingBlazor.Data.CalcCorrect;
-using EldenRingBlazor.Data.Equipment;
-using EldenRingBlazor.Data.ItemDrops;
+using EldenRingBlazor.Services.AttackRating;
+using EldenRingBlazor.Services.BuildPersistence;
+using EldenRingBlazor.Services.BuildPlanner;
+using EldenRingBlazor.Services.CalcCorrect;
+using EldenRingBlazor.Services.Equipment;
+using EldenRingBlazor.Services.ItemDrops;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);

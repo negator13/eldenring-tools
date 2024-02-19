@@ -1,6 +1,6 @@
 ﻿using CsvHelper.Configuration;
-using EldenRingBlazor.Data.BuildPlanner;
-using EldenRingBlazor.Data.Equipment;
+using EldenRingBlazor.Services.BuildPlanner;
+using EldenRingBlazor.Services.Equipment;
 
 namespace EldenRingBlazor.CsvMappings
 {
