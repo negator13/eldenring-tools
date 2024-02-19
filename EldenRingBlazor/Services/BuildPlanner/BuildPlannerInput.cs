@@ -6,6 +6,7 @@ namespace EldenRingBlazor.Services.BuildPlanner
     {
         public BuildPlannerInput(EquipmentService equipmentService)
         {
+            StartingClass = StartingClass.Default;
             RightWeapon1 = new WeaponSlot("Right Weapon 1", equipmentService);
             RightWeapon2 = new WeaponSlot("Right Weapon 2", equipmentService);
             RightWeapon3 = new WeaponSlot("Right Weapon 3", equipmentService);
@@ -24,7 +25,7 @@ namespace EldenRingBlazor.Services.BuildPlanner
 
         public int EffectiveLevel => EffectiveVigor + EffectiveMind + EffectiveEndurance + EffectiveStrength + EffectiveDexterity + EffectiveIntelligence + EffectiveFaith + EffectiveArcane;
 
-        public StartingClass? StartingClass { get; set; }
+        public StartingClass StartingClass { get; set; }
 
         public bool TwoHand { get; set; }
 

@@ -55,8 +55,8 @@
     public string? BuildId { get; set; }
 
     private EditContext? EditContext;
-    private ItemDropCalculation calculation;
-    private ItemDropCalculationInput input;
+    private ItemDropCalculation? calculation;
+    private ItemDropCalculationInput input = new ItemDropCalculationInput();
 
     private List<ItemDropData> itemDrops = new List<ItemDropData>();
     private IEnumerable<string> filteredItemNames = new List<string>();
@@ -82,12 +82,22 @@
 
     private void UpdateDiscovery(int discovery)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         input.Discovery = discovery;
         HandleValidSubmit();
     }
 
     private void UpdateItem(string name)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         var itemData = itemDrops.SingleOrDefault(c => c.Item == name);
         if (itemData == null)
         {
@@ -119,6 +129,11 @@
 
     private void HandleValidSubmit()
     {
+        if (input == null)
+        {
+            return;
+        }
+
         ItemDropCalculation? newCalc = null;
 
         try

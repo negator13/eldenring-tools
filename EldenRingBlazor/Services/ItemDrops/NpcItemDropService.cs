@@ -149,7 +149,7 @@ namespace EldenRingBlazor.Services.ItemDrops
 
     public class ItemDropCalculation
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public double PercentChance { get; set; }
     }
 }

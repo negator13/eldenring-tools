@@ -88,8 +88,8 @@
                     {
                         <MudItem xs="12">
                             <MudSelect Label="Affinity" T="int" Variant="Variant.Text"
-                                   Value="@input.AffinityId"
-                                   ValueChanged="@UpdateWeaponAffinity">
+                                       Value="@input.AffinityId"
+                                       ValueChanged="@UpdateWeaponAffinity">
                                 @foreach (var affinity in affinityList)
                                 {
                                     <MudSelectItem Value="@affinity.Id">@affinity.Name</MudSelectItem>
@@ -103,13 +103,13 @@
         </MudItem>
 
         <MudItem xs="6">
-            <MudText Typo="Typo.h5" GutterBottom="true">@attackRatingCalculation.Name</MudText>
+            <MudText Typo="Typo.h5" GutterBottom="true">@attackRatingCalculation?.Name</MudText>
             <MudPaper Class="d-flex flex-column" Outlined="true">
                 <MudList Clickable="true">
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Total AR</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@attackRatingCalculation.DisplayTotalAttackRating</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@attackRatingCalculation?.DisplayTotalAttackRating</b></MudText>
                         </div>
                     </MudListItem>
                     <MudDivider />
@@ -117,10 +117,10 @@
                         <div class="d-flex">
                             <MudText>Physical</MudText>
                             <MudText Inline="true" Class="ml-auto">
-                                <b>@attackRatingCalculation.Physical.DisplayTotal</b>
+                                <b>@attackRatingCalculation?.Physical.DisplayTotal</b>
                             </MudText>
                         </div>
-                        @if (attackRatingCalculation.Physical.DisplayTotal > 0)
+                        @if (attackRatingCalculation?.Physical.DisplayTotal > 0)
                         {
                             <div class="d-flex">
                                 <MudText Inline="true" Class="ml-auto">
@@ -135,10 +135,10 @@
                         <div class="d-flex">
                             <MudText>Magic</MudText>
                             <MudText Class="ml-auto">
-                                <b>@attackRatingCalculation.Magic.DisplayTotal</b>
+                                <b>@attackRatingCalculation?.Magic.DisplayTotal</b>
                             </MudText>
                         </div>
-                        @if (attackRatingCalculation.Magic.DisplayTotal > 0)
+                        @if (attackRatingCalculation?.Magic.DisplayTotal > 0)
                         {
                             <div class="d-flex">
                                 <MudText Class="ml-auto">
@@ -153,10 +153,10 @@
                         <div class="d-flex">
                             <MudText>Fire</MudText>
                             <MudText Class="ml-auto">
-                                <b>@attackRatingCalculation.Fire.DisplayTotal</b>
+                                <b>@attackRatingCalculation?.Fire.DisplayTotal</b>
                             </MudText>
                         </div>
-                        @if (attackRatingCalculation.Fire.DisplayTotal > 0)
+                        @if (attackRatingCalculation?.Fire.DisplayTotal > 0)
                         {
                             <div class="d-flex">
                                 <MudText Class="ml-auto">
@@ -171,10 +171,10 @@
                         <div class="d-flex">
                             <MudText>Lightning</MudText>
                             <MudText Class="ml-auto">
-                                <b>@attackRatingCalculation.Lightning.DisplayTotal</b>
+                                <b>@attackRatingCalculation?.Lightning.DisplayTotal</b>
                             </MudText>
                         </div>
-                        @if (attackRatingCalculation.Lightning.DisplayTotal > 0)
+                        @if (attackRatingCalculation?.Lightning.DisplayTotal > 0)
                         {
                             <div class="d-flex">
                                 <MudText Class="ml-auto">
@@ -189,10 +189,10 @@
                         <div class="d-flex">
                             <MudText>Holy</MudText>
                             <MudText Class="ml-auto">
-                                <b>@attackRatingCalculation.Holy.DisplayTotal</b>
+                                <b>@attackRatingCalculation?.Holy.DisplayTotal</b>
                             </MudText>
                         </div>
-                        @if (attackRatingCalculation.Holy.DisplayTotal > 0)
+                        @if (attackRatingCalculation?.Holy.DisplayTotal > 0)
                         {
                             <div class="d-flex">
                                 <MudText Class="ml-auto">
@@ -203,18 +203,18 @@
                             </div>
                         }
                     </MudListItem>
-                    @if (input.Weapon.WeaponType == "Sacred Seal" || input.Weapon.WeaponType == "Glintstone Staff")
+                    @if (input.Weapon?.WeaponType == "Sacred Seal" || input.Weapon?.WeaponType == "Glintstone Staff")
                     {
                         <MudListItem>
                             <div class="d-flex">
                                 <MudText>Sorc/Incant Scaling</MudText>
                                 <MudText Class="ml-auto">
-                                    @string.Format("{0:0.0}", attackRatingCalculation.SorceryIncantation.Total)
+                                    @string.Format("{0:0.0}", attackRatingCalculation?.SorceryIncantation.Total)
                                 </MudText>
                             </div>
                         </MudListItem>
                     }
-                    @if (attackRatingCalculation.Effect1?.Value > 0)
+                    @if (attackRatingCalculation?.Effect1?.Value > 0)
                     {
                         <MudListItem>
                             <div class="d-flex">
@@ -223,7 +223,7 @@
                             </div>
                         </MudListItem>
                     }
-                    @if (attackRatingCalculation.Effect2?.Value > 0)
+                    @if (attackRatingCalculation?.Effect2?.Value > 0)
                     {
                         <MudListItem>
                             <div class="d-flex">
@@ -235,26 +235,26 @@
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Critical</MudText>
-                            <MudText Inline="true" Class="ml-auto">@input.Weapon.Critical</MudText>
+                            <MudText Inline="true" Class="ml-auto">@input.Weapon?.Critical</MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Stamina Damage</MudText>
-                            <MudText Inline="true" Class="ml-auto">@attackRatingCalculation.StaminaDamage</MudText>
+                            <MudText Inline="true" Class="ml-auto">@attackRatingCalculation?.StaminaDamage</MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Weight</MudText>
-                            <MudText Inline="true" Class="ml-auto">@string.Format("{0:0.0}", input.Weapon.Weight)</MudText>
+                            <MudText Inline="true" Class="ml-auto">@string.Format("{0:0.0}", input.Weapon?.Weight)</MudText>
                         </div>
                     </MudListItem>
                 </MudList>
 
                 <MudTable Items=@scalingRequirements>
                     <HeaderContent>
-                        <MudTh>@attackRatingCalculation.Name</MudTh>
+                        <MudTh>@attackRatingCalculation?.Name</MudTh>
                         <MudTh>STR</MudTh>
                         <MudTh>DEX</MudTh>
                         <MudTh>INT</MudTh>
@@ -263,11 +263,11 @@
                     </HeaderContent>
                     <RowTemplate>
                         <MudTd><strong>@context.Label</strong></MudTd>
-                        <MudTd DataLabel="STR" style="@StyleStatRequirement(@input.Strength, @input.Weapon.StrRequirement)">@context.Strength</MudTd>
-                        <MudTd DataLabel="DEX" style="@StyleStatRequirement(@input.Dexterity, @input.Weapon.DexRequirement)">@context.Dexterity</MudTd>
-                        <MudTd DataLabel="INT" style="@StyleStatRequirement(@input.Intelligence, @input.Weapon.IntRequirement)">@context.Intelligence</MudTd>
-                        <MudTd DataLabel="FAI" style="@StyleStatRequirement(@input.Faith, @input.Weapon.FthRequirement)">@context.Faith</MudTd>
-                        <MudTd DataLabel="ARC" style="@StyleStatRequirement(@input.Arcane, @input.Weapon.ArcRequirement)">@context.Arcane</MudTd>
+                        <MudTd DataLabel="STR" style="@StyleStatRequirement(@input.Strength, @input.Weapon?.StrRequirement)">@context.Strength</MudTd>
+                        <MudTd DataLabel="DEX" style="@StyleStatRequirement(@input.Dexterity, @input.Weapon?.DexRequirement)">@context.Dexterity</MudTd>
+                        <MudTd DataLabel="INT" style="@StyleStatRequirement(@input.Intelligence, @input.Weapon?.IntRequirement)">@context.Intelligence</MudTd>
+                        <MudTd DataLabel="FAI" style="@StyleStatRequirement(@input.Faith, @input.Weapon?.FthRequirement)">@context.Faith</MudTd>
+                        <MudTd DataLabel="ARC" style="@StyleStatRequirement(@input.Arcane, @input.Weapon?.ArcRequirement)">@context.Arcane</MudTd>
                     </RowTemplate>
                 </MudTable>
 
@@ -278,7 +278,7 @@
 </MudContainer>
 
 @code {
-    private AttackRatingCalculation attackRatingCalculation;
+    private AttackRatingCalculation? attackRatingCalculation;
     private AttackRatingCalculationInput input = new AttackRatingCalculationInput();
     private EditContext? EditContext;
 
@@ -369,6 +369,11 @@
 
     private void UpdateWeapon(string name)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         try
         {
             var selectedWeapon = weaponList.FirstOrDefault(w => w.Name == name);
@@ -385,12 +390,12 @@
                 return;
             }
 
-            if (input.Weapon.Infusable == "Yes")
+            if (input.Weapon?.Infusable == "Yes")
             {
                 lastSelectedAffinity = input.AffinityId;
             }
 
-            if (input.Weapon.MaxUpgrade > 10)
+            if (input.Weapon?.MaxUpgrade > 10)
             {
                 lastSelectedNormalUpgrade = input.WeaponLevel;
             }
@@ -508,16 +513,18 @@
 
         info.Add(new ScalingRequirementsInfo(input.Weapon));
 
-        info.Add(new ScalingRequirementsInfo(RequirementsLabel.Scaling, attackRatingCalculation));
-
-        info.Add(new ScalingRequirementsInfo(RequirementsLabel.Grade, attackRatingCalculation));
+        if (attackRatingCalculation != null)
+        {
+            info.Add(new ScalingRequirementsInfo(RequirementsLabel.Scaling, attackRatingCalculation));
+            info.Add(new ScalingRequirementsInfo(RequirementsLabel.Grade, attackRatingCalculation));
+        }
 
         scalingRequirements = info;
     }
 
-    private string StyleStatRequirement(int stat, int req)
+    private string StyleStatRequirement(int stat, int? req)
     {
-        if (stat >= req)
+        if (req == null || stat >= req)
         {
             return "font-weight: bold;";
         }

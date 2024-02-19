@@ -9,11 +9,11 @@ namespace EldenRingBlazor.Services.Extensions
         {
             if (!typeof(T).IsEnum)
             {
-                return null;
+                return string.Empty;
             }
 
             var description = enumValue.ToString();
-            var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+            var fieldInfo = enumValue.GetType().GetField(enumValue.ToString() ?? string.Empty);
 
             if (fieldInfo != null)
             {
@@ -24,7 +24,7 @@ namespace EldenRingBlazor.Services.Extensions
                 }
             }
 
-            return description;
+            return description ?? string.Empty;
         }
     }
 }

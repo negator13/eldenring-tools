@@ -363,8 +363,13 @@
     public string? BuildId { get; set; }
 
     private EditContext? EditContext;
-    private CharacterStatsCalculation calculation;
+    private CharacterStatsCalculation calculation = new CharacterStatsCalculation();
     private BuildPlannerInput input;
+
+    public Planner()
+    {
+        input = new BuildPlannerInput(EquipmentService);
+    }
 
     private List<Talisman> talismans = new List<Talisman>();
 
@@ -860,6 +865,11 @@
 
     private void HandleValidSubmit()
     {
+        if (input == null)
+        {
+            return;
+        }
+
         CharacterStatsCalculation? newCalc = null;
 
         try
@@ -902,6 +912,11 @@
 
     private async Task SaveBuild()
     {
+        if (input == null)
+        {
+            return;
+        }
+
         var buildId = await SaveBuildService.SaveBuild(input);
 
         NavigationManager.NavigateTo($"/build/{buildId}");

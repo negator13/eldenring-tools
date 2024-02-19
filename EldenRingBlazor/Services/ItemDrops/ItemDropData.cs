@@ -2,7 +2,7 @@
 {
     public class ItemDropData
     {
-        public string Item { get; set; }
+        public string Item { get; set; } = string.Empty;
 
         public double BaseWeight { get; set; }
     }

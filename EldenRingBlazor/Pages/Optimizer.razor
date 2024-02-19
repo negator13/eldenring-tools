@@ -19,7 +19,7 @@
     <MudText Typo="Typo.body1">
         Choose the minimum values for the stats you care about, and leave the rest set to 0. Then press Optimize to calculate the most efficient Starting Class.
     </MudText>
-    <br/>
+    <br />
     <MudGrid Spacing="6">
         <MudItem sm="12" md="4">
             <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
@@ -71,7 +71,7 @@
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Level</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@(input.DisplayLevel < 0 ? 0: input.DisplayLevel)</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@(input.DisplayLevel < 0 ? 0 : input.DisplayLevel)</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
@@ -104,8 +104,13 @@
     public string? BuildId { get; set; }
 
     private EditContext? EditContext;
-    private CharacterStatsCalculation calculation;
+    private CharacterStatsCalculation calculation = new CharacterStatsCalculation();
     private BuildPlannerInput input;
+
+    public Optimizer()
+    {
+        input = new BuildPlannerInput(EquipmentService);
+    }
 
     protected override void OnInitialized()
     {
@@ -135,54 +140,99 @@
 
     private void UpdateVigor(int vig)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         input.Vigor = vig - input.VigorBonus;
         HandleValidSubmit();
     }
 
     private void UpdateMind(int mind)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         input.Mind = mind - input.MindBonus;
         HandleValidSubmit();
     }
 
     private void UpdateEndurance(int end)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         input.Endurance = end - input.EnduranceBonus;
         HandleValidSubmit();
     }
 
     private void UpdateStrength(int str)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         input.Strength = str - input.StrengthBonus;
         HandleValidSubmit();
     }
 
     private void UpdateDexterity(int dex)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         input.Dexterity = dex - input.DexterityBonus;
         HandleValidSubmit();
     }
 
     private void UpdateIntelligence(int inte)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         input.Intelligence = inte - input.IntelligenceBonus;
         HandleValidSubmit();
     }
 
     private void UpdateFaith(int fth)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         input.Faith = fth - input.FaithBonus;
         HandleValidSubmit();
     }
 
     private void UpdateArcane(int arc)
     {
+        if (input == null)
+        {
+            return;
+        }
+
         input.Arcane = arc - input.ArcaneBonus;
         HandleValidSubmit();
     }
 
     private void HandleValidSubmit()
     {
+        if (input == null)
+        {
+            return;
+        }
+
         CharacterStatsCalculation? newCalc = null;
 
         try
@@ -233,6 +283,11 @@
 
     private void Optimize()
     {
+        if (input == null)
+        {
+            return;
+        }
+
         var newCalc = CalculationService.Optimize(input);
 
         if (newCalc.Item2 != null)

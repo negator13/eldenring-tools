@@ -30,7 +30,7 @@ namespace EldenRingBlazor.Services.CalcCorrect
 
         public void GetCalcCorrectGraphIds(Weapon weapon)
         {
-            var calcCorrectGraphId = _calcCorrectGraphIds.SingleOrDefault(c => c.Id == weapon.Id);
+            var calcCorrectGraphId = _calcCorrectGraphIds.Single(c => c.Id == weapon.Id);
 
             weapon.PhysicalCorrectId = calcCorrectGraphId.PhysicalCalcCorrectId;
             weapon.MagicCorrectId = calcCorrectGraphId.MagicCalcCorrectId;
@@ -41,7 +41,7 @@ namespace EldenRingBlazor.Services.CalcCorrect
 
         public CalcCorrectGraph GetCalcCorrectGraph(int id)
         {
-            return _calcCorrectGraphs.SingleOrDefault(c => c.Id == id);
+            return _calcCorrectGraphs.Single(c => c.Id == id);
         }
 
         public double GetSpecificCalcCorrectOutputRaw(int id, int statValue)

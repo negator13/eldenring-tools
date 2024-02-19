@@ -6,14 +6,14 @@ namespace EldenRingBlazor.Services.AttackRating
 {
     public class ScalingRequirementsInfo
     {
-        public ScalingRequirementsInfo(Weapon weapon)
+        public ScalingRequirementsInfo(Weapon? weapon)
         {
             Label = RequirementsLabel.Requirements.GetDescription();
-            Strength = $"{weapon.StrRequirement}";
-            Dexterity = $"{weapon.DexRequirement}";
-            Intelligence = $"{weapon.IntRequirement}";
-            Faith = $"{weapon.FthRequirement}";
-            Arcane = $"{weapon.ArcRequirement}";
+            Strength = $"{weapon?.StrRequirement}";
+            Dexterity = $"{weapon?.DexRequirement}";
+            Intelligence = $"{weapon?.IntRequirement}";
+            Faith = $"{weapon?.FthRequirement}";
+            Arcane = $"{weapon?.ArcRequirement}";
         }
 
         public ScalingRequirementsInfo(RequirementsLabel label, AttackRatingCalculation attackRatingCalculation)

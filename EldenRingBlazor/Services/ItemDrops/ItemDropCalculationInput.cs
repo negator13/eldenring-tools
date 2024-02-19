@@ -2,7 +2,7 @@
 {
     public class ItemDropCalculationInput
     {
-        public string Item { get; set; }
+        public string Item { get; set; } = string.Empty;
 
         public int Discovery { get; set; }
 

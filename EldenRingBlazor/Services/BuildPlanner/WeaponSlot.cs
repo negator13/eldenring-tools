@@ -118,7 +118,7 @@ namespace EldenRingBlazor.Services.BuildPlanner
             }
         }
 
-        public void GetScalingRequirements(AttackRatingCalculation Calculation)
+        public void GetScalingRequirements(AttackRatingCalculation? Calculation)
         {
             var info = new List<ScalingRequirementsInfo>();
 

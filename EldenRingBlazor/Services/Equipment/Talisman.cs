@@ -2,9 +2,9 @@
 {
     public class Talisman
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string TalismanName { get; set; }
+        public string TalismanName { get; set; } = string.Empty;
 
         public double Weight { get; set; }
     }
