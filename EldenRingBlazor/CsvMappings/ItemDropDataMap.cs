@@ -1,5 +1,5 @@
 ﻿using CsvHelper.Configuration;
-using EldenRingBlazor.Data.ItemDrops;
+using EldenRingBlazor.Services.ItemDrops;
 
 namespace EldenRingBlazor.CsvMappings
 {
