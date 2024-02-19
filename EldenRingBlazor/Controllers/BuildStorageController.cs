@@ -1,6 +1,5 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using EldenRingBlazor.Services.BuildPersistence;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EldenRingBlazor.Controllers
@@ -10,12 +9,10 @@ namespace EldenRingBlazor.Controllers
     public class BuildStorageController : ControllerBase
     {
         private readonly string _connectionString;
-        private readonly SaveBuildService _saveBuildService;
 
-        public BuildStorageController(IConfiguration configuration, SaveBuildService saveBuildService)
+        public BuildStorageController(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("AzureConnectionString");
-            _saveBuildService = saveBuildService;
+            _connectionString = configuration.GetConnectionString("AzureConnectionString") ?? throw new Exception("AzureConnectionString not configured");
         }
 
         [HttpPost]

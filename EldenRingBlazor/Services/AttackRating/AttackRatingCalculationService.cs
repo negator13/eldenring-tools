@@ -158,7 +158,7 @@ namespace EldenRingBlazor.Services.AttackRating
             }
 
             var calcCorrectGraph = _calcCorrectService.GetCalcCorrectGraph(calcCorrectId);
-            var effectiveStrength = weapon.IsTwoHandDualWield ? input.Strength : input.EffectiveStrength;
+            var effectiveStrength = weapon.IsTwoHandDualWield ? input.Strength : input.EffectiveTwoHandStrength;
 
             var strCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, effectiveStrength);
             var dexCorrection = _calcCorrectService.GetSpecificCalcCorrect(calcCorrectGraph, input.Dexterity);

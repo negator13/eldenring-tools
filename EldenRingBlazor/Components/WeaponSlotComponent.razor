@@ -55,7 +55,7 @@
         {
             <MudItem xs="12">
                 <MudText>
-                    Requirements: <span style="@StyleStatRequirement(Input.Strength, Slot.Weapon.StrRequirement)">@Slot.Weapon.StrRequirement</span>/
+                    Requirements: <span style="@StyleStatRequirement(Input.EffectiveTwoHandStrength, Slot.Weapon.StrRequirement)">@Slot.Weapon.StrRequirement</span>/
                     <span style="@StyleStatRequirement(Input.Dexterity, Slot.Weapon.DexRequirement)">@Slot.Weapon.DexRequirement</span>/
                     <span style="@StyleStatRequirement(Input.Intelligence, Slot.Weapon.IntRequirement)">@Slot.Weapon.IntRequirement</span>/
                     <span style="@StyleStatRequirement(Input.Faith, Slot.Weapon.FthRequirement)">@Slot.Weapon.FthRequirement</span>/
@@ -87,7 +87,7 @@
 
     private bool MeetsRequirements => Slot?.Weapon == null || Input == null ?
         true :
-        Input.EffectiveStrength >= Slot.Weapon.StrRequirement
+        Input.EffectiveTwoHandStrength >= Slot.Weapon.StrRequirement
         && Input.EffectiveDexterity >= Slot.Weapon.DexRequirement
         && Input.EffectiveIntelligence >= Slot.Weapon.IntRequirement
         && Input.EffectiveFaith >= Slot.Weapon.FthRequirement

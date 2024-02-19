@@ -22,7 +22,7 @@
 
                     <MudItem xs="4">
                         <MudSelect Label="Equip Slot" T="string" Variant="Variant.Text"
-                                   Value="input.EquipSlot"
+                                   Value="_input.EquipSlot"
                                    ValueChanged="@UpdateEquipSlot">
                             @foreach (var slot in SearchArmorRequest.EquipSlots)
                             {
@@ -32,11 +32,11 @@
                     </MudItem>
 
                     <MudItem xs="4">
-                        <MudNumericField T="int" Label="Min Poise" Variant="Variant.Outlined" Value="input.MinPoise"
+                        <MudNumericField T="int" Label="Min Poise" Variant="Variant.Outlined" Value="_input.MinPoise"
                                    ValueChanged="@UpdateMinPoise" />
                     </MudItem>
                     <MudItem xs="4">
-                        <MudNumericField T="double" Label="Max Weight" Variant="Variant.Outlined" Value="input.MaxWeight"
+                        <MudNumericField T="double" Label="Max Weight" Variant="Variant.Outlined" Value="_input.MaxWeight"
                                    ValueChanged="@UpdateMaxWeight" />
                     </MudItem>
 
@@ -46,9 +46,9 @@
         </MudItem>
 
         <MudItem>
-            <MudTable Items=@searchResults Filter="new Func<Armor,bool>(FilterFunc1)" FixedFooter=true FixedHeader=true HorizontalScrollbar AllowUnsorted="false">
+            <MudTable Items=@_searchResults Filter="new Func<Armor,bool>(FilterFunc1)" FixedFooter=true FixedHeader=true HorizontalScrollbar AllowUnsorted="false">
                 <ToolBarContent>
-                    <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                 </ToolBarContent>
                 <HeaderContent>
                     <MudTh><MudTableSortLabel SortBy="new Func<Armor, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
@@ -101,14 +101,14 @@
 
 @code {
     private EditContext? EditContext;
-    private SearchArmorRequest input = new SearchArmorRequest();
-    private List<Armor> searchResults = new List<Armor>();
-    private string searchString = "";
+    private SearchArmorRequest _input = new SearchArmorRequest();
+    private List<Armor> _searchResults = new List<Armor>();
+    private string _searchString = "";
 
     protected override void OnInitialized()
     {
-        searchResults = EquipmentService.SearchArmor(input);
-        EditContext = new EditContext(input);
+        _searchResults = EquipmentService.SearchArmor(_input);
+        EditContext = new EditContext(_input);
 
         var weaponList = EquipmentService.Armor.ToList();
 
@@ -117,10 +117,10 @@
 
     private void HandleValidSubmit()
     {
-        searchResults = EquipmentService.SearchArmor(input);
+        _searchResults = EquipmentService.SearchArmor(_input);
     }
 
-    private bool FilterFunc1(Armor armor) => FilterFunc(armor, searchString);
+    private bool FilterFunc1(Armor armor) => FilterFunc(armor, _searchString);
 
     private bool FilterFunc(Armor armor, string searchString)
     {
@@ -137,19 +137,19 @@
 
     private void UpdateEquipSlot(string slot)
     {
-        input.EquipSlot = slot;
+        _input.EquipSlot = slot;
         HandleValidSubmit();
     }
 
     private void UpdateMinPoise(int poise)
     {
-        input.MinPoise = poise;
+        _input.MinPoise = poise;
         HandleValidSubmit();
     }
 
     private void UpdateMaxWeight(double weight)
     {
-        input.MaxWeight = weight;
+        _input.MaxWeight = weight;
         HandleValidSubmit();
     }
 }

@@ -7,14 +7,12 @@ namespace EldenRingBlazor.Services.BuildPlanner
     {
         private readonly EquipmentService _equipmentService;
 
-        private IEnumerable<Weapon> weaponList = new List<Weapon>();
-        private IEnumerable<string> filteredWeaponNames = new List<string>();
+        private IEnumerable<Weapon> _weaponList = new List<Weapon>();
+        private IEnumerable<string> _filteredWeaponNames = new List<string>();
 
-        private List<string> weaponCategoryNames = new List<string>();
-
-        private int lastSelectedAffinity;
-        private int? lastSelectedNormalUpgrade;
-        private int? lastSelectedSpecialUpgrade;
+        private int _lastSelectedAffinity;
+        private int? _lastSelectedNormalUpgrade;
+        private int? _lastSelectedSpecialUpgrade;
 
         public IEnumerable<WeaponAffinity> AffinityList = new List<WeaponAffinity>();
         public IEnumerable<int> UpgradeList = new List<int>();
@@ -25,12 +23,9 @@ namespace EldenRingBlazor.Services.BuildPlanner
 
             _equipmentService = equipmentService;
 
-            weaponList = _equipmentService.BaseWeapons;
+            _weaponList = _equipmentService.BaseWeapons;
 
-            filteredWeaponNames = weaponList.Where(w => w.Name != null).Select(w => w.Name).ToList();
-
-            weaponCategoryNames = new List<string>() { "All" };
-            weaponCategoryNames.AddRange(weaponList.Select(c => c.WeaponType).Distinct().OrderBy(c => c));
+            _filteredWeaponNames = _weaponList.Where(w => w.Name != null).Select(w => w.Name).ToList();
 
             ScalingInfo = new List<ScalingRequirementsInfo>();
         }
@@ -57,20 +52,20 @@ namespace EldenRingBlazor.Services.BuildPlanner
             {
                 if (string.IsNullOrWhiteSpace(value) || value == WeaponName)
                 {
-                    return filteredWeaponNames;
+                    return _filteredWeaponNames;
                 }
 
-                return filteredWeaponNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+                return _filteredWeaponNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase));
             }
             catch
             {
-                return filteredWeaponNames;
+                return _filteredWeaponNames;
             }
         }
 
         public void UpdateWeapon(string name)
         {
-            var selectedWeapon = weaponList.FirstOrDefault(w => w.Name == name);
+            var selectedWeapon = _weaponList.FirstOrDefault(w => w.Name == name);
 
             if (selectedWeapon == null)
             {
@@ -90,23 +85,23 @@ namespace EldenRingBlazor.Services.BuildPlanner
 
             if (weapon.Infusable == "Yes")
             {
-                lastSelectedAffinity = AffinityId;
+                _lastSelectedAffinity = AffinityId;
             }
 
             if (weapon.MaxUpgrade > 10)
             {
-                lastSelectedNormalUpgrade = lastSelectedNormalUpgrade == null ? weapon.MaxUpgrade : Level;
+                _lastSelectedNormalUpgrade = _lastSelectedNormalUpgrade == null ? weapon.MaxUpgrade : Level;
             }
             else
             {
-                lastSelectedSpecialUpgrade = lastSelectedSpecialUpgrade == null ? weapon.MaxUpgrade : Level;
+                _lastSelectedSpecialUpgrade = _lastSelectedSpecialUpgrade == null ? weapon.MaxUpgrade : Level;
             }
 
 
             Weapon = weapon;
             WeaponName = weapon.Name;
-            AffinityId = weapon.IsInfusable ? lastSelectedAffinity : 0;
-            Level = weapon.MaxUpgrade > 10 ? lastSelectedNormalUpgrade.GetValueOrDefault() : lastSelectedSpecialUpgrade.GetValueOrDefault();
+            AffinityId = weapon.IsInfusable ? _lastSelectedAffinity : 0;
+            Level = weapon.MaxUpgrade > 10 ? _lastSelectedNormalUpgrade.GetValueOrDefault() : _lastSelectedSpecialUpgrade.GetValueOrDefault();
 
             AffinityList = weapon.IsInfusable ? Affinities.StandardAffinities : new List<WeaponAffinity>();
 

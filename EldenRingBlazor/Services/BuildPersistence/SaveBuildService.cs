@@ -14,7 +14,7 @@ namespace EldenRingBlazor.Services.BuildPersistence
 
         public SaveBuildService(IConfiguration configuration, EquipmentService equipmentService)
         {
-            _connectionString = configuration.GetConnectionString("AzureConnectionString");
+            _connectionString = configuration.GetConnectionString("AzureConnectionString") ?? throw new Exception("AzureConnectionString not configured");
             _equipmentService = equipmentService;
         }
 

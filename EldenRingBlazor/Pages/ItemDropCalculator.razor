@@ -20,14 +20,14 @@
                     <MudItem xs="12">
                         <MudAutocomplete T="string"
                                          Label="Item"
-                                         Value="@input.Item"
+                                         Value="@_input.Item"
                                          ValueChanged="UpdateItem"
                                          SearchFunc="SearchItems"
                                          MaxItems="1000" />
                     </MudItem>
 
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="Discovery" Variant="Variant.Outlined" Value="@input.Discovery" ValueChanged="UpdateDiscovery" Min=0 Max=999 />
+                        <MudNumericField T="int" Label="Discovery" Variant="Variant.Outlined" Value="@_input.Discovery" ValueChanged="UpdateDiscovery" Min=0 Max=999 />
                     </MudItem>
                 </MudGrid>
             </EditForm>
@@ -40,7 +40,7 @@
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Drop Chance</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@(calculation?.PercentChance)%</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@(_calculation?.PercentChance)%</b></MudText>
                         </div>
                     </MudListItem>
                 </MudList>
@@ -55,57 +55,57 @@
     public string? BuildId { get; set; }
 
     private EditContext? EditContext;
-    private ItemDropCalculation? calculation;
-    private ItemDropCalculationInput input = new ItemDropCalculationInput();
+    private ItemDropCalculation? _calculation;
+    private ItemDropCalculationInput _input = new ItemDropCalculationInput();
 
-    private List<ItemDropData> itemDrops = new List<ItemDropData>();
-    private IEnumerable<string> filteredItemNames = new List<string>();
+    private List<ItemDropData> _itemDrops = new List<ItemDropData>();
+    private IEnumerable<string> _filteredItemNames = new List<string>();
 
     protected override void OnInitialized()
     {
-        input = new ItemDropCalculationInput();
-        EditContext = new EditContext(input);
+        _input = new ItemDropCalculationInput();
+        EditContext = new EditContext(_input);
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        input = new ItemDropCalculationInput { Discovery = 100 };
+        _input = new ItemDropCalculationInput { Discovery = 100 };
 
-        itemDrops = NpcItemDropService._allItemDrops.OrderBy(i => i.Item).ToList();
+        _itemDrops = NpcItemDropService._allItemDrops.OrderBy(i => i.Item).ToList();
 
-        filteredItemNames = itemDrops.Select(w => w.Item).ToList();
+        _filteredItemNames = _itemDrops.Select(w => w.Item).ToList();
 
-        EditContext = new EditContext(input);
+        EditContext = new EditContext(_input);
 
         await base.OnParametersSetAsync();
     }
 
     private void UpdateDiscovery(int discovery)
     {
-        if (input == null)
+        if (_input == null)
         {
             return;
         }
 
-        input.Discovery = discovery;
+        _input.Discovery = discovery;
         HandleValidSubmit();
     }
 
     private void UpdateItem(string name)
     {
-        if (input == null)
+        if (_input == null)
         {
             return;
         }
 
-        var itemData = itemDrops.SingleOrDefault(c => c.Item == name);
+        var itemData = _itemDrops.SingleOrDefault(c => c.Item == name);
         if (itemData == null)
         {
             return;
         }
 
-        input.Item = itemData.Item;
-        input.ItemChance = itemData.BaseWeight;
+        _input.Item = itemData.Item;
+        _input.ItemChance = itemData.BaseWeight;
 
         HandleValidSubmit();
     }
@@ -114,22 +114,22 @@
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(value) || value == input.Item)
+            if (string.IsNullOrWhiteSpace(value) || value == _input.Item)
             {
-                return Task.FromResult(filteredItemNames);
+                return Task.FromResult(_filteredItemNames);
             }
 
-            return Task.FromResult(filteredItemNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(_filteredItemNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
         }
         catch
         {
-            return Task.FromResult(filteredItemNames);
+            return Task.FromResult(_filteredItemNames);
         }
     }
 
     private void HandleValidSubmit()
     {
-        if (input == null)
+        if (_input == null)
         {
             return;
         }
@@ -138,7 +138,7 @@
 
         try
         {
-            newCalc = NpcItemDropService.Calculate(input);
+            newCalc = NpcItemDropService.Calculate(_input);
         }
         catch
         {
@@ -147,7 +147,7 @@
 
         if (newCalc != null)
         {
-            calculation = newCalc;
+            _calculation = newCalc;
         }
     }
 }

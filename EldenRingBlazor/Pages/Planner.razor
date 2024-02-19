@@ -27,14 +27,14 @@
                 <MudGrid>
 
                     <MudItem xs="6">
-                        <MudTextField Label="Name" Variant="Variant.Text" @bind-Value="@input.Name" />
+                        <MudTextField Label="Name" Variant="Variant.Text" @bind-Value="@_input.Name" />
                     </MudItem>
 
                     <MudItem xs="6">
                         <MudSelect Label="Starting Class" T="string" Variant="Variant.Text"
-                                   Value="@input.StartingClass?.Name"
+                                   Value="@_input.StartingClass?.Name"
                                    ValueChanged="@UpdateStartingClass">
-                            @foreach (var startingClass in startingClasses)
+                            @foreach (var startingClass in _startingClasses)
                             {
                                 <MudSelectItem Value="@startingClass.Name">@startingClass.Name</MudSelectItem>
                             }
@@ -42,32 +42,32 @@
                     </MudItem>
 
                     <MudItem xs="12">
-                        <MudText>Level: <b>@input.DisplayLevel</b></MudText>
+                        <MudText>Level: <b>@_input.DisplayLevel</b></MudText>
                     </MudItem>
 
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="Vigor" Variant="Variant.Outlined" Value="@input.EffectiveVigor" ValueChanged="UpdateVigor" Min=@input.StartingClass.Vigor Max=99 />
+                        <MudNumericField T="int" Label="Vigor" Variant="Variant.Outlined" Value="@_input.EffectiveVigor" ValueChanged="UpdateVigor" Min=@_input.StartingClass.Vigor Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="Mind" Variant="Variant.Outlined" Value="@input.EffectiveMind" ValueChanged="UpdateMind" Min=@input.StartingClass.Mind Max=99 />
+                        <MudNumericField T="int" Label="Mind" Variant="Variant.Outlined" Value="@_input.EffectiveMind" ValueChanged="UpdateMind" Min=@_input.StartingClass.Mind Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="Endurance" Variant="Variant.Outlined" Value="@input.EffectiveEndurance" ValueChanged="UpdateEndurance" Min=@input.StartingClass.Endurance Max=99 />
+                        <MudNumericField T="int" Label="Endurance" Variant="Variant.Outlined" Value="@_input.EffectiveEndurance" ValueChanged="UpdateEndurance" Min=@_input.StartingClass.Endurance Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="Strength" Variant="Variant.Outlined" Value="@input.EffectiveStrength" ValueChanged="UpdateStrength" Min=@input.StartingClass.Strength Max=99 />
+                        <MudNumericField T="int" Label="Strength" Variant="Variant.Outlined" Value="@_input.EffectiveStrength" ValueChanged="UpdateStrength" Min=@_input.StartingClass.Strength Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="Dexterity" Variant="Variant.Outlined" Value="@input.EffectiveDexterity" ValueChanged="UpdateDexterity" Min=@input.StartingClass.Dexterity Max=99 />
+                        <MudNumericField T="int" Label="Dexterity" Variant="Variant.Outlined" Value="@_input.EffectiveDexterity" ValueChanged="UpdateDexterity" Min=@_input.StartingClass.Dexterity Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="Intelligence" Variant="Variant.Outlined" Value="@input.EffectiveIntelligence" ValueChanged="UpdateIntelligence" Min=@input.StartingClass.Intelligence Max=99 />
+                        <MudNumericField T="int" Label="Intelligence" Variant="Variant.Outlined" Value="@_input.EffectiveIntelligence" ValueChanged="UpdateIntelligence" Min=@_input.StartingClass.Intelligence Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="Faith" Variant="Variant.Outlined" Value="@input.EffectiveFaith" ValueChanged="UpdateFaith" Min=@input.StartingClass.Faith Max=99 />
+                        <MudNumericField T="int" Label="Faith" Variant="Variant.Outlined" Value="@_input.EffectiveFaith" ValueChanged="UpdateFaith" Min=@_input.StartingClass.Faith Max=99 />
                     </MudItem>
                     <MudItem xs="6">
-                        <MudNumericField T="int" Label="Arcane" Variant="Variant.Outlined" Value="@input.EffectiveArcane" ValueChanged="UpdateArcane" Min=@input.StartingClass.Arcane Max=99 />
+                        <MudNumericField T="int" Label="Arcane" Variant="Variant.Outlined" Value="@_input.EffectiveArcane" ValueChanged="UpdateArcane" Min=@_input.StartingClass.Arcane Max=99 />
                     </MudItem>
                 </MudGrid>
 
@@ -75,7 +75,7 @@
                     <MudItem xs="6">
                         <MudAutocomplete T="string"
                                          Label="Head"
-                                         Value="@input.Head?.Name"
+                                         Value="@_input.Head?.Name"
                                          ValueChanged="UpdateHead"
                                          SearchFunc="HeadArmorSearch"
                                          ResetValueOnEmptyText=true
@@ -85,7 +85,7 @@
                     <MudItem xs="6">
                         <MudAutocomplete T="string"
                                          Label="Chest"
-                                         Value="@input.Chest?.Name"
+                                         Value="@_input.Chest?.Name"
                                          ValueChanged="UpdateChest"
                                          SearchFunc="ChestArmorSearch"
                                          MaxItems="1000" />
@@ -93,7 +93,7 @@
                     <MudItem xs="6">
                         <MudAutocomplete T="string"
                                          Label="Arms"
-                                         Value="@input.Arms?.Name"
+                                         Value="@_input.Arms?.Name"
                                          ValueChanged="UpdateArms"
                                          SearchFunc="ArmsArmorSearch"
                                          MaxItems="1000" />
@@ -101,7 +101,7 @@
                     <MudItem xs="6">
                         <MudAutocomplete T="string"
                                          Label="Legs"
-                                         Value="@input.Legs?.Name"
+                                         Value="@_input.Legs?.Name"
                                          ValueChanged="UpdateLegs"
                                          SearchFunc="LegsArmorSearch"
                                          MaxItems="1000" />
@@ -113,7 +113,7 @@
                     <MudItem xs="6">
                         <MudAutocomplete T="string"
                                          Label="Talisman 1"
-                                         Value="@input.Talisman1?.Name"
+                                         Value="@_input.Talisman1?.Name"
                                          ValueChanged="UpdateTalisman1"
                                          SearchFunc="Talisman1Search"
                                          MaxItems="1000" />
@@ -121,7 +121,7 @@
                     <MudItem xs="6">
                         <MudAutocomplete T="string"
                                          Label="Talisman 2"
-                                         Value="@input.Talisman2?.Name"
+                                         Value="@_input.Talisman2?.Name"
                                          ValueChanged="UpdateTalisman2"
                                          SearchFunc="Talisman2Search"
                                          MaxItems="1000" />
@@ -129,7 +129,7 @@
                     <MudItem xs="6">
                         <MudAutocomplete T="string"
                                          Label="Talisman 3"
-                                         Value="@input.Talisman3?.Name"
+                                         Value="@_input.Talisman3?.Name"
                                          ValueChanged="UpdateTalisman3"
                                          SearchFunc="Talisman3Search"
                                          MaxItems="1000" />
@@ -137,7 +137,7 @@
                     <MudItem xs="6">
                         <MudAutocomplete T="string"
                                          Label="Talisman 4"
-                                         Value="@input.Talisman4?.Name"
+                                         Value="@_input.Talisman4?.Name"
                                          ValueChanged="UpdateTalisman4"
                                          SearchFunc="Talisman4Search"
                                          MaxItems="1000" />
@@ -152,75 +152,75 @@
             <EditForm EditContext="@EditContext" OnValidSubmit="@HandleValidSubmit" Context="NewContext">
 
                 <MudItem xs="6">
-                    <MudSwitch @bind-Checked="@TwoHand" Label="Two-Hand Weapons" Color="Color.Info" />
+                    <MudSwitch @bind-Value="@TwoHand" Label="Two-Hand Weapons" Color="Color.Info" />
                 </MudItem>
 
-                <WeaponSlotComponent Slot=input.RightWeapon1
-                                     Input=input
-                                     Calculation=calculation.RightWeapon1
+                <WeaponSlotComponent Slot=_input.RightWeapon1
+                                     Input=_input
+                                     Calculation=_calculation.RightWeapon1
                                      UpdateWeapon=UpdateRightWeapon1
                                      UpdateWeaponAffinity=UpdateRightWeapon1Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon1Level>
                 </WeaponSlotComponent>
 
-                <WeaponSlotComponent Slot=input.RightWeapon2
-                                     Input=input
-                                     Calculation=calculation.RightWeapon2
+                <WeaponSlotComponent Slot=_input.RightWeapon2
+                                     Input=_input
+                                     Calculation=_calculation.RightWeapon2
                                      UpdateWeapon=UpdateRightWeapon2
                                      UpdateWeaponAffinity=UpdateRightWeapon2Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon2Level>
                 </WeaponSlotComponent>
 
-                <WeaponSlotComponent Slot=input.RightWeapon3
-                                     Input=input
-                                     Calculation=calculation.RightWeapon3
+                <WeaponSlotComponent Slot=_input.RightWeapon3
+                                     Input=_input
+                                     Calculation=_calculation.RightWeapon3
                                      UpdateWeapon=UpdateRightWeapon3
                                      UpdateWeaponAffinity=UpdateRightWeapon3Affinity
                                      UpdateWeaponLevel=UpdateRightWeapon3Level>
                 </WeaponSlotComponent>
 
-                <WeaponSlotComponent Slot=input.LeftWeapon1
-                                     Input=input
-                                     Calculation=calculation.LeftWeapon1
+                <WeaponSlotComponent Slot=_input.LeftWeapon1
+                                     Input=_input
+                                     Calculation=_calculation.LeftWeapon1
                                      UpdateWeapon=UpdateLeftWeapon1
                                      UpdateWeaponAffinity=UpdateLeftWeapon1Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon1Level>
                 </WeaponSlotComponent>
 
-                <WeaponSlotComponent Slot=input.LeftWeapon2
-                                     Input=input
-                                     Calculation=calculation.LeftWeapon2
+                <WeaponSlotComponent Slot=_input.LeftWeapon2
+                                     Input=_input
+                                     Calculation=_calculation.LeftWeapon2
                                      UpdateWeapon=UpdateLeftWeapon2
                                      UpdateWeaponAffinity=UpdateLeftWeapon2Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon2Level>
                 </WeaponSlotComponent>
 
-                <WeaponSlotComponent Slot=input.LeftWeapon3
-                                     Input=input
-                                     Calculation=calculation.LeftWeapon3
+                <WeaponSlotComponent Slot=_input.LeftWeapon3
+                                     Input=_input
+                                     Calculation=_calculation.LeftWeapon3
                                      UpdateWeapon=UpdateLeftWeapon3
                                      UpdateWeaponAffinity=UpdateLeftWeapon3Affinity
                                      UpdateWeaponLevel=UpdateLeftWeapon3Level>
                 </WeaponSlotComponent>
 
                 <MudGrid>
-                    @if (input.LeftWeapon3?.Weapon != null)
+                    @if (_input.LeftWeapon3?.Weapon != null)
                     {
                         <MudList Clickable="true">
                             <MudListItem>
                                 <div class="d-flex">
                                     <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@calculation.LeftWeapon3?.DisplayTotalAttackRating</b></MudText>
+                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@_calculation.LeftWeapon3?.DisplayTotalAttackRating</b></MudText>
                                 </div>
                             </MudListItem>
                             <MudDivider />
-                            @if (input.LeftWeapon3.Weapon?.WeaponType == "Sacred Seal" || input.LeftWeapon3.Weapon?.WeaponType == "Glintstone Staff")
+                            @if (_input.LeftWeapon3.Weapon?.WeaponType == "Sacred Seal" || _input.LeftWeapon3.Weapon?.WeaponType == "Glintstone Staff")
                             {
                                 <MudListItem>
                                     <div class="d-flex">
                                         <MudText>Sorc/Incant Scaling</MudText>
                                         <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", calculation.LeftWeapon3?.SorceryIncantation.Total)
+                                            @string.Format("{0:0.0}", _calculation.LeftWeapon3?.SorceryIncantation.Total)
                                         </MudText>
                                     </div>
                                 </MudListItem>
@@ -240,115 +240,115 @@
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Level</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@input.DisplayLevel</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_input.DisplayLevel</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>HP</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayHp</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayHp</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>FP</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayFp</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayFp</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Stamina</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayStamina</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayStamina</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Equip Load</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b><span style="@StyleEquipBurden(calculation.EquipBurdenPercent)">@calculation.DisplayWeight</span> / @calculation.DisplayEquipLoad <span style="@StyleEquipBurden(calculation.EquipBurdenPercent)">(@calculation.EquipBurdenPercent%)</span></b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b><span style="@StyleEquipBurden(_calculation.EquipBurdenPercent)">@_calculation.DisplayWeight</span> / @_calculation.DisplayEquipLoad <span style="@StyleEquipBurden(_calculation.EquipBurdenPercent)">(@_calculation.EquipBurdenPercent%)</span></b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Discovery</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayDiscovery</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayDiscovery</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Poise</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPoise</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayPoise</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Physical Defense / Negation</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplayPhysicalNegation</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayPhysicalDefense / @_calculation.DisplayPhysicalNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText Class="pl-4">VS Strike</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplayStrikeNegation</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayPhysicalDefense / @_calculation.DisplayStrikeNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText Class="pl-4">VS Slash</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplaySlashNegation</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayPhysicalDefense / @_calculation.DisplaySlashNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText Class="pl-4">VS Pierce</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayPhysicalDefense / @calculation.DisplayPierceNegation</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayPhysicalDefense / @_calculation.DisplayPierceNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Magic Defense / Negation</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayMagicDefense / @calculation.DisplayMagicNegation</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayMagicDefense / @_calculation.DisplayMagicNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Fire Defense / Negation</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayFireDefense / @calculation.DisplayFireNegation</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayFireDefense / @_calculation.DisplayFireNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Lightning Defense / Negation</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayLightningDefense / @calculation.DisplayLightningNegation</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayLightningDefense / @_calculation.DisplayLightningNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Holy Defense / Negation</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayHolyDefense / @calculation.DisplayHolyNegation</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayHolyDefense / @_calculation.DisplayHolyNegation</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Immunity</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayImmunity / @calculation.ImmunityArmor</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayImmunity / @_calculation.ImmunityArmor</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Robustness</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayRobustness / @calculation.RobustnessArmor</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayRobustness / @_calculation.RobustnessArmor</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Focus</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayFocus / @calculation.FocusArmor</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayFocus / @_calculation.FocusArmor</b></MudText>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex">
                             <MudText>Vitality</MudText>
-                            <MudText Inline="true" Class="ml-auto"><b>@calculation.DisplayVitality / @calculation.VitalityArmor</b></MudText>
+                            <MudText Inline="true" Class="ml-auto"><b>@_calculation.DisplayVitality / @_calculation.VitalityArmor</b></MudText>
                         </div>
                     </MudListItem>
                 </MudList>
@@ -363,55 +363,52 @@
     public string? BuildId { get; set; }
 
     private EditContext? EditContext;
-    private CharacterStatsCalculation calculation = new CharacterStatsCalculation();
-    private BuildPlannerInput input;
+    private CharacterStatsCalculation _calculation = new CharacterStatsCalculation();
+#pragma warning disable CS8618
+    private BuildPlannerInput _input;
+#pragma warning restore CS8618
 
-    public Planner()
-    {
-        input = new BuildPlannerInput(EquipmentService);
-    }
+    private List<Talisman> _talismans = new List<Talisman>();
 
-    private List<Talisman> talismans = new List<Talisman>();
+    private IEnumerable<string> _talismanNames = new List<string>();
 
-    private IEnumerable<string> talismanNames = new List<string>();
+    private List<Armor> _headArmors = new List<Armor>();
+    private List<Armor> _chestArmors = new List<Armor>();
+    private List<Armor> _armsArmors = new List<Armor>();
+    private List<Armor> _legsArmors = new List<Armor>();
 
-    private List<Armor> headArmors = new List<Armor>();
-    private List<Armor> chestArmors = new List<Armor>();
-    private List<Armor> armsArmors = new List<Armor>();
-    private List<Armor> legsArmors = new List<Armor>();
+    private IEnumerable<string> _headArmorNames = new List<string>();
+    private IEnumerable<string> _chestArmorNames = new List<string>();
+    private IEnumerable<string> _armsArmorNames = new List<string>();
+    private IEnumerable<string> _legsArmorNames = new List<string>();
 
-    private IEnumerable<string> headArmorNames = new List<string>();
-    private IEnumerable<string> chestArmorNames = new List<string>();
-    private IEnumerable<string> armsArmorNames = new List<string>();
-    private IEnumerable<string> legsArmorNames = new List<string>();
+    private List<StartingClass> _startingClasses = new List<StartingClass>();
 
-    private List<StartingClass> startingClasses = new List<StartingClass>();
-
-    private bool statUpdatedSinceChangingStartingClass = false;
+    private bool _statUpdatedSinceChangingStartingClass = false;
 
     protected override void OnInitialized()
     {
-        talismans = EquipmentService.Talismans.OrderBy(a => a.Name).ToList();
+        _talismans = EquipmentService.Talismans.OrderBy(a => a.Name).ToList();
 
-        talismanNames = talismans.Select(a => a.Name);
+        _talismanNames = _talismans.Select(a => a.Name);
 
-        headArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Head").OrderBy(a => a.Name).ToList();
+        _headArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Head").OrderBy(a => a.Name).ToList();
 
-        chestArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Body").OrderBy(a => a.Name).ToList();
+        _chestArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Body").OrderBy(a => a.Name).ToList();
 
-        armsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Arm").OrderBy(a => a.Name).ToList();
+        _armsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Arm").OrderBy(a => a.Name).ToList();
 
-        legsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Leg").OrderBy(a => a.Name).ToList();
+        _legsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Leg").OrderBy(a => a.Name).ToList();
 
-        headArmorNames = headArmors.Select(a => a.Name);
-        chestArmorNames = chestArmors.Select(a => a.Name);
-        armsArmorNames = armsArmors.Select(a => a.Name);
-        legsArmorNames = legsArmors.Select(a => a.Name);
+        _headArmorNames = _headArmors.Select(a => a.Name);
+        _chestArmorNames = _chestArmors.Select(a => a.Name);
+        _armsArmorNames = _armsArmors.Select(a => a.Name);
+        _legsArmorNames = _legsArmors.Select(a => a.Name);
 
-        startingClasses = EquipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
+        _startingClasses = EquipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
 
-        var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
-        input = new BuildPlannerInput(EquipmentService)
+        var vagabond = _startingClasses.Single(c => c.Name == "Vagabond");
+        _input = new BuildPlannerInput(EquipmentService)
             {
                 StartingClass = vagabond,
                 Vigor = vagabond.Vigor,
@@ -424,7 +421,7 @@
                 Arcane = vagabond.Arcane,
             };
 
-        EditContext = new EditContext(input);
+        EditContext = new EditContext(_input);
 
         HandleValidSubmit();
 
@@ -433,15 +430,15 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        var vagabond = startingClasses.Single(c => c.Name == "Vagabond");
+        var vagabond = _startingClasses.Single(c => c.Name == "Vagabond");
 
         if (BuildId != null)
         {
-            input = await SaveBuildService.LoadBuild(BuildId);
+            _input = await SaveBuildService.LoadBuild(BuildId);
         }
         else
         {
-            input = new BuildPlannerInput(EquipmentService)
+            _input = new BuildPlannerInput(EquipmentService)
                 {
                     StartingClass = vagabond,
                     Vigor = vagabond.Vigor,
@@ -455,7 +452,7 @@
                 };
         }
 
-        EditContext = new EditContext(input);
+        EditContext = new EditContext(_input);
 
 
         HandleValidSubmit();
@@ -467,16 +464,16 @@
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(value) || value == input.Head?.Name)
+            if (string.IsNullOrWhiteSpace(value) || value == _input.Head?.Name)
             {
-                return Task.FromResult(headArmorNames);
+                return Task.FromResult(_headArmorNames);
             }
 
-            return Task.FromResult(headArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(_headArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
         }
         catch
         {
-            return Task.FromResult(headArmorNames);
+            return Task.FromResult(_headArmorNames);
         }
     }
 
@@ -484,16 +481,16 @@
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(value) || value == input.Chest?.Name)
+            if (string.IsNullOrWhiteSpace(value) || value == _input.Chest?.Name)
             {
-                return Task.FromResult(chestArmorNames);
+                return Task.FromResult(_chestArmorNames);
             }
 
-            return Task.FromResult(chestArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(_chestArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
         }
         catch
         {
-            return Task.FromResult(chestArmorNames);
+            return Task.FromResult(_chestArmorNames);
         }
     }
 
@@ -501,16 +498,16 @@
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(value) || value == input.Arms?.Name)
+            if (string.IsNullOrWhiteSpace(value) || value == _input.Arms?.Name)
             {
-                return Task.FromResult(armsArmorNames);
+                return Task.FromResult(_armsArmorNames);
             }
 
-            return Task.FromResult(armsArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(_armsArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
         }
         catch
         {
-            return Task.FromResult(armsArmorNames);
+            return Task.FromResult(_armsArmorNames);
         }
     }
 
@@ -518,16 +515,16 @@
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(value) || value == input.Legs?.Name)
+            if (string.IsNullOrWhiteSpace(value) || value == _input.Legs?.Name)
             {
-                return Task.FromResult(legsArmorNames);
+                return Task.FromResult(_legsArmorNames);
             }
 
-            return Task.FromResult(legsArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(_legsArmorNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
         }
         catch
         {
-            return Task.FromResult(legsArmorNames);
+            return Task.FromResult(_legsArmorNames);
         }
     }
 
@@ -535,16 +532,16 @@
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(value) || value == input.Talisman1?.Name)
+            if (string.IsNullOrWhiteSpace(value) || value == _input.Talisman1?.Name)
             {
-                return Task.FromResult(talismanNames);
+                return Task.FromResult(_talismanNames);
             }
 
-            return Task.FromResult(talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(_talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
         }
         catch
         {
-            return Task.FromResult(talismanNames);
+            return Task.FromResult(_talismanNames);
         }
     }
 
@@ -552,16 +549,16 @@
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(value) || value == input.Talisman2?.Name)
+            if (string.IsNullOrWhiteSpace(value) || value == _input.Talisman2?.Name)
             {
-                return Task.FromResult(talismanNames);
+                return Task.FromResult(_talismanNames);
             }
 
-            return Task.FromResult(talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(_talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
         }
         catch
         {
-            return Task.FromResult(talismanNames);
+            return Task.FromResult(_talismanNames);
         }
     }
 
@@ -569,16 +566,16 @@
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(value) || value == input.Talisman3?.Name)
+            if (string.IsNullOrWhiteSpace(value) || value == _input.Talisman3?.Name)
             {
-                return Task.FromResult(talismanNames);
+                return Task.FromResult(_talismanNames);
             }
 
-            return Task.FromResult(talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(_talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
         }
         catch
         {
-            return Task.FromResult(talismanNames);
+            return Task.FromResult(_talismanNames);
         }
     }
 
@@ -586,52 +583,52 @@
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(value) || value == input.Talisman4?.Name)
+            if (string.IsNullOrWhiteSpace(value) || value == _input.Talisman4?.Name)
             {
-                return Task.FromResult(talismanNames);
+                return Task.FromResult(_talismanNames);
             }
 
-            return Task.FromResult(talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+            return Task.FromResult(_talismanNames.Where(w => w.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
         }
         catch
         {
-            return Task.FromResult(talismanNames);
+            return Task.FromResult(_talismanNames);
         }
     }
 
     private void UpdateRightWeapon1(string name)
     {
-        input.RightWeapon1.UpdateWeapon(name);
+        _input.RightWeapon1.UpdateWeapon(name);
         HandleValidSubmit();
     }
 
     private void UpdateRightWeapon2(string name)
     {
-        input.RightWeapon2.UpdateWeapon(name);
+        _input.RightWeapon2.UpdateWeapon(name);
         HandleValidSubmit();
     }
 
     private void UpdateRightWeapon3(string name)
     {
-        input.RightWeapon3.UpdateWeapon(name);
+        _input.RightWeapon3.UpdateWeapon(name);
         HandleValidSubmit();
     }
 
     private void UpdateLeftWeapon1(string name)
     {
-        input.LeftWeapon1.UpdateWeapon(name);
+        _input.LeftWeapon1.UpdateWeapon(name);
         HandleValidSubmit();
     }
 
     private void UpdateLeftWeapon2(string name)
     {
-        input.LeftWeapon2.UpdateWeapon(name);
+        _input.LeftWeapon2.UpdateWeapon(name);
         HandleValidSubmit();
     }
 
     private void UpdateLeftWeapon3(string name)
     {
-        input.LeftWeapon3.UpdateWeapon(name);
+        _input.LeftWeapon3.UpdateWeapon(name);
         HandleValidSubmit();
     }
 
@@ -639,233 +636,233 @@
     {
         get
         {
-            return input.TwoHand;
+            return _input.TwoHand;
         }
         set
         {
-            input.TwoHand = value;
+            _input.TwoHand = value;
             HandleValidSubmit();
         }
     }
 
     private void UpdateHead(string armor)
     {
-        input.Head = headArmors.Single(a => a.Name == armor);
+        _input.Head = _headArmors.Single(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateChest(string armor)
     {
-        input.Chest = chestArmors.Single(a => a.Name == armor);
+        _input.Chest = _chestArmors.Single(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateArms(string armor)
     {
-        input.Arms = armsArmors.Single(a => a.Name == armor);
+        _input.Arms = _armsArmors.Single(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateLegs(string armor)
     {
-        input.Legs = legsArmors.Single(a => a.Name == armor);
+        _input.Legs = _legsArmors.Single(a => a.Name == armor);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman1(string name)
     {
-        input.Talisman1 = talismans.Single(t => t.Name == name);
+        _input.Talisman1 = _talismans.Single(t => t.Name == name);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman2(string name)
     {
-        input.Talisman2 = talismans.Single(t => t.Name == name);
+        _input.Talisman2 = _talismans.Single(t => t.Name == name);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman3(string name)
     {
-        input.Talisman3 = talismans.Single(t => t.Name == name);
+        _input.Talisman3 = _talismans.Single(t => t.Name == name);
         HandleValidSubmit();
     }
 
     private void UpdateTalisman4(string name)
     {
-        input.Talisman4 = talismans.Single(t => t.Name == name);
+        _input.Talisman4 = _talismans.Single(t => t.Name == name);
         HandleValidSubmit();
     }
 
     private void UpdateVigor(int vig)
     {
-        input.Vigor = vig - input.VigorBonus;
-        statUpdatedSinceChangingStartingClass = true;
+        _input.Vigor = vig - _input.VigorBonus;
+        _statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateMind(int mind)
     {
-        input.Mind = mind - input.MindBonus;
-        statUpdatedSinceChangingStartingClass = true;
+        _input.Mind = mind - _input.MindBonus;
+        _statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateEndurance(int end)
     {
-        input.Endurance = end - input.EnduranceBonus;
-        statUpdatedSinceChangingStartingClass = true;
+        _input.Endurance = end - _input.EnduranceBonus;
+        _statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateStrength(int str)
     {
-        input.Strength = str - input.StrengthBonus;
-        statUpdatedSinceChangingStartingClass = true;
+        _input.Strength = str - _input.StrengthBonus;
+        _statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateDexterity(int dex)
     {
-        input.Dexterity = dex - input.DexterityBonus;
-        statUpdatedSinceChangingStartingClass = true;
+        _input.Dexterity = dex - _input.DexterityBonus;
+        _statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateIntelligence(int inte)
     {
-        input.Intelligence = inte - input.IntelligenceBonus;
-        statUpdatedSinceChangingStartingClass = true;
+        _input.Intelligence = inte - _input.IntelligenceBonus;
+        _statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateFaith(int fth)
     {
-        input.Faith = fth - input.FaithBonus;
-        statUpdatedSinceChangingStartingClass = true;
+        _input.Faith = fth - _input.FaithBonus;
+        _statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateArcane(int arc)
     {
-        input.Arcane = arc - input.ArcaneBonus;
-        statUpdatedSinceChangingStartingClass = true;
+        _input.Arcane = arc - _input.ArcaneBonus;
+        _statUpdatedSinceChangingStartingClass = true;
         HandleValidSubmit();
     }
 
     private void UpdateRightWeapon1Affinity(int id)
     {
-        input.RightWeapon1.AffinityId = id;
+        _input.RightWeapon1.AffinityId = id;
         HandleValidSubmit();
     }
 
     private void UpdateRightWeapon1Level(int level)
     {
-        input.RightWeapon1.Level = level;
+        _input.RightWeapon1.Level = level;
         HandleValidSubmit();
     }
 
     private void UpdateRightWeapon2Affinity(int id)
     {
-        input.RightWeapon2.AffinityId = id;
+        _input.RightWeapon2.AffinityId = id;
         HandleValidSubmit();
     }
 
     private void UpdateRightWeapon2Level(int level)
     {
-        input.RightWeapon2.Level = level;
+        _input.RightWeapon2.Level = level;
         HandleValidSubmit();
     }
 
     private void UpdateRightWeapon3Affinity(int id)
     {
-        input.RightWeapon3.AffinityId = id;
+        _input.RightWeapon3.AffinityId = id;
         HandleValidSubmit();
     }
 
     private void UpdateRightWeapon3Level(int level)
     {
-        input.RightWeapon3.Level = level;
+        _input.RightWeapon3.Level = level;
         HandleValidSubmit();
     }
 
     private void UpdateLeftWeapon1Affinity(int id)
     {
-        input.LeftWeapon1.AffinityId = id;
+        _input.LeftWeapon1.AffinityId = id;
         HandleValidSubmit();
     }
 
     private void UpdateLeftWeapon1Level(int level)
     {
-        input.LeftWeapon1.Level = level;
+        _input.LeftWeapon1.Level = level;
         HandleValidSubmit();
     }
 
     private void UpdateLeftWeapon2Affinity(int id)
     {
-        input.LeftWeapon2.AffinityId = id;
+        _input.LeftWeapon2.AffinityId = id;
         HandleValidSubmit();
     }
 
     private void UpdateLeftWeapon2Level(int level)
     {
-        input.LeftWeapon2.Level = level;
+        _input.LeftWeapon2.Level = level;
         HandleValidSubmit();
     }
 
     private void UpdateLeftWeapon3Affinity(int id)
     {
-        input.LeftWeapon3.AffinityId = id;
+        _input.LeftWeapon3.AffinityId = id;
         HandleValidSubmit();
     }
 
     private void UpdateLeftWeapon3Level(int level)
     {
-        input.LeftWeapon3.Level = level;
+        _input.LeftWeapon3.Level = level;
         HandleValidSubmit();
     }
 
     private void UpdateStartingClass(string name)
     {
-        var startingClass = startingClasses.SingleOrDefault(c => c.Name == name);
+        var startingClass = _startingClasses.SingleOrDefault(c => c.Name == name);
         if (startingClass == null)
         {
             return;
         }
 
-        input.StartingClass = startingClass;
+        _input.StartingClass = startingClass;
 
         // TODO: Scope this flag to each specific stat, refactor to use Math.Max for each
-        if (statUpdatedSinceChangingStartingClass)
+        if (_statUpdatedSinceChangingStartingClass)
         {
-            input.Vigor = input.Vigor < startingClass.Vigor ? startingClass.Vigor : input.Vigor;
-            input.Mind = input.Mind < startingClass.Mind ? startingClass.Mind : input.Mind;
-            input.Endurance = input.Endurance < startingClass.Endurance ? startingClass.Endurance : input.Endurance;
-            input.Strength = input.Strength < startingClass.Strength ? startingClass.Strength : input.Strength;
-            input.Dexterity = input.Dexterity < startingClass.Dexterity ? startingClass.Dexterity : input.Dexterity;
-            input.Intelligence = input.Intelligence < startingClass.Intelligence ? startingClass.Intelligence : input.Intelligence;
-            input.Faith = input.Faith < startingClass.Faith ? startingClass.Faith : input.Faith;
-            input.Arcane = input.Arcane < startingClass.Arcane ? startingClass.Arcane : input.Arcane;
+            _input.Vigor = _input.Vigor < startingClass.Vigor ? startingClass.Vigor : _input.Vigor;
+            _input.Mind = _input.Mind < startingClass.Mind ? startingClass.Mind : _input.Mind;
+            _input.Endurance = _input.Endurance < startingClass.Endurance ? startingClass.Endurance : _input.Endurance;
+            _input.Strength = _input.Strength < startingClass.Strength ? startingClass.Strength : _input.Strength;
+            _input.Dexterity = _input.Dexterity < startingClass.Dexterity ? startingClass.Dexterity : _input.Dexterity;
+            _input.Intelligence = _input.Intelligence < startingClass.Intelligence ? startingClass.Intelligence : _input.Intelligence;
+            _input.Faith = _input.Faith < startingClass.Faith ? startingClass.Faith : _input.Faith;
+            _input.Arcane = _input.Arcane < startingClass.Arcane ? startingClass.Arcane : _input.Arcane;
         }
         else
         {
-            input.Vigor = startingClass.Vigor;
-            input.Mind = startingClass.Mind;
-            input.Endurance = startingClass.Endurance;
-            input.Strength = startingClass.Strength;
-            input.Dexterity = startingClass.Dexterity;
-            input.Intelligence = startingClass.Intelligence;
-            input.Faith = startingClass.Faith;
-            input.Arcane = startingClass.Arcane;
+            _input.Vigor = startingClass.Vigor;
+            _input.Mind = startingClass.Mind;
+            _input.Endurance = startingClass.Endurance;
+            _input.Strength = startingClass.Strength;
+            _input.Dexterity = startingClass.Dexterity;
+            _input.Intelligence = startingClass.Intelligence;
+            _input.Faith = startingClass.Faith;
+            _input.Arcane = startingClass.Arcane;
         }
 
-        statUpdatedSinceChangingStartingClass = false;
+        _statUpdatedSinceChangingStartingClass = false;
 
         HandleValidSubmit();
     }
 
     private void HandleValidSubmit()
     {
-        if (input == null)
+        if (_input == null)
         {
             return;
         }
@@ -874,7 +871,7 @@
 
         try
         {
-            newCalc = CalculationService.CalculateStats(input);
+            newCalc = CalculationService.CalculateStats(_input);
         }
         catch
         {
@@ -883,7 +880,7 @@
 
         if (newCalc != null)
         {
-            calculation = newCalc;
+            _calculation = newCalc;
         }
 
         UpdateWeaponRequirements();
@@ -891,12 +888,12 @@
 
     private void UpdateWeaponRequirements()
     {
-        input.RightWeapon1.GetScalingRequirements(calculation.RightWeapon1);
-        input.RightWeapon2.GetScalingRequirements(calculation.RightWeapon2);
-        input.RightWeapon3.GetScalingRequirements(calculation.RightWeapon3);
-        input.LeftWeapon1.GetScalingRequirements(calculation.LeftWeapon1);
-        input.LeftWeapon2.GetScalingRequirements(calculation.LeftWeapon2);
-        input.LeftWeapon3.GetScalingRequirements(calculation.LeftWeapon3);
+        _input.RightWeapon1.GetScalingRequirements(_calculation.RightWeapon1);
+        _input.RightWeapon2.GetScalingRequirements(_calculation.RightWeapon2);
+        _input.RightWeapon3.GetScalingRequirements(_calculation.RightWeapon3);
+        _input.LeftWeapon1.GetScalingRequirements(_calculation.LeftWeapon1);
+        _input.LeftWeapon2.GetScalingRequirements(_calculation.LeftWeapon2);
+        _input.LeftWeapon3.GetScalingRequirements(_calculation.LeftWeapon3);
     }
 
 
@@ -912,12 +909,12 @@
 
     private async Task SaveBuild()
     {
-        if (input == null)
+        if (_input == null)
         {
             return;
         }
 
-        var buildId = await SaveBuildService.SaveBuild(input);
+        var buildId = await SaveBuildService.SaveBuild(_input);
 
         NavigationManager.NavigateTo($"/build/{buildId}");
     }

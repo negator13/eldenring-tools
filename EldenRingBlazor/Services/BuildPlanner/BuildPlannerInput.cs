@@ -53,6 +53,8 @@ namespace EldenRingBlazor.Services.BuildPlanner
 
         public int EffectiveStrength => Strength + StrengthBonus;
 
+        public int EffectiveTwoHandStrength => TwoHand ? (int)(EffectiveStrength * 1.5) : EffectiveStrength;
+
         public int Dexterity { get; set; }
 
         public int DexterityBonus { get; set; }
