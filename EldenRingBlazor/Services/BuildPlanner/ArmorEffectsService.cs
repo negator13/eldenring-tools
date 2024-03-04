@@ -73,9 +73,42 @@
                     break;
                 case "okina mask":
                     input.DexterityBonus += 3;
+                    // TODO: Reduce Focus by 50
                     break;
                 case "haligtree knight helm":
                     input.FaithBonus += 2;
+                    break;
+                case "haima glintstone crown":
+                    input.IntelligenceBonus += 2;
+                    input.StrengthBonus += 2;
+                    // TODO: Reduce FP by 10%
+                    break;
+                case "hierodas glintstone crown":
+                    input.IntelligenceBonus += 2;
+                    input.EnduranceBonus += 2;
+                    // TODO: Reduce FP by 10%
+                    break;
+                case "twinsage glintstone crown":
+                    input.IntelligenceBonus += 6;
+                    // TODO: Reduce HP and Stamina by 9%
+                    break;
+                case "karolos glintstone crown":
+                    input.IntelligenceBonus += 3;
+                    // TODO: Reduce Stamina by 9%
+                    break;
+                case "olivinus glintstone crown":
+                    input.IntelligenceBonus += 3;
+                    // TODO: Reduce HP by 10%
+                    break;
+                case "lazuli glintstone crown":
+                    input.IntelligenceBonus += 3;
+                    input.DexterityBonus += 3;
+                    // TODO: Reduce HP by 18%
+                    break;
+                case "witch's glintstone crown":
+                    input.IntelligenceBonus += 3;
+                    input.ArcaneBonus += 3;
+                    // TODO: Reduce Stamina by 18%
                     break;
                 default:
                     break;
