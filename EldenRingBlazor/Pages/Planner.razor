@@ -9,6 +9,7 @@
 @using EldenRingBlazor.Services.BuildPlanner
 @using EldenRingBlazor.Services.Equipment
 @using EldenRingBlazor.Components
+@using EldenRingBlazor.WellKnown
 @inject BuildPlannerService CalculationService
 @inject EquipmentService EquipmentService
 @inject SaveBuildService SaveBuildService
@@ -214,11 +215,11 @@
                                 </div>
                             </MudListItem>
                             <MudDivider />
-                            @if (_input.LeftWeapon3.Weapon?.WeaponType == "Sacred Seal" || _input.LeftWeapon3.Weapon?.WeaponType == "Glintstone Staff")
+                            @if (_input.LeftWeapon3.Weapon?.WeaponType == WeaponTypes.SacredSeal || _input.LeftWeapon3.Weapon?.WeaponType == WeaponTypes.GlintstoneStaff)
                             {
                                 <MudListItem>
                                     <div class="d-flex">
-                                        <MudText>Sorc/Incant Scaling</MudText>
+                                        <MudText>@(_input.LeftWeapon3.Weapon?.WeaponType == WeaponTypes.SacredSeal ? "Incantation Scaling" : "Sorcery Scaling")</MudText>
                                         <MudText Class="ml-auto">
                                             @string.Format("{0:0.0}", _calculation.LeftWeapon3?.SorceryIncantation.Total)
                                         </MudText>
@@ -392,13 +393,13 @@
 
         _talismanNames = _talismans.Select(a => a.Name);
 
-        _headArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Head").OrderBy(a => a.Name).ToList();
+        _headArmors = EquipmentService.Armor.Where(a => a.EquipSlot == EquipmentSlots.Head).OrderBy(a => a.Name).ToList();
 
-        _chestArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Body").OrderBy(a => a.Name).ToList();
+        _chestArmors = EquipmentService.Armor.Where(a => a.EquipSlot == EquipmentSlots.Body).OrderBy(a => a.Name).ToList();
 
-        _armsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Arm").OrderBy(a => a.Name).ToList();
+        _armsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == EquipmentSlots.Arms).OrderBy(a => a.Name).ToList();
 
-        _legsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == "Leg").OrderBy(a => a.Name).ToList();
+        _legsArmors = EquipmentService.Armor.Where(a => a.EquipSlot == EquipmentSlots.Legs).OrderBy(a => a.Name).ToList();
 
         _headArmorNames = _headArmors.Select(a => a.Name);
         _chestArmorNames = _chestArmors.Select(a => a.Name);
@@ -407,7 +408,7 @@
 
         _startingClasses = EquipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
 
-        var vagabond = _startingClasses.Single(c => c.Name == "Vagabond");
+        var vagabond = _startingClasses.Single(c => c.Name == StartingClasses.Vagabond);
         _input = new BuildPlannerInput(EquipmentService)
             {
                 StartingClass = vagabond,
@@ -430,7 +431,7 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        var vagabond = _startingClasses.Single(c => c.Name == "Vagabond");
+        var vagabond = _startingClasses.Single(c => c.Name == StartingClasses.Vagabond);
 
         if (BuildId != null)
         {

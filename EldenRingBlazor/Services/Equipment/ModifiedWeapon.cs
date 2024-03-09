@@ -1,11 +1,13 @@
-﻿namespace EldenRingBlazor.Services.Equipment
+﻿using EldenRingBlazor.WellKnown;
+
+namespace EldenRingBlazor.Services.Equipment
 {
     public class ModifiedWeapon : WeaponUpgrade
     {
         public ModifiedWeapon(Weapon weapon, WeaponUpgrade weaponUpgrade) : base(weapon, weaponUpgrade?.WeaponLevel ?? 0)
         {
             BaseName = weapon.Name;
-            AffinityName = "Standard";
+            AffinityName = WeaponAffinities.Standard;
             var name = weapon.Name;
 
             if (weaponUpgrade?.WeaponLevel > 0 )

@@ -6,6 +6,7 @@
 @using EldenRingBlazor.Services.AttackRating
 @using EldenRingBlazor.Services.BuildPlanner
 @using EldenRingBlazor.Services.Equipment
+@using EldenRingBlazor.WellKnown
 @inject AttackRatingCalculationService CalculationService
 @inject EquipmentService EquipmentService
 
@@ -203,7 +204,7 @@
                             </div>
                         }
                     </MudListItem>
-                    @if (_input.Weapon?.WeaponType == "Sacred Seal" || _input.Weapon?.WeaponType == "Glintstone Staff")
+                    @if (_input.Weapon?.WeaponType == WeaponTypes.SacredSeal || _input.Weapon?.WeaponType == WeaponTypes.GlintstoneStaff)
                     {
                         <MudListItem>
                             <div class="d-flex">
@@ -283,7 +284,7 @@
     private EditContext? EditContext;
 
     private bool _statUpdatedSinceChangingStartingClass = false;
-    string _selectedClass = "Vagabond";
+    string _selectedClass = StartingClasses.Vagabond;
     private List<StartingClass> _startingClasses = new List<StartingClass>();
 
     private IEnumerable<Weapon> _weaponList = new List<Weapon>();
@@ -552,8 +553,8 @@
 
         _startingClasses = EquipmentService.StartingClasses.OrderBy(a => a.Name).ToList();
 
-        var vagabond = _startingClasses.Single(c => c.Name == "Vagabond");
-        _selectedClass = "Vagabond";
+        var vagabond = _startingClasses.Single(c => c.Name == StartingClasses.Vagabond);
+        _selectedClass = StartingClasses.Vagabond;
 
         _input = new AttackRatingCalculationInput()
             {

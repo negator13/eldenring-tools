@@ -1,4 +1,6 @@
-﻿namespace EldenRingBlazor.Services.Equipment
+﻿using EldenRingBlazor.WellKnown;
+
+namespace EldenRingBlazor.Services.Equipment
 {
     public class SearchArmorRequest
     {
@@ -12,10 +14,10 @@
         public static List<string> EquipSlots = new List<string>
         {
             "All",
-            "Head",
-            "Body",
-            "Arm",
-            "Leg"
+            EquipmentSlots.Head,
+            EquipmentSlots.Body,
+            EquipmentSlots.Arms,
+            EquipmentSlots.Legs
         };
     }
 }
