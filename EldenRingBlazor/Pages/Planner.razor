@@ -204,33 +204,6 @@
                                      UpdateWeaponLevel=UpdateLeftWeapon3Level>
                 </WeaponSlotComponent>
 
-                <MudGrid>
-                    @if (_input.LeftWeapon3?.Weapon != null)
-                    {
-                        <MudList Clickable="true">
-                            <MudListItem>
-                                <div class="d-flex">
-                                    <MudText>Total AR</MudText>
-                                    <MudText Inline="true" Class="ml-auto"><b>&nbsp;@_calculation.LeftWeapon3?.DisplayTotalAttackRating</b></MudText>
-                                </div>
-                            </MudListItem>
-                            <MudDivider />
-                            @if (_input.LeftWeapon3.Weapon?.WeaponType == WeaponTypes.SacredSeal || _input.LeftWeapon3.Weapon?.WeaponType == WeaponTypes.GlintstoneStaff)
-                            {
-                                <MudListItem>
-                                    <div class="d-flex">
-                                        <MudText>@(_input.LeftWeapon3.Weapon?.WeaponType == WeaponTypes.SacredSeal ? "Incantation Scaling" : "Sorcery Scaling")</MudText>
-                                        <MudText Class="ml-auto">
-                                            @string.Format("{0:0.0}", _calculation.LeftWeapon3?.SorceryIncantation.Total)
-                                        </MudText>
-                                    </div>
-                                </MudListItem>
-                            }
-                        </MudList>
-                    }
-
-                </MudGrid>
-
             </EditForm>
         </MudItem>
 
