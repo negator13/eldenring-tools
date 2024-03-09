@@ -2,6 +2,7 @@
 using Azure.Storage.Blobs.Models;
 using EldenRingBlazor.Services.BuildPlanner;
 using EldenRingBlazor.Services.Equipment;
+using EldenRingBlazor.WellKnown;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -110,10 +111,10 @@ namespace EldenRingBlazor.Services.BuildPersistence
             data.Talisman3 = _equipmentService.Talismans.FirstOrDefault(t => t.Name == input.Talisman3);
             data.Talisman4 = _equipmentService.Talismans.FirstOrDefault(t => t.Name == input.Talisman4);
 
-            data.Head = _equipmentService.Armor.FirstOrDefault(t => t.EquipSlot == "Head" && t.Name == input.Head);
-            data.Chest =  _equipmentService.Armor.FirstOrDefault(t => t.EquipSlot == "Body" && t.Name == input.Chest);
-            data.Arms =  _equipmentService.Armor.FirstOrDefault(t => t.EquipSlot == "Arm" && t.Name == input.Arms);
-            data.Legs =  _equipmentService.Armor.FirstOrDefault(t => t.EquipSlot == "Leg" && t.Name == input.Legs);
+            data.Head = _equipmentService.Armor.FirstOrDefault(t => t.EquipSlot == EquipmentSlots.Head && t.Name == input.Head);
+            data.Chest =  _equipmentService.Armor.FirstOrDefault(t => t.EquipSlot == EquipmentSlots.Body && t.Name == input.Chest);
+            data.Arms =  _equipmentService.Armor.FirstOrDefault(t => t.EquipSlot == EquipmentSlots.Arms && t.Name == input.Arms);
+            data.Legs =  _equipmentService.Armor.FirstOrDefault(t => t.EquipSlot == EquipmentSlots.Legs && t.Name == input.Legs);
 
             data.RightWeapon1 = DeserializeWeapon("Right Weapon 1", input.RightWeapon1, input.RightWeapon1Affinity, input.RightWeapon1Level);
 

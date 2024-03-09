@@ -21,19 +21,19 @@
                     input.VigorBonus += 5;
                     input.EnduranceBonus += 5;
                     input.StrengthBonus += 5;
-                    input.DexterityBonus +=5;
+                    input.DexterityBonus += 5;
                     break;
                 case "marika's scarseal":
                     input.MindBonus += 3;
                     input.IntelligenceBonus += 3;
                     input.FaithBonus += 3;
-                    input.ArcaneBonus +=3;
+                    input.ArcaneBonus += 3;
                     break;
                 case "marika's soreseal":
                     input.MindBonus += 5;
                     input.IntelligenceBonus += 5;
                     input.FaithBonus += 5;
-                    input.ArcaneBonus +=5;
+                    input.ArcaneBonus += 5;
                     break;
                 case "starscourge heirloom":
                     input.StrengthBonus += 5;

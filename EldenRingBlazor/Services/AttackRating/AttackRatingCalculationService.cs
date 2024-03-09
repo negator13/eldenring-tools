@@ -1,5 +1,6 @@
 ﻿using EldenRingBlazor.Services.CalcCorrect;
 using EldenRingBlazor.Services.Equipment;
+using EldenRingBlazor.WellKnown;
 
 namespace EldenRingBlazor.Services.AttackRating
 {
@@ -254,7 +255,7 @@ namespace EldenRingBlazor.Services.AttackRating
                 return passiveEffect;
             }
 
-            if (effect.Type == "Blood" || effect.Type == "Poison" || effect.Type == "Madness" || effect.Type == "Sleep")
+            if (effect.Type == PassiveEffects.Bleed || effect.Type == PassiveEffects.Poison || effect.Type == PassiveEffects.Madness || effect.Type == PassiveEffects.Sleep)
             {
                 // ARC scaling does not apply to Rot
                 scaling  = GetPassiveEffectCorrection(input, weapon, effect);

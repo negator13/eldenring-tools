@@ -1,10 +1,12 @@
-﻿namespace EldenRingBlazor.Services.BuildPlanner
+﻿using EldenRingBlazor.WellKnown;
+
+namespace EldenRingBlazor.Services.BuildPlanner
 {
     public class StartingClass
     {
         public StartingClass()
         {
-            Name = "Vagabond";
+            Name = StartingClasses.Vagabond;
         }
 
         public string Name { get; set; }
@@ -27,7 +29,7 @@
 
         public static StartingClass Default = new StartingClass
         {
-            Name = "Vagabond",
+            Name = StartingClasses.Vagabond,
             Vigor = 15,
             Mind = 10,
             Endurance =11,

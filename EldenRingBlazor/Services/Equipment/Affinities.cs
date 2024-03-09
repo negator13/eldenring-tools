@@ -1,31 +1,33 @@
-﻿namespace EldenRingBlazor.Services.Equipment
+﻿using EldenRingBlazor.WellKnown;
+
+namespace EldenRingBlazor.Services.Equipment
 {
     public static class Affinities
     {
         public static string FromReinforceTypeId(this int reinforceTypeId)
         {
-           var ReinforceTypeIdMap = new Dictionary<int, string>
+            var ReinforceTypeIdMap = new Dictionary<int, string>
         {
-            { Standard, "" },
-            { Heavy, "Heavy" },
-            { Heavy2, "Heavy" },
-            { Keen, "Keen" },
-            { Keen2, "Keen" },
-            { Quality, "Quality" },
-            { Fire, "Fire" },
-            { FlameArt, "Flame Art" },
-            { Lightning, "Lightning" },
-            { Sacred, "Sacred" },
-            { Magic, "Magic" },
-            { Cold, "Cold" },
-            { Poison, "Poison" },
-            { Blood, "Blood" },
-            { Occult, "Occult" },
+            { Standard, WeaponAffinities.Standard },
+            { Heavy, WeaponAffinities.Heavy },
+            { Heavy2, WeaponAffinities.Heavy },
+            { Keen, WeaponAffinities.Keen },
+            { Keen2, WeaponAffinities.Keen },
+            { Quality, WeaponAffinities.Quality  },
+            { Fire, WeaponAffinities.Fire },
+            { FlameArt, WeaponAffinities.FlameArt },
+            { Lightning, WeaponAffinities.Lightning },
+            { Sacred, WeaponAffinities.Sacred },
+            { Magic, WeaponAffinities.Magic },
+            { Cold, WeaponAffinities.Cold },
+            { Poison, WeaponAffinities.Poison },
+            { Blood, WeaponAffinities.Blood },
+            { Occult, WeaponAffinities.Occult },
         };
 
             if (!ReinforceTypeIdMap.ContainsKey(reinforceTypeId))
             {
-                return "";
+                return string.Empty;
             }
 
             return ReinforceTypeIdMap[reinforceTypeId];
@@ -85,55 +87,55 @@
     {
         new WeaponAffinity
         {
-            Id = Standard, Name = "Standard"
+            Id = Standard, Name = WeaponAffinities.Standard
         },
         new WeaponAffinity
         {
-            Id = Heavy, Name = "Heavy"
+            Id = Heavy, Name = WeaponAffinities.Heavy
         },
         new WeaponAffinity
         {
-            Id = Keen, Name = "Keen"
+            Id = Keen, Name = WeaponAffinities.Keen
         },
         new WeaponAffinity
         {
-            Id = Quality, Name = "Quality"
+            Id = Quality, Name = WeaponAffinities.Quality
         },
         new WeaponAffinity
         {
-            Id = Fire, Name = "Fire"
+            Id = Fire, Name = WeaponAffinities.Fire
         },
         new WeaponAffinity
         {
-            Id = FlameArt, Name = "Flame Art"
+            Id = FlameArt, Name = WeaponAffinities.FlameArt
         },
         new WeaponAffinity
         {
-            Id = Lightning, Name = "Lightning"
+            Id = Lightning, Name = WeaponAffinities.Lightning
         },
         new WeaponAffinity
         {
-            Id = Sacred, Name = "Sacred"
+            Id = Sacred, Name = WeaponAffinities.Sacred
         },
         new WeaponAffinity
         {
-            Id = Magic, Name = "Magic"
+            Id = Magic, Name = WeaponAffinities.Magic
         },
         new WeaponAffinity
         {
-            Id = Cold, Name = "Cold"
+            Id = Cold, Name = WeaponAffinities.Cold
         },
         new WeaponAffinity
         {
-            Id = Poison, Name = "Poison"
+            Id = Poison, Name = WeaponAffinities.Poison
         },
         new WeaponAffinity
         {
-            Id = Blood, Name = "Blood"
+            Id = Blood, Name = WeaponAffinities.Blood
         },
         new WeaponAffinity
         {
-            Id = Occult, Name = "Occult"
+            Id = Occult, Name = WeaponAffinities.Occult
         },
     };
 

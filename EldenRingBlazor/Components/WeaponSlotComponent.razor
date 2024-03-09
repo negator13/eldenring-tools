@@ -1,6 +1,7 @@
 ﻿@using EldenRingBlazor.Services.BuildPlanner
 @using EldenRingBlazor.Services.AttackRating
 @using EldenRingBlazor.Services.Equipment
+@using EldenRingBlazor.WellKnown
 <MudGrid>
     <MudItem xs="6">
         <MudAutocomplete T="string"
@@ -40,9 +41,9 @@
         </MudItem>
 
         <MudItem xs="6">
-            @if (Slot.Weapon?.WeaponType == "Sacred Seal" || Slot.Weapon?.WeaponType == "Glintstone Staff")
+            @if (Slot.Weapon?.WeaponType == WeaponTypes.SacredSeal || Slot.Weapon?.WeaponType == WeaponTypes.GlintstoneStaff)
             {
-                var label = Slot.Weapon?.WeaponType == "Sacred Seal" ? "Incantation" : "Sorcery";
+                var label = Slot.Weapon?.WeaponType == WeaponTypes.SacredSeal ? "Incantation" : "Sorcery";
                 <MudText>@($"{label} Scaling: ")<span style="@(MeetsRequirements ? "" : "color:red")"><b>@string.Format("{0:0.0}", @Calculation?.SorceryIncantation.DisplayTotal)</b></span></MudText>
             }
             else
